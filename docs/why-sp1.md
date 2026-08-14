@@ -9,16 +9,16 @@ gap themselves.
 ## The mismatch that drove the decision
 
 The proof backend was originally prototyped on Triton VM. The pivot away
-from it is recorded in the private repository's design note
-(`docs-internal/apnt-proof-backend-pivot-triton-to-sp1-v0.md`, 2026-07-09),
-and the reasoning is specific, not a generic "better tooling" argument.
-**Provenance, stated precisely:** that file was later removed from the
-working tree (commit `44aa410`) and is not included in this export; it was
-recovered from the private repository's git history (commit `4da85b7`) to
-write this document and both quotes below are reproduced verbatim from that
-recovery, not paraphrased. A reader of this export cannot re-open the file
-directly and must trust this transcription. APNT's note-commitment relation
-is plain SHA-256:
+from it is recorded in this repository's design note
+[`docs/decisions/apnt-proof-backend-pivot-triton-to-sp1-v0.md`](./decisions/apnt-proof-backend-pivot-triton-to-sp1-v0.md)
+(2026-07-09), and the reasoning is specific, not a generic "better tooling"
+argument. **Provenance, stated precisely:** that file was removed from the
+private repository's working tree in a later documentation-corpus cleanup
+(commit `44aa410`) and recovered from git history (commit `4da85b7`) for
+this export; both quotes below are reproduced verbatim from it, and it is
+now published in full alongside this document rather than only quoted here
+— follow the link above and read the source directly instead of trusting
+this transcription. APNT's note-commitment relation is plain SHA-256:
 
 ```
 noteCommitmentV0 = sha256DomainSeparated(
@@ -119,7 +119,7 @@ already does double-spend prevention this way, for free), and conservation
 is checked by exact integer counting inside the SP1 relation rather than by
 a homomorphic commitment scheme. The tradeoff this bought instead of
 Pedersen-plus-range-proofs is the ad-valorem cell cost described in
-[`why-not-a-pool.md`](./why-not-a-pool.md) — a real cost, paid for a smaller
+[`docs/why-not-a-pool.md`](./why-not-a-pool.md) — a real cost, paid for a smaller
 circuit and no in-circuit nullifier accumulator.
 
 So the honest reconciliation with campaign #143 is: the direction changed on

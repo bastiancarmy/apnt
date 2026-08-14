@@ -5,9 +5,9 @@ this script — the "seal." It is 128 bytes, it is bare on-chain (not hidden
 behind a P2SH32 hash), and its defining property is that **you never need
 anyone's permission to get your money out of it.**
 
-Sources: `packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_v0.casm`,
-`packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_exit_branch_v0.casm`,
-`packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_aggregate_branch_v0.casm`
+Sources: [`packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_v0.casm`](../packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_v0.casm),
+[`packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_exit_branch_v0.casm`](../packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_exit_branch_v0.casm),
+[`packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_aggregate_branch_v0.casm`](../packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_aggregate_branch_v0.casm)
 — all three published in this export. Design-record citations below (design.md,
 for the covenant's target architecture) are to the private repository's
 `openspec/changes/archive/2026-08-13-define-apnt-private-spend-covenant-v0/design.md`,
@@ -24,7 +24,7 @@ signature over a one-time key.
 > No proof verification, no covenant delegation, no transaction
 > introspection, no token introspection, no aggregator, no prover, no relay,
 > no counterparty.
-> — `apnt_created_note_seal_exit_branch_v0.casm`
+> — [`packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_exit_branch_v0.casm`](../packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_exit_branch_v0.casm)
 
 That is the non-custodial floor the whole protocol stands on: a note holder
 is never dependent on this project's software, its aggregator, or any other
@@ -153,7 +153,7 @@ requires byte equality with what was actually created. Both are landed:
 **This document's earlier draft found the seal `.casm` source's own header
 comment out of date** — at the time, it still read "deliberately NOT
 implemented anywhere in this repository," contradicting
-`apnt_created_note_seal_v0.ts`'s own "both levels now exist," with both
+[`packages/protocol-runtime/src/apnt_created_note_seal_v0.ts`](../packages/protocol-runtime/src/apnt_created_note_seal_v0.ts)'s own "both levels now exist," with both
 files published side by side. That contradiction has since been fixed at
 the source: the `.casm` header now states plainly that both levels exist,
 names apnt_created_note_seal_skeleton_v0.ts (cited in full above) as where
@@ -174,7 +174,7 @@ The guest entry points
 (`tools/apnt-private-note-transition-sp1/program/src/main.rs`,
 `tools/apnt-import-created-note-sp1/program-v4/src/main.rs`) arrive at `v0.3`
 Reproduction, and the trust-anchor descriptors at `v0.2` Verification — if your
-`export-manifest.json` records `layer: "v0.1"`, those files are not in this
+[`export-manifest.json`](../export-manifest.json) records `layer: "v0.1"`, those files are not in this
 checkout and you cannot confirm the call chain here yet. **Not yet in this
 export:** the relation crates those entry points call into
 (`tools/apnt-private-note-transition-rust-parity/src/lib.rs`,

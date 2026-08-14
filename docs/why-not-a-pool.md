@@ -16,7 +16,7 @@ parties. A single global transition root has the same shape.
 
 We are stating this in our own voice rather than citing an internal record.
 Aggregator economics and competition policy are private, operator-side
-decisions — the boundary is described in `CONTRIBUTING.md` — and the
+decisions — the boundary is described in [`CONTRIBUTING.md`](../CONTRIBUTING.md) — and the
 architectural point here does not need them: it follows from the shape of a
 shared mutable object, and any developer familiar with the UTXO model can
 derive it independently.
@@ -36,52 +36,40 @@ repository's real record.
 
 ## What APNT does instead
 
-The architecture direction is recorded in the private repository's ADR 0012
-(`docs-internal/decisions/0012-master-root-bound-lane-scaling.md`, accepted
-as target architecture, 2026-05-29). **Provenance, stated precisely:** that
-file was later removed from the working tree (commit `44aa410`) and is not
-included in this export; it was recovered from the private repository's git
-history (commit `ae8611a`) to write this document and is reproduced here
-verbatim rather than paraphrased. A reader of this export cannot re-open the
-file directly and must trust this transcription — flagged rather than
-implied to be independently checkable. Quoted in full, its three context
-paragraphs, unedited:
+The original scaling direction is recorded in
+[`docs/decisions/0012-master-root-bound-lane-scaling.md`](./decisions/0012-master-root-bound-lane-scaling.md)
+(ADR 0012, accepted as target architecture, 2026-05-29). **Read that document's
+own banner before trusting anything below it: ADR 0012 has since been
+superseded and is published as history, not as current or planned
+architecture.** It proposed fixed, versioned lane state cells whose roots
+would be bound into one logical master root — concurrency because different
+lane cells can advance in parallel on BCH's own UTXO model, with an explicit
+guardrail that a lane must never become a separate privacy protocol, user
+namespace, or managed shard.
 
-> APNT starts with a single BCH covenant-governed lane state cell for
-> correctness.
->
-> The current scaling direction uses fixed, versioned lane profiles rather
-> than managed shard infrastructure. Fixed lanes allow BCH-native UTXO
-> concurrency because different lane state cells can advance in parallel.
->
-> However, lanes must not become separate privacy protocols, user
-> namespaces, aggregator namespaces, or managed shards.
+**That specific mechanism did not ship, and this repository's current design
+work has since moved away from it in favor of a per-note, bundle-backed
+private data model** — one logical private note owning a disjoint bundle of
+public BCH cells, normalized and committed per note rather than through any
+shared lane or master root. The bundle-backed model is described in this
+repository's own promoted specification,
+[`spec/apnt-bundle-backed-transition-contracts.md`](../spec/apnt-bundle-backed-transition-contracts.md),
+not in ADR 0012.
 
-The core of the argument is the second paragraph: a pool forces every
-private operation through one contended object, while fixed lanes let
-different lane state cells advance in parallel because BCH's own UTXO model
-already gives independent objects independent liveness — no shared
-sequencer is needed to get that concurrency. The third paragraph is the
-guardrail this project holds itself to while pursuing that: a lane is a
-scalability structure inside one logical APNT state, not a way to quietly
-re-introduce per-user or per-aggregator namespaces under a different name.
+**The reason ADR 0012 is still worth reading is that its core argument
+outlived its specific mechanism.** The property that mattered — that a
+private operation should never have to contend for one shared object, and
+that BCH's own UTXO model already gives independent objects independent
+liveness without a shared sequencer — is the same property the bundle model
+delivers by a different route (per-note bundles instead of lane roots). Its
+guardrail paragraph also still holds as a design constraint on both: a
+scalability structure must not quietly become a per-user or per-aggregator
+namespace under a different name.
 
-**And the same document's own honest status line, published in the same
-breath so the quote above does not overstate what exists today:**
-
-> This is not implemented.
->
-> The MVP remains single-lane:
->
-> ```
-> laneCount = 1
-> laneId = 0
-> ```
-
-Everything this repository actually ships today runs on that single lane.
-Multi-lane concurrency is the target architecture, not a shipped property —
-stating the ADR without this line would be publishing a claim the MVP does
-not back.
+Everything this repository actually ships today runs on a single logical
+APNT state; multi-object concurrency at either the lane-root or bundle level
+is target architecture, not a shipped property, and no implementation should
+be read as claiming otherwise.
 
 ## The honest cost of cells
 
@@ -95,7 +83,7 @@ operation. APNT's conservation model works by counting equal-value cells —
 consumed cells nullified by being spent, new cells created at a fixed
 denomination — which gets conservation, and gets it *without* a Pedersen or
 Bulletproof-style value-commitment layer (see
-[`why-sp1.md`](./why-sp1.md)), but the fee this buys is ad valorem rather
+[`docs/why-sp1.md`](./why-sp1.md)), but the fee this buys is ad valorem rather
 than flat: it scales with how many cells a transfer touches, not with one
 fixed per-transaction cost.
 

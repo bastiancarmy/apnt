@@ -24,12 +24,12 @@ own before the next is added:
 
 Layers are **cumulative**: `v0.2` stands on `v0.1` rather than beside it, so a
 `v0.2` checkout contains `v0.1` too. No layer is ever silently missing
-something the layer below it needs — `export-manifest.json`'s own build gate
+something the layer below it needs — [`export-manifest.json`](./export-manifest.json)'s own build gate
 refuses a layer whose staged files import something the layer left out (see
 "Provenance" below), so a layer that shipped is a layer that was actually
 checked as a closed, standalone unit before it was published.
 
-**This checkout may be Foundation only.** `export-manifest.json`'s `layer`
+**This checkout may be Foundation only.** [`export-manifest.json`](./export-manifest.json)'s `layer`
 field and each entry in `categories[]` say exactly which layer(s) are present
 in the bytes you are holding — read that file, not this paragraph, for the
 current truth. If it is `v0.1`, the sections below that describe verifiers,
@@ -66,7 +66,7 @@ Four limits apply to everything below.
 
 3. **This is a curated subset, not the whole repository.** The tree was produced
    by a fail-closed export from a private repository against an explicit
-   allowlist. `export-manifest.json` records the source commit, and for every
+   allowlist. [`export-manifest.json`](./export-manifest.json) records the source commit, and for every
    published file its source path, category and SHA-256. A file that is absent
    is absent on purpose.
 
@@ -86,10 +86,10 @@ that is complete at its own layer, not a partial copy of a bigger table.
 
 | Path | What it is | Layer |
 | --- | --- | --- |
-| `spec/` | Normative capability specifications — the requirements the protocol must meet, in GIVEN/WHEN/THEN form. | `v0.1` |
-| `packages/protocol-runtime/src/` | Protocol objects, byte codecs, commitment hashing, note trees, transition statements, seal and projection types. | `v0.1` |
-| `packages/protocol-runtime/src/cashassembly/` | CashAssembly covenant sources — the on-chain locking bytecode, as written. | `v0.1` |
-| `packages/chain-io/` | The Fulcrum/Electrum client used to read chain state. Complete, node-builtins only. | `v0.1` |
+| [`spec/`](./spec) | Normative capability specifications — the requirements the protocol must meet, in GIVEN/WHEN/THEN form. | `v0.1` |
+| [`packages/protocol-runtime/src/`](./packages/protocol-runtime/src) | Protocol objects, byte codecs, commitment hashing, note trees, transition statements, seal and projection types. | `v0.1` |
+| [`packages/protocol-runtime/src/cashassembly/`](./packages/protocol-runtime/src/cashassembly) | CashAssembly covenant sources — the on-chain locking bytecode, as written. | `v0.1` |
+| [`packages/chain-io/`](./packages/chain-io) | The Fulcrum/Electrum client used to read chain state. Complete, node-builtins only. | `v0.1` |
 | `tools/*-sp1/trusted/` | Frozen verifier descriptors: the trust anchors that pin what a proof is allowed to be. | `v0.2` |
 | `tools/*-sp1/fixtures/` | Canonical Groth16 proof artifacts and certificate runs, with their READMEs. | `v0.2` |
 | `tools/apnt-import-created-note-sp1/scripts/quotient-residue-regeneration/` | The CashVM Groth16 verification lane, and the independent checker below. | `v0.2` |
@@ -103,7 +103,7 @@ that is complete at its own layer, not a partial copy of a bigger table.
 
 ## Verify it yourself
 
-*(`v0.2` Verification and later. If `package.json` has no `verify` script and
+*(`v0.2` Verification and later. If [`package.json`](./package.json) has no `verify` script and
 none of the paths below exist, this checkout is `v0.1` Foundation — read the
 protocol and covenant sources instead; nothing here is missing by mistake.)*
 
@@ -193,24 +193,24 @@ only the byte construction and arithmetic that claim rests on.
 
 ## What builds and what does not
 
-- **`packages/chain-io/`** (`v0.1`) is complete: both sources, its
-  `tsconfig.json`, its `package.json`, and its test files. It needs only
+- **[`packages/chain-io/`](./packages/chain-io)** (`v0.1`) is complete: both sources, its
+  [`packages/chain-io/tsconfig.json`](./packages/chain-io/tsconfig.json), its [`packages/chain-io/package.json`](./packages/chain-io/package.json), and its test files. It needs only
   TypeScript, `@types/node` and `vitest`, all declared as `devDependencies`.
   It is the **only `pnpm` workspace member** this repository ships — so it is
   also what makes `pnpm -r build` / `typecheck` / `test` real rather than
   vacuous at every layer, including `v0.1` on its own. Whether this checkout's
   test leg actually ran a nonzero number of files is recorded plainly in
-  `export-manifest.json`'s `generation.buildGate` (`testFilesRun`); a build
+  [`export-manifest.json`](./export-manifest.json)'s `generation.buildGate` (`testFilesRun`); a build
   gate that ran zero test files is a **refusal**, recorded as `FAILED`, never
   a silent pass — see `scripts/public-export/build-gate.mjs` if you want the
   exact rule.
-- **`packages/protocol-runtime/src/`** (`v0.1`) is a **partial** module set,
+- **[`packages/protocol-runtime/src/`](./packages/protocol-runtime/src)** (`v0.1`) is a **partial** module set,
   published for reading. Modules whose text would have required a waiver in
   the export's private-material scan were excluded, and with them the package
   barrel and its `package.json`. It is not a `pnpm` workspace member and does
   not compile as an installable npm package in this tree — no `package.json`
   is shipped that would claim otherwise — but it IS typechecked directly
-  against its own `tsconfig.json` by the build gate on every release, at
+  against its own [`packages/protocol-runtime/tsconfig.json`](./packages/protocol-runtime/tsconfig.json) by the build gate on every release, at
   every layer that includes it (`v0.1` and up).
 - **`tools/*-sp1/program*/`** (`v0.3`) and the Rust parity crates are
   published as **guest and relation source for audit**. Their Cargo manifests
@@ -228,14 +228,14 @@ only the byte construction and arithmetic that claim rests on.
 
 The CashVM Groth16 verification lane builds on work by **mr-zwets**:
 `groth16_cashscript`, the `cashscript` compiler-optimizations fork, and
-`zk-verifier-bench`. See `THIRD-PARTY-NOTICES.md`. The CashScript compiler is
+`zk-verifier-bench`. See [`THIRD-PARTY-NOTICES.md`](./THIRD-PARTY-NOTICES.md). The CashScript compiler is
 MIT, © 2019 Rosco Kalis.
 
 ---
 
 ## Provenance
 
-`export-manifest.json` is the authority on what this tree is:
+[`export-manifest.json`](./export-manifest.json) is the authority on what this tree is:
 
 - `layer` — which named layer this checkout is (`"v0.1"`, `"v0.2"`, …), or
   `null` for a full export carrying every published category at once. This is

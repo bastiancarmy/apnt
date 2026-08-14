@@ -21,8 +21,8 @@
       "rationale": "@bch-cloak/chain-io in full: the Fulcrum/Electrum client used to read chain state. Both sources, its tsconfig and its manifest. It has no workspace dependencies and imports only Node builtins. It is published complete rather than partially, including the UNSAFE_TRANSPARENT_UTXO_FIELDS_V0 scrubber that keeps private field names out of transparent UTXO records. Four of its five test files are published so that the build gate's `pnpm -r test` leg exercises something real rather than matching zero files; each imports only ../src/index.js, node builtins and vitest, and their only network endpoint is a 127.0.0.1 fixture."
     }
   ],
-  "determinismDigest": "a0f6172cd658ac4e9b21ce83818143ac5742a1677f28a4ffde1fa5d63d6bea98",
-  "fileCount": 110,
+  "determinismDigest": "af3f67c17f5aba22b6f2e8ad305b468ae4835ceb4119879767c9e6d9b4f9714e",
+  "fileCount": 112,
   "files": [
     {
       "category": "repo-metadata",
@@ -68,8 +68,8 @@
       "category": "repo-metadata",
       "expandedFromGlob": null,
       "publicPath": ".github/PULL_REQUEST_TEMPLATE.md",
-      "sha256": "2683f77019c2f5f157782bed9795926b1db7c4af66e545a364dc200ba1c89710",
-      "sizeBytes": 3041,
+      "sha256": "357186784790365e9582f2111cb5451c288da748dda7d332a311987ce12972b7",
+      "sizeBytes": 3204,
       "sourcePath": "scripts/public-export/public-tree/.github/PULL_REQUEST_TEMPLATE.md"
     },
     {
@@ -116,24 +116,24 @@
       "category": "repo-metadata",
       "expandedFromGlob": null,
       "publicPath": "AGENTS.md",
-      "sha256": "2ebed45655c076a078c3fcca4deaf5625a0087f64dbd36294dca024bba965326",
-      "sizeBytes": 11742,
+      "sha256": "300afa4bff750681972e5e10c3c5ca2c7b9b9aade728be93c5193e1bd0d8c64e",
+      "sizeBytes": 11948,
       "sourcePath": "scripts/public-export/public-tree/AGENTS.md"
     },
     {
       "category": "repo-metadata",
       "expandedFromGlob": null,
       "publicPath": "CLAUDE.md",
-      "sha256": "07cba44716ef26ee4ee797f0786effa3157861b4c60a9a632f2abdeb03012875",
-      "sizeBytes": 733,
+      "sha256": "ed67c00c1c636c4e546f6958dbc8caf855af7f767edcd6fc3b4de462aa52f35c",
+      "sizeBytes": 763,
       "sourcePath": "scripts/public-export/public-tree/CLAUDE.md"
     },
     {
       "category": "repo-metadata",
       "expandedFromGlob": null,
       "publicPath": "CONTRIBUTING.md",
-      "sha256": "79e6d75ca670517346c21b2e75673839915cfb8ee7c6a066c6274ea4dfd3a1ad",
-      "sizeBytes": 7235,
+      "sha256": "b72ca182f68dcde5990846d6fcc403dc076b15dec424e3746a914bbceca553c6",
+      "sizeBytes": 7404,
       "sourcePath": "scripts/public-export/public-tree/CONTRIBUTING.md"
     },
     {
@@ -148,16 +148,16 @@
       "category": "repo-metadata",
       "expandedFromGlob": null,
       "publicPath": "README.md",
-      "sha256": "b29e5c49b514df7c6c7b0c9bca6e07a4b9d9368d43dc6b5dcafedfacfd9d4652",
-      "sizeBytes": 14063,
+      "sha256": "fadb7f9a63568b45cc8272959cc0a3d627c8865f573d46d1c73e5dbcd4d9c6c0",
+      "sizeBytes": 14593,
       "sourcePath": "scripts/public-export/public-tree/README.md"
     },
     {
       "category": "repo-metadata",
       "expandedFromGlob": null,
       "publicPath": "RELEASE.md",
-      "sha256": "565e69c7c799b2dc84ec1e9d3f72424ab53ed39c2ceede61554d451f99bc879c",
-      "sizeBytes": 5357,
+      "sha256": "5cf794d76d7db7aca9d2d4ee0abf1fa528f8199fb844ca42852e400b733ea5e8",
+      "sizeBytes": 5865,
       "sourcePath": "scripts/public-export/public-tree/RELEASE.md"
     },
     {
@@ -172,48 +172,64 @@
       "category": "repo-metadata",
       "expandedFromGlob": null,
       "publicPath": "THIRD-PARTY-NOTICES.md",
-      "sha256": "e63eb8bdefa088dfc6917f886337143272e0be9d62752b9750726bb6fc433b2e",
-      "sizeBytes": 1671,
+      "sha256": "eaf272330a26b064e8f537e898223d152e4d0b76fa09a663f8d67e229d86b82e",
+      "sizeBytes": 1725,
       "sourcePath": "scripts/public-export/public-tree/THIRD-PARTY-NOTICES.md"
     },
     {
       "category": "repo-metadata",
       "expandedFromGlob": null,
+      "publicPath": "docs/decisions/0012-master-root-bound-lane-scaling.md",
+      "sha256": "ece4cdf6219b2a46f6f06f11ea2a8865dbde28f090fadccc435631d22194dba8",
+      "sizeBytes": 4185,
+      "sourcePath": "scripts/public-export/public-tree/docs/decisions/0012-master-root-bound-lane-scaling.md"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": "docs/decisions/apnt-proof-backend-pivot-triton-to-sp1-v0.md",
+      "sha256": "60e923d709938e71e15f3ab39cf7fe17ecb7154b7cb8b95bada3c8c2f957cf3e",
+      "sizeBytes": 9181,
+      "sourcePath": "scripts/public-export/public-tree/docs/decisions/apnt-proof-backend-pivot-triton-to-sp1-v0.md"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
       "publicPath": "docs/live-settlement-evidence.md",
-      "sha256": "a27933fb93d1dbb9451fed88e50dfae582f66492750ce0967b0dcfea161ae7f1",
-      "sizeBytes": 8448,
+      "sha256": "1fdaa250cb65fcf4ecfb0479c7ab41b08adce43c36af19ef4cd8e5837d7862e1",
+      "sizeBytes": 8458,
       "sourcePath": "scripts/public-export/public-tree/docs/live-settlement-evidence.md"
     },
     {
       "category": "repo-metadata",
       "expandedFromGlob": null,
       "publicPath": "docs/the-seal.md",
-      "sha256": "52a319a550bf10559f36b83bd8b73c4897a66d3b65013755110bfb0211916363",
-      "sizeBytes": 15639,
+      "sha256": "6609ec3d2007905ab9b4b0d08f4a8ffeba0f1905a7da3b230891b5acba3a4fe8",
+      "sizeBytes": 16165,
       "sourcePath": "scripts/public-export/public-tree/docs/the-seal.md"
     },
     {
       "category": "repo-metadata",
       "expandedFromGlob": null,
       "publicPath": "docs/why-not-a-pool.md",
-      "sha256": "fc0baa1e1e727e0a53624e59e13eaa39b739437453e74d2d3a5aab80b7e0d07b",
-      "sizeBytes": 8866,
+      "sha256": "2e50ab12188bc20886c6400e4e70ace3aa3b3f1103add90b026efc5916ad2cb4",
+      "sizeBytes": 8833,
       "sourcePath": "scripts/public-export/public-tree/docs/why-not-a-pool.md"
     },
     {
       "category": "repo-metadata",
       "expandedFromGlob": null,
       "publicPath": "docs/why-sp1.md",
-      "sha256": "44583b82ae55d464af2356d1c3e80e64851e249e7f21f52b0cfddf3eb2f554f0",
-      "sizeBytes": 6834,
+      "sha256": "b14b734b3ddfd5d555a0e6d282565bb67de06faad4dee6a9953a9f681fbb3d9e",
+      "sizeBytes": 6933,
       "sourcePath": "scripts/public-export/public-tree/docs/why-sp1.md"
     },
     {
       "category": "repo-metadata",
       "expandedFromGlob": null,
       "publicPath": "openspec/README.md",
-      "sha256": "c2e150077c5a0da0d0110401b8f0806ff6105be2b0e8f7de52a23ca294a63a3c",
-      "sizeBytes": 5241,
+      "sha256": "a36733c39dc653ea60b73e6769aac596775cbf70fda288337fd73878e5503780",
+      "sizeBytes": 5506,
       "sourcePath": "scripts/public-export/public-tree/openspec/README.md"
     },
     {
@@ -931,7 +947,7 @@
             "--fetch-retry-maxtimeout=5000",
             "--store-dir=<isolated-tmp>/pnpm-store"
           ],
-          "durationMs": 2006,
+          "durationMs": 1704,
           "exitCode": 0,
           "name": "install-generate-lockfile",
           "ok": true,
@@ -948,7 +964,7 @@
             "--fetch-retry-maxtimeout=5000",
             "--store-dir=<isolated-tmp>/pnpm-store"
           ],
-          "durationMs": 286,
+          "durationMs": 306,
           "exitCode": 0,
           "name": "install-frozen-lockfile",
           "ok": true,
@@ -961,7 +977,7 @@
             "-r",
             "build"
           ],
-          "durationMs": 792,
+          "durationMs": 831,
           "exitCode": 0,
           "name": "build",
           "ok": true,
@@ -974,7 +990,7 @@
             "-r",
             "typecheck"
           ],
-          "durationMs": 564,
+          "durationMs": 573,
           "exitCode": 0,
           "name": "typecheck",
           "ok": true,
@@ -988,7 +1004,7 @@
             "-p",
             "packages/protocol-runtime/tsconfig.json"
           ],
-          "durationMs": 615,
+          "durationMs": 630,
           "exitCode": 0,
           "name": "typecheck-protocol-runtime-standalone",
           "ok": true,
@@ -1003,7 +1019,7 @@
             "--",
             "--passWithNoTests"
           ],
-          "durationMs": 1509,
+          "durationMs": 1365,
           "exitCode": 0,
           "name": "test",
           "ok": true,
@@ -1020,7 +1036,7 @@
         "vitest": "2.1.9"
       }
     },
-    "generatedAt": "2026-08-14T12:00:00Z",
+    "generatedAt": "2026-08-14T18:00:00Z",
     "generator": "scripts/public-export@1",
     "note": "This block is EXCLUDED from determinismDigest. Pass --now=<iso> to pin generatedAt and make a run byte-reproducible."
   },
@@ -1431,6 +1447,14 @@
       "to": "THIRD-PARTY-NOTICES.md"
     },
     {
+      "from": "scripts/public-export/public-tree/docs/decisions/0012-master-root-bound-lane-scaling.md",
+      "to": "docs/decisions/0012-master-root-bound-lane-scaling.md"
+    },
+    {
+      "from": "scripts/public-export/public-tree/docs/decisions/apnt-proof-backend-pivot-triton-to-sp1-v0.md",
+      "to": "docs/decisions/apnt-proof-backend-pivot-triton-to-sp1-v0.md"
+    },
+    {
       "from": "scripts/public-export/public-tree/docs/live-settlement-evidence.md",
       "to": "docs/live-settlement-evidence.md"
     },
@@ -1471,10 +1495,10 @@
   "source": {
     "allowlist": {
       "path": "scripts/public-export/allowlist.json",
-      "sha256": "3779de8629fa3a3d59789bbe28aec55ddb82c73522dd36245476b85c65b6f85d"
+      "sha256": "27d771d8ee65daee3216f6a00a4f84edf838e3a1c960a791718878bee5461639"
     },
     "branch": "main",
-    "commit": "f9c99cd9de76164779d7b9b41a8f05177dd3f941",
+    "commit": "17560eb5d6821e201bcc2927a78eafe31276d9ce",
     "repository": "bch-cloak (private)",
     "workingTreeDirty": false
   },

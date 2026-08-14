@@ -35,7 +35,7 @@ own `apntProtocolAcceptance: false` caveat.
 
 Outputs 0–3's locking scripts share 96 of their 128 bytes and differ only in
 a 32-byte hole — the structure described in
-[`the-seal.md`](./the-seal.md). That shared-skeleton-plus-hole shape is what
+[`docs/the-seal.md`](./the-seal.md). That shared-skeleton-plus-hole shape is what
 "pairwise distinct" is checking: four different holes, one shared template.
 
 ## Two things stated precisely, not loosely
@@ -163,4 +163,4 @@ claims this repository never conflates with "the transaction is on chain."
   this repository.
 - Notes created by this transaction are **not spendable** via the private
   aggregate path today; only their direct-exit branch is a live, working
-  spend path (see [`the-seal.md`](./the-seal.md)).
+  spend path (see [`docs/the-seal.md`](./the-seal.md)).

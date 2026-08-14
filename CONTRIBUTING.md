@@ -14,7 +14,7 @@ rejected PR.
 ### In scope
 
 - **Protocol review.** Reading the relation sources, the covenant bytes, the
-  transition statement encoding, and the capability specs under `spec/`, and
+  transition statement encoding, and the capability specs under [`spec/`](./spec), and
   reporting what's wrong, unclear, or under-specified.
 - **Verifier improvements.** The independent verifiers under
   `packages/reference-aggregator/tools/` and
@@ -30,10 +30,10 @@ rejected PR.
   welcome. A verifier that imports the code under test is not an independent
   verifier; say so if that's what you're proposing, and it may still be useful
   as a different kind of test.
-- **Spec clarifications.** The 22 capability specs under `spec/` are
+- **Spec clarifications.** The 22 capability specs under [`spec/`](./spec) are
   GIVEN/WHEN/THEN requirements, not prose essays. If one is ambiguous, wrong,
   or contradicts the shipped artifacts it's supposed to describe, propose a
-  spec delta — see `openspec/README.md`.
+  spec delta — see [`openspec/README.md`](./openspec/README.md).
 - **Wallet and tooling interop.** Anything that helps a wallet, indexer, or
   other independent piece of software speak this protocol correctly.
 - **Porting verifiers to other languages.** An independent verifier written in
@@ -57,7 +57,7 @@ rejected PR.
   monetizes, not the protocol. PRs that add aggregator-service code have
   nowhere to land here; that code isn't published, on purpose.
 - **Proving orchestration.** Provers, runners, cost probes, and fixture
-  generators are deliberately withheld (see the top-level `README.md`,
+  generators are deliberately withheld (see the top-level [`README.md`](./README.md),
   "What builds and what does not"). The proofs are here; the machine that made
   them is not, and PRs that try to reconstruct it are out of scope.
 - **Fee and competition policy.** Aggregator fee markets, competitive
@@ -73,9 +73,9 @@ PR after the work is done.
 
 ## Running the verifiers
 
-*(`v0.2` Verification and later. If `package.json` has no `verify` script,
+*(`v0.2` Verification and later. If [`package.json`](./package.json) has no `verify` script,
 this checkout is `v0.1` Foundation and none of the below is staged yet — see
-`AGENTS.md`, "A note on what you can check today.")*
+[`AGENTS.md`](./AGENTS.md), "A note on what you can check today.")*
 
 Counts here name their subject, because three different true numbers describe
 this surface and quoting one without saying which is how they start to look
@@ -97,7 +97,7 @@ npm run verify:certificate-run-keying
 npm run verify:certificate-run-retention
 ```
 
-See the top-level `README.md`, "Verify it yourself," for what each of those
+See the top-level [`README.md`](./README.md), "Verify it yourself," for what each of those
 establishes and what it does not. For a broader walkthrough — verifying a
 Groth16 proof artifact, checking a settlement transaction against chain
 independently of this repository's own client, re-deriving a note commitment,
@@ -110,7 +110,7 @@ is itself a bug report worth filing.
 
 - **Which file, which relation, which artifact.** A path under this repository
   or a `relationIdentity` / `programVkeyHash` from a `tools/*-sp1/trusted/*.json`
-  descriptor (`v0.2` Verification and later — see `AGENTS.md`, "A note on what
+  descriptor (`v0.2` Verification and later — see [`AGENTS.md`](./AGENTS.md), "A note on what
   you can check today"), not a description of behavior you saw somewhere else.
 - **What you ran and what you expected**, distinct from what actually
   happened. If a verifier passed when you believe it should have failed (or
@@ -118,14 +118,14 @@ is itself a bug report worth filing.
 - **Whether it's a semantic bug or a construction bug.** "The relation accepts
   a statement it shouldn't" is a different kind of report than "this
   independent verifier's byte offsets are wrong for the current statement
-  encoding" — say which you mean. See `AGENTS.md`'s "What is frozen" section
+  encoding" — say which you mean. See [`AGENTS.md`](./AGENTS.md)'s "What is frozen" section
   before assuming a fix is a small diff: if the fix would move a frozen
   identity, it's a proposal for a successor, not a patch.
 - **What you are and are not claiming.** Match the honesty bar in
-  `AGENTS.md`: state what your report establishes and what it doesn't. "I
+  [`AGENTS.md`](./AGENTS.md): state what your report establishes and what it doesn't. "I
   found an input that breaks this verifier's parser" and "I found an input
   that breaks the relation's soundness" are very different reports and should
   never be conflated.
 
-There is no bug bounty for this repository; see `SECURITY.md` for how to
+There is no bug bounty for this repository; see [`SECURITY.md`](./SECURITY.md) for how to
 report anything security-relevant privately rather than as a public issue.

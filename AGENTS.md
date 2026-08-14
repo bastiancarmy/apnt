@@ -10,7 +10,7 @@ check any of it without trusting the people who published it.
 `apnt` is a curated, MIT-licensed release of APNT (Aggregated Private Note
 Transfer), a private note-transfer construction for Bitcoin Cash. It is
 produced by a fail-closed export from a private research repository — see
-`export-manifest.json` and the top-level `README.md` for exactly what that
+[`export-manifest.json`](./export-manifest.json) and the top-level [`README.md`](./README.md) for exactly what that
 means and what it does not.
 
 This repository publishes **the protocol and the means to check it**: relation
@@ -61,9 +61,9 @@ these is **a proposal for a new, successor identity**, not a fix, and needs
 discussion before any code lands.
 
 **A note on what you can check today.** This repository is released in
-layers (see the top-level `README.md`, "How this repository is released").
+layers (see the top-level [`README.md`](./README.md), "How this repository is released").
 The trust anchors, proof fixtures and `npm run verify:*` commands cited below
-belong to `v0.2` Verification. If this checkout's `export-manifest.json` has
+belong to `v0.2` Verification. If this checkout's [`export-manifest.json`](./export-manifest.json) has
 no `verifier-surface` category, none of them are staged yet — the identities
 below are still real and still frozen, but nothing here asks you to take a
 proof on faith in the meantime, because this release contains no proofs to
@@ -128,12 +128,12 @@ take on faith. Come back to this section once you're holding `v0.2` or later.
   verification-key digest, public-values layout.
 - **Committed proof fixtures** — everything under a `tools/*-sp1/fixtures/`
   directory (`canonical-groth16-*.json`, certificate runs, and their
-  `README.md`s). These are the artifacts the independent verifiers check
+  [`README.md`](./README.md)s). These are the artifacts the independent verifiers check
   against; swapping one silently is exactly the tampering the retention
   checker (`npm run verify:certificate-run-retention`) exists to catch.
 
 If your change would move any of these, open the discussion first — as an
-issue or a spec proposal under `openspec/` (see `openspec/README.md`) — rather
+issue or a spec proposal under [`openspec/`](./openspec) (see [`openspec/README.md`](./openspec/README.md)) — rather
 than as a diff. Superseding an identity is a legitimate outcome; silently
 editing it out from under artifacts that were proved under it is not, because
 those artifacts must stay verifiable forever (`superseded`, not deleted).
@@ -166,7 +166,7 @@ above. If this checkout is `v0.1` Foundation, none of the following is staged
 yet; read on so you know what to come back for.)*
 
 Don't take any of the above on faith. Two checks run with a bare `node` and
-nothing else — see the top-level `README.md`'s "Verify it yourself" section
+nothing else — see the top-level [`README.md`](./README.md)'s "Verify it yourself" section
 for exact commands (`npm run verify:certificate-run-keying`,
 `npm run verify:certificate-run-retention`), and for what each one does and
 does not establish.
@@ -184,7 +184,7 @@ output shown.
 
 ## The non-claims, restated
 
-Repeating the top-level `README.md`'s four limits, because they apply to every
+Repeating the top-level [`README.md`](./README.md)'s four limits, because they apply to every
 contribution too, not only to the artifacts already published:
 
 1. **No production privacy is claimed.** Live exercises ran on Chipnet with a
@@ -194,9 +194,9 @@ contribution too, not only to the artifacts already published:
    written down and dated is not the same kind of thing as a number that came
    from an execution. Keep them visibly distinct in anything you write.
 3. **This is a curated subset, not the whole repository.** A file that is
-   absent from this tree is absent on purpose; `export-manifest.json` records
+   absent from this tree is absent on purpose; [`export-manifest.json`](./export-manifest.json) records
    what was published and from where.
 4. **Not every published directory is a buildable project.** Some are
    published as source for audit only. See "What builds and what does not" in
-   the top-level `README.md` before assuming `cargo build` or an npm install
+   the top-level [`README.md`](./README.md) before assuming `cargo build` or an npm install
    will succeed somewhere it hasn't been stated to.
