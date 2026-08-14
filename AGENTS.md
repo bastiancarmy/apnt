@@ -45,13 +45,82 @@ depend on:
 | `superseded` | replaced; retained so old artifacts stay verifiable | verify old artifacts against it only |
 | `retired` | fails closed by design | no — kept to document the refusal |
 
-**It is not yet applied to anything in this release.** No file in this tree
-currently states a rung — this release does not yet label components, and
-that gap is worth knowing plainly rather than discovering by searching for a
-rung and finding none. Until components carry explicit labels, read "What is
-frozen" below as the operative list of what you may rely on today, and treat
-everything else in this tree as unlabeled — neither promoted nor disclaimed —
-rather than assuming a rung for it.
+**Applied so far: every versioned module under `packages/protocol-runtime/src/`
+that this release publishes** — the 32 `_v<N>` TypeScript modules and the 5
+CashAssembly sources (extension "casm") under
+`packages/protocol-runtime/src/cashassembly/`, 37 files in total. Each one
+carries a short `// Maturity: <rung> — <reason>` (or `/** ... */`) comment
+naming the specific artifact or `npm run verify:*` command the rung claim
+rests on. **Nothing else in this tree is labelled yet** — every other
+published path (specs, `chain-io`, the SP1 tool trees, the checkers
+themselves) is still unlabeled, neither promoted nor disclaimed, exactly as
+before. Read
+"What is frozen" below as the operative list of what you may rely on for
+anything this table doesn't cover.
+
+The table below is the measured result, derived (not asserted) by grepping
+this checkout's own published import graph, its published fixtures and
+trusted descriptors for the wire-format magic and relation identities each
+module owns, and the two `verify:*` commands that check statement bytes
+literally. Layer is `v0.1` for every row (`packages/protocol-runtime/src/` is
+a `v0.1` Foundation path); "depended on by" lists published evidence only —
+a private-repo consumer that isn't exported here doesn't count. Every path
+below is written in full so it resolves for a reader of this tree, not as a
+bare filename.
+
+| Module | Rung | Depended on by (published evidence) |
+|---|---|---|
+| `packages/protocol-runtime/src/apnt_transition_statement_v1.ts` | `frozen` | APNTTSV1 magic required literally by `verify:transition-settlement-projection-independent` and `verify:settlement-authorization-covenant-independent`; pinned in the v0.2 Verification golden-vectors fixture (tools/apnt-private-note-transition-rust-parity/fixtures/, not staged until v0.2) |
+| `packages/protocol-runtime/src/apnt_transition_settlement_projection_v0.ts` | `frozen` | its statementCommitment32/settlementProjection32 derivation is what `verify:transition-settlement-projection-independent` re-derives and checks against every real proof fixture |
+| `packages/protocol-runtime/src/apnt_settlement_authorization_covenant_v0.ts` | `frozen` | source of the pinned v0.2 Verification bytecode fixture (packages/reference-aggregator/fixtures/, not staged until v0.2); its L_verdict is checked by `verify:settlement-authorization-covenant-independent` |
+| `packages/protocol-runtime/src/apnt_verifier_factory_v0.ts` | `frozen` | builds the CashVM verifier profile identity 0bf091d8…354c named frozen in "What is frozen" below |
+| `packages/protocol-runtime/src/cashassembly/apnt_settlement_authorization_covenant_v0.casm` | `frozen` | disassembled and matched byte-for-byte by `verify:settlement-authorization-covenant-independent` |
+| `packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_aggregate_branch_v0.casm` | `frozen` | read by the frozen SAC module above; its witness-index shape is checked by the same command |
+| `packages/protocol-runtime/src/cashassembly/apnt_verifier_factory_v0.casm` | `frozen` | the template the verifier-factory module above reads to build the identity above |
+| `packages/protocol-runtime/src/apnt_creation_scope_v1.ts` | `stable` | sole creation-scope consumed by the frozen transition-statement-v1 module above |
+| `packages/protocol-runtime/src/apnt_transaction_projection_v1.ts` | `stable` | 9 published protocol-runtime modules import it |
+| `packages/protocol-runtime/src/apnt_bundle_backed_private_note_v1.ts` | `stable` | 11 published protocol-runtime modules import it |
+| `packages/protocol-runtime/src/apnt_cashassembly_compiler_v0.ts` | `stable` | imported by all 4 published covenant builders |
+| `packages/protocol-runtime/src/apnt_created_note_seal_v0.ts` | `stable` | current single seal implementation; no `verify:*` command exercises it yet |
+| `packages/protocol-runtime/src/apnt_created_note_seal_exit_branch_v0.ts` | `stable` | imported by the seal module above; no `verify:*` command exercises it yet |
+| `packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_v0.casm` | `stable` | compiled by the module above; no `verify:*` command exercises it yet |
+| `packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_exit_branch_v0.casm` | `stable` | compiled by the module above; no `verify:*` command exercises it yet |
+| `packages/protocol-runtime/src/apnt_transition_statement_v0.ts` | `superseded` | superseded by v1 above; its `serializeAPNTTransitionOutpointV0` helper is still imported by the creation-scope-v1, creation-scope-v2 and nullifier-v0 modules below |
+| `packages/protocol-runtime/src/apnt_transition_statement_v2.ts` | `preview` | no `verify:*` command checks APNTTSV2 (both require APNTTSV1); its one importer is itself unreferenced |
+| `packages/protocol-runtime/src/apnt_creation_scope_v2.ts` | `preview` | feeds only the preview v2 statement above |
+| `packages/protocol-runtime/src/apnt_transition_settlement_projection_v2_adapter.ts` | `preview` | zero published importers |
+| `packages/protocol-runtime/src/apnt_import_created_note_statement_v0.ts` | `preview` | zero published importers; no published artifact references its APNTISV0/APNTIPV0 magic (relation v0's own identity is frozen, but this encoding isn't exercised here) |
+| `packages/protocol-runtime/src/apnt_import_created_note_statement_v1.ts` | `preview` | zero published importers; no published artifact references its APNTISV1 magic (relation v1's own identity is frozen, but this encoding isn't exercised here) |
+| `packages/protocol-runtime/src/apnt_import_creation_scope_v0.ts` | `preview` | only importer is the preview statement above |
+| `packages/protocol-runtime/src/apnt_import_creation_scope_v1.ts` | `preview` | only importer is the preview statement above |
+| `packages/protocol-runtime/src/apnt_import_current_transaction_projection_v0.ts` | `preview` | zero published importers |
+| `packages/protocol-runtime/src/apnt_import_settlement_projection_v0.ts` | `preview` | zero published importers |
+| `packages/protocol-runtime/src/apnt_aggregation_transition_output_v0.ts` | `preview` | zero published importers |
+| `packages/protocol-runtime/src/apnt_aggregation_validity_model_v0.ts` | `preview` | zero published importers |
+| `packages/protocol-runtime/src/apnt_bch_asset_id_v0.ts` | `preview` | zero published importers |
+| `packages/protocol-runtime/src/apnt_bch_standard_policy_limits_v0.ts` | `preview` | zero published importers |
+| `packages/protocol-runtime/src/apnt_lifecycle_acceptance_policy_v0.ts` | `preview` | zero published importers |
+| `packages/protocol-runtime/src/apnt_privacy_risk_non_claim_report_v0.ts` | `preview` | zero published importers |
+| `packages/protocol-runtime/src/apnt_private_note_transition_relation_v1_contract.ts` | `preview` | zero published importers |
+| `packages/protocol-runtime/src/apnt_transition_validity_model_v0.ts` | `preview` | zero published importers |
+| `packages/protocol-runtime/src/apnt_value_conservation_model_v0.ts` | `preview` | zero published importers |
+| `packages/protocol-runtime/src/apnt_spend_authority_v0.ts` | `preview` | its 2 importers (bundle-nullifier-v1, nullifier-v0, both below) are themselves unreferenced |
+| `packages/protocol-runtime/src/apnt_bundle_nullifier_v1.ts` | `preview` | zero published importers |
+| `packages/protocol-runtime/src/apnt_nullifier_v0.ts` | `preview` | zero published importers |
+
+A specific flag for anyone auditing this table:
+`packages/protocol-runtime/src/apnt_import_created_note_statement_v0.ts` was
+named as a deletion candidate during this review, on the theory that it
+looked like an R&D leftover. Measurement showed zero published importers and
+zero published artifacts pinning it — but the same is true of 20 other files
+above, and **none of them were deleted**, because a proof of a relation
+version stays a proof of that version forever: the import-created-note
+relation's v0 and v1 identities are frozen (see "What is frozen" below) with
+real Chipnet-adjacent fixtures pinned against them, even though the
+TypeScript statement/scope wrappers that structurally describe those
+relations aren't currently exercised by anything this release publishes.
+`preview` here means exactly what the ladder says — read it, don't build on
+it — not "safe to remove."
 
 ## What is frozen — never modify this in a PR
 

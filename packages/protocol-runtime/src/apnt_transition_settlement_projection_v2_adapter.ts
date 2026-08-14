@@ -1,3 +1,6 @@
+// Maturity: preview — adapts the frozen v0 projection for the preview
+// apnt_transition_statement_v2.ts. Zero published importers; not exercised by
+// any published verify:* command. See AGENTS.md, "The maturity ladder".
 import type { Bytes32 } from "./bytes.js";
 import type { APNTTransitionStatementV1 } from "./apnt_transition_statement_v1.js";
 import type { APNTTransitionStatementV2 } from "./apnt_transition_statement_v2.js";

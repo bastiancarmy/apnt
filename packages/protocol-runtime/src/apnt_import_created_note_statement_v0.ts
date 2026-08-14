@@ -1,3 +1,8 @@
+// Maturity: preview — measured zero published importers and zero published
+// artifacts referencing its APNTISV0/APNTIPV0 wire magic. The import-created-
+// note relation v0 identity itself is frozen (AGENTS.md, "What is frozen"),
+// but nothing in this public tree currently exercises this statement
+// encoding. See AGENTS.md, "The maturity ladder".
 import { asBytes32, copyBytes, type Bytes32 } from "./bytes.js";
 import { sha256DomainSeparated } from "./hash.js";
 import { APNT_V1_BCH_MAX_MONEY_SATS } from "./apnt_bundle_backed_private_note_v1.js";

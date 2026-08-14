@@ -1,3 +1,7 @@
+// Maturity: stable — the shared transaction-projection type; 9 published
+// protocol-runtime modules import it, including the frozen
+// apnt_transition_settlement_projection_v0.ts chain. See AGENTS.md, "The
+// maturity ladder".
 import { asBytes32, copyBytes, type Bytes32 } from "./bytes.js";
 import { APNT_V1_BCH_MAX_MONEY_SATS } from "./apnt_bundle_backed_private_note_v1.js";
 

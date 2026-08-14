@@ -4,7 +4,7 @@
   "classification": "PUBLIC — on-chain script bytes emitted by the landed builders. Broadcast in the clear whenever the covenant is spent.",
   "derivation": {
     "generator": "packages/reference-aggregator/tools/derive-apnt-settlement-authorization-covenant-bytecode-v0.mjs",
-    "sourceCommit": "b7feaf31d4d9ebe0b6faec787968305a9125f020",
+    "sourceCommit": "d6e7f01119779efba3ce0788978d35a715f79b39",
     "sourceCommitMeaning": "the last commit that touched any of builderSources, not the commit this generator was run from",
     "builderSources": [
       "packages/protocol-runtime/src/apnt_settlement_authorization_covenant_v0.ts",

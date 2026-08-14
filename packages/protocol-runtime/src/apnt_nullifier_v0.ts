@@ -1,3 +1,7 @@
+// Maturity: preview — measured zero published importers; imports the
+// preview apnt_spend_authority_v0.ts and the superseded
+// apnt_transition_statement_v0.ts. No published artifact references it. See
+// AGENTS.md, "The maturity ladder".
 import { asBytes32, type Bytes32 } from "./bytes.js";
 import { sha256DomainSeparated } from "./hash.js";
 import { normalizeAPNTSpendSecretV0 } from "./apnt_spend_authority_v0.js";

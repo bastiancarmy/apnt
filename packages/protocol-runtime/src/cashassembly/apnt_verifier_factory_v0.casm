@@ -1,5 +1,10 @@
 // APNT verifier factory v0.
 //
+// Maturity: frozen — read directly by apnt_verifier_factory_v0.ts to build the
+// pinned CashVM verifier profile identity
+// 0bf091d8e7036ae834cfdf9113ffe4ff240946a0e0167d60cb911924af01354c (AGENTS.md,
+// "What is frozen"). See AGENTS.md, "The maturity ladder".
+//
 // This covenant is the perpetual home of one verifier category's minting NFT.
 // A valid spend has exactly three outputs:
 //

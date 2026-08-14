@@ -1,4 +1,8 @@
 /**
+ * Maturity: preview — measured zero published importers and no published
+ * artifact references it. Read it, don't build on it. See AGENTS.md, "The
+ * maturity ladder".
+ *
  * BCH 2026 consensus and standard-policy relay/mining limits this project's
  * byte-budget arithmetic depends on.
  *

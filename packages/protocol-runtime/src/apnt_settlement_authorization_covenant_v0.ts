@@ -1,3 +1,9 @@
+// Maturity: frozen — its L_verdict / redeem bytecode is independently
+// re-derived and required to equal the pinned deployment constant by
+// `npm run verify:settlement-authorization-covenant-independent`, and is the
+// source of
+// packages/reference-aggregator/fixtures/apnt-settlement-authorization-covenant-bytecode-v0.json.
+// See AGENTS.md, "The maturity ladder".
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 

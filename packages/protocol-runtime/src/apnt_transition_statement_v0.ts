@@ -1,3 +1,8 @@
+// Maturity: superseded — replaced by the frozen apnt_transition_statement_v1.ts.
+// Retained because serializeAPNTTransitionOutpointV0 is still imported by
+// apnt_creation_scope_v1.ts, apnt_creation_scope_v2.ts and
+// apnt_nullifier_v0.ts. No published artifact pins its own APNTTSV0 wire
+// format. See AGENTS.md, "The maturity ladder".
 import { asBytes32, copyBytes, type Bytes32 } from "./bytes.js";
 import { sha256DomainSeparated } from "./hash.js";
 

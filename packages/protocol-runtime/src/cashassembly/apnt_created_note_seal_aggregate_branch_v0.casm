@@ -1,5 +1,10 @@
 // APNT created-note seal, aggregate branch v0 (witness-index variant).
 //
+// Maturity: frozen — read by the frozen apnt_settlement_authorization_covenant_v0.ts;
+// `npm run verify:settlement-authorization-covenant-independent` confirms this
+// branch is exactly the witness-index variant that fits the 201-byte standard
+// locking limit. See AGENTS.md, "The maturity ladder".
+//
 // Target architecture:
 // openspec/changes/define-apnt-private-spend-covenant-v0/design.md
 //   §1.1.6, as superseded by §1.1.6a's adopted decision.

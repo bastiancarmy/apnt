@@ -1,3 +1,8 @@
+// Maturity: preview — a newer statement shape than the frozen v1. No
+// published verify:* command checks APNTTSV2 (they require APNTTSV1), no
+// published artifact pins it, and its only published importer
+// (apnt_transition_settlement_projection_v2_adapter.ts) has none itself.
+// Read it, don't build on it yet. See AGENTS.md, "The maturity ladder".
 import { asBytes32, copyBytes, type Bytes32 } from "./bytes.js";
 import { sha256DomainSeparated } from "./hash.js";
 import { APNT_V1_BCH_MAX_MONEY_SATS } from "./apnt_bundle_backed_private_note_v1.js";

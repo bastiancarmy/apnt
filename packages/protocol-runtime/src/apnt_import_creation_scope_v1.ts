@@ -1,3 +1,7 @@
+// Maturity: preview — its only published importer is
+// apnt_import_created_note_statement_v1.ts, itself preview. No published
+// artifact references its APNTICV1/APNTIBS1 wire magic. See AGENTS.md, "The
+// maturity ladder".
 import { asBytes32, copyBytes, type Bytes32 } from "./bytes.js";
 import { sha256DomainSeparated } from "./hash.js";
 import { APNT_V1_BCH_MAX_MONEY_SATS } from "./apnt_bundle_backed_private_note_v1.js";

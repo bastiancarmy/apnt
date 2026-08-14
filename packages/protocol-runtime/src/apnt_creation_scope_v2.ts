@@ -1,3 +1,6 @@
+// Maturity: preview — feeds only the preview apnt_transition_statement_v2.ts;
+// not exercised by any published verify:* command or artifact. See
+// AGENTS.md, "The maturity ladder".
 import { asBytes32, copyBytes, type Bytes32 } from "./bytes.js";
 import { sha256DomainSeparated } from "./hash.js";
 import { APNT_V1_BCH_MAX_MONEY_SATS } from "./apnt_bundle_backed_private_note_v1.js";

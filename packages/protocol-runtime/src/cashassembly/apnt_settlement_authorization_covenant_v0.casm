@@ -1,5 +1,10 @@
 // APNT settlement authorization covenant (SAC) v0.
 //
+// Maturity: frozen — this redeem-script bytecode is disassembled and matched
+// byte-for-byte, including L_verdict, by
+// `npm run verify:settlement-authorization-covenant-independent`. See
+// AGENTS.md, "The maturity ladder".
+//
 // Target architecture:
 // openspec/changes/define-apnt-private-spend-covenant-v0/design.md
 //   §1.1.3 (properties B and C), as corrected by

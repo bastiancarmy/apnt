@@ -1,3 +1,8 @@
+// Maturity: frozen — builds the pinned CashVM verifier profile identity
+// 0bf091d8e7036ae834cfdf9113ffe4ff240946a0e0167d60cb911924af01354c (AGENTS.md,
+// "What is frozen"), independently re-derived and matched byte-for-byte
+// against the transaction that gated the first live Chipnet settlement.
+// See AGENTS.md, "The maturity ladder".
 import { readFileSync } from "node:fs";
 
 import { asBytes32, bytesToHex, type Bytes32 } from "./bytes.js";

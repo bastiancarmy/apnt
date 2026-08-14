@@ -154,6 +154,12 @@ export const APNT_CASHASSEMBLY_OPCODE_BYTES_V0 = Object.freeze({
  * mnemonic present in `APNT_CASHASSEMBLY_OPCODE_BYTES_V0`. Unknown tokens and
  * empty results throw rather than silently producing a wrong script.
  */
+
+// Maturity: stable — imported by all four published covenant builders
+// (apnt_verifier_factory_v0.ts, apnt_settlement_authorization_covenant_v0.ts,
+// apnt_created_note_seal_v0.ts, apnt_created_note_seal_exit_branch_v0.ts).
+// Its output underlies frozen pinned bytecode downstream. See AGENTS.md,
+// "The maturity ladder".
 export function compileApntCashAssemblySourceV0(source: string): Uint8Array {
   const parts: Uint8Array[] = [];
   for (const rawLine of source.split(/\r?\n/u)) {

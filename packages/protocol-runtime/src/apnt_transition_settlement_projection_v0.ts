@@ -1,3 +1,8 @@
+// Maturity: frozen — its statementCommitment32/settlementProjection32
+// derivation is exactly what
+// `npm run verify:transition-settlement-projection-independent` independently
+// re-derives and requires to match every real proof fixture's committed
+// public values. See AGENTS.md, "The maturity ladder".
 import { asBytes32, copyBytes, type Bytes32 } from "./bytes.js";
 import { sha256DomainSeparated } from "./hash.js";
 import {

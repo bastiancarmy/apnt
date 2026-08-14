@@ -1,5 +1,9 @@
 // APNT created-note seal v0 — the complete locking bytecode.
 //
+// Maturity: stable — compiled by apnt_created_note_seal_v0.ts; not yet
+// exercised by any published verify:* command. See AGENTS.md, "The maturity
+// ladder".
+//
 // Target architecture:
 // openspec/changes/define-apnt-private-spend-covenant-v0/design.md §3.1,
 // with the branch decisions in §1.1.6a (witness-index aggregate branch) and

@@ -36,7 +36,7 @@
       "rationale": "The verification surface: the canonical Groth16 proof artifacts, the quotient/residue certificate runs, the frozen trusted verifier descriptors, the Rust note-commitment verifier crate, and THREE independent Node checkers — one grading certificate-run keying, one re-deriving statementCommitment32 and settlementProjection32 from published statement bytes, one re-deriving the settlement-authorization covenant's bytes and L_verdict. All three run on a bare Node with no install, no network and no build, and the export executes all four configured argument sets inside a filesystem-sandboxed copy of the staged tree before this tree may ship. Their two data inputs are derived, not copied: typescript-golden-vectors-public-v0.json is emitted by derive-public-golden-vectors-v0.mjs, which strips the private witness and refuses to write unless six redaction proofs pass; apnt-settlement-authorization-covenant-bytecode-v0.json is emitted by the landed covenant builders and carries only on-chain script bytes. The verify-apnt skill ships here rather than under repo-metadata: it walks a contributor through checking a proof artifact, a settlement, a note commitment and a trust anchor, so it belongs with the artifacts it teaches a reader to check, not with repo identity that ships before any of them exist."
     }
   ],
-  "determinismDigest": "5667c06721448add4e1ef276731b3725f04a5067d0fff996d11169ffea312fda",
+  "determinismDigest": "831461228e7b849c358198ac30925f575aad678f109c8b4a7585f72b6e6f35a8",
   "fileCount": 181,
   "files": [
     {
@@ -139,8 +139,8 @@
       "category": "repo-metadata",
       "expandedFromGlob": null,
       "publicPath": "AGENTS.md",
-      "sha256": "3f2dcd6fb57497dd60b095c54f2360d8056389a287520478be3a902dbd9703f6",
-      "sizeBytes": 14974,
+      "sha256": "a8dc42f6bd6606d2d950fcd3673dd0c1cf450f08a0a1e915667ab495eb2e80f2",
+      "sizeBytes": 22783,
       "sourcePath": "scripts/public-export/public-tree/AGENTS.md"
     },
     {
@@ -379,136 +379,136 @@
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_aggregation_transition_output_v0.ts",
-      "sha256": "e76acaccdffde2e3d8df613f1f41b837a88fb46d78654850e08798725030996c",
-      "sizeBytes": 32845,
+      "sha256": "0ab7dfdedb4c056c107e2e3e4664cf94452d03f437d0b74caa117ab77a0dd4f9",
+      "sizeBytes": 33017,
       "sourcePath": "packages/protocol-runtime/src/apnt_aggregation_transition_output_v0.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_aggregation_validity_model_v0.ts",
-      "sha256": "c4ac0ea6ebb6faf8c5841f13cddba46951eb3b1e3e4f9804a68fe0ae1d4d3d26",
-      "sizeBytes": 29842,
+      "sha256": "f2b3d483e27d50fbeb1db04459130857016abdb2507570446b43c198a62f15f3",
+      "sizeBytes": 30014,
       "sourcePath": "packages/protocol-runtime/src/apnt_aggregation_validity_model_v0.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_bch_asset_id_v0.ts",
-      "sha256": "7df4480c54343da9c596c9456613f24cbdbd3e4d5e262638470724696800d0c9",
-      "sizeBytes": 7434,
+      "sha256": "51cda217cbe1d75379b50aa61fa9a92b85361d35e4b15656b438561e9d81dd15",
+      "sizeBytes": 7606,
       "sourcePath": "packages/protocol-runtime/src/apnt_bch_asset_id_v0.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_bch_standard_policy_limits_v0.ts",
-      "sha256": "278582ff71b239fcc52d9c555e64f4f28d8097de473b1cba84939c7d9ceccdfc",
-      "sizeBytes": 3579,
+      "sha256": "75762952ecc6bfae574a8ea2e1eccdc3aa468a53a190df11c290cf32ca29d7ad",
+      "sizeBytes": 3754,
       "sourcePath": "packages/protocol-runtime/src/apnt_bch_standard_policy_limits_v0.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_bundle_backed_private_note_v1.ts",
-      "sha256": "64d92aa70b99a069dd6cc68f4218621ac49ec8df4c4bd41b44e5429de82a02ab",
-      "sizeBytes": 6394,
+      "sha256": "b3e4bd184e86ea175b7560559abe0f759549fc8f7a0d5b5a156e093a0cf5a873",
+      "sizeBytes": 6538,
       "sourcePath": "packages/protocol-runtime/src/apnt_bundle_backed_private_note_v1.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_bundle_nullifier_v1.ts",
-      "sha256": "7bc33d5441bdec11bf579492115b912f588b98daa0f2aede76e9ff50c8fef289",
-      "sizeBytes": 2693,
+      "sha256": "43243c3959616adbb22ed43a98347287b55576f174f0067eec1cba28b7d1f6b9",
+      "sizeBytes": 2882,
       "sourcePath": "packages/protocol-runtime/src/apnt_bundle_nullifier_v1.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_cashassembly_compiler_v0.ts",
-      "sha256": "e64fc3139b22c865a56984c41d1043858afe80724e6a48f119bf96775a831df7",
-      "sizeBytes": 6334,
+      "sha256": "707cef82377dd6004d9055468bc12f23e8bb5521191696e03fb7c527c542cda3",
+      "sizeBytes": 6663,
       "sourcePath": "packages/protocol-runtime/src/apnt_cashassembly_compiler_v0.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_created_note_seal_exit_branch_v0.ts",
-      "sha256": "d892c77ae3892fdbad6b3225cff51a4c17f958d132d461984a5d0b0819bc7517",
-      "sizeBytes": 10826,
+      "sha256": "e6fd840ab976009c22c66d3c402fe55e042e4dbd2cf6e764f8a8d38a81572be0",
+      "sizeBytes": 11048,
       "sourcePath": "packages/protocol-runtime/src/apnt_created_note_seal_exit_branch_v0.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_created_note_seal_v0.ts",
-      "sha256": "61f8d4e3368106db75369ecf0c67e2bc34933bfaea8f12984e10951f251aa964",
-      "sizeBytes": 12205,
+      "sha256": "9c8f19d491f239f858d9ff022f1ebc56c2d6b7bf832a9b14a24a9e684db6432b",
+      "sizeBytes": 12443,
       "sourcePath": "packages/protocol-runtime/src/apnt_created_note_seal_v0.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_creation_scope_v1.ts",
-      "sha256": "423a75ba0c709bd33c7ff1417a1a055e8adca160e2cc46376dd8fbfd7753abb2",
-      "sizeBytes": 18689,
+      "sha256": "291e668a240fe83ddd58fddbfbdbdfcd2e195c1f5ec5eaf1603cca7c9744a1a8",
+      "sizeBytes": 18874,
       "sourcePath": "packages/protocol-runtime/src/apnt_creation_scope_v1.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_creation_scope_v2.ts",
-      "sha256": "95a6eebc5ea997d1b229a59afa2fd0cf136d7cabe739bb650005e06cd7e00c22",
-      "sizeBytes": 18595,
+      "sha256": "08287cfcd97ed0141d1cd0f11dc49f6f65e09a390f5622c746b77913fb0c27ea",
+      "sizeBytes": 18781,
       "sourcePath": "packages/protocol-runtime/src/apnt_creation_scope_v2.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_import_created_note_statement_v0.ts",
-      "sha256": "287b0096c9ae76301583dc6288a626208cfd6bf81b74c121e6d424c8ee1fe57d",
-      "sizeBytes": 51271,
+      "sha256": "0fc69ec9d204fd9b1c1f2b0c4e1a675f82a9fd1056c984aa1991fbfdcf43c1ef",
+      "sizeBytes": 51626,
       "sourcePath": "packages/protocol-runtime/src/apnt_import_created_note_statement_v0.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_import_created_note_statement_v1.ts",
-      "sha256": "2ad1da6ed22880253f39f87575bcaacfc37fbdac0116ba48fcc67da0c0dbea30",
-      "sizeBytes": 24849,
+      "sha256": "672e01d07c662dbfbd9ea4719b2948691fc8de75b15d2dce174dcda9dc82cb1f",
+      "sizeBytes": 25194,
       "sourcePath": "packages/protocol-runtime/src/apnt_import_created_note_statement_v1.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_import_creation_scope_v0.ts",
-      "sha256": "cd556460b1b65b6a62806bf90182eeab2cb9c5a397f64e0a10ab7776102b4f59",
-      "sizeBytes": 14118,
+      "sha256": "b57bf4fb2cad3dec98b73a1046fef90add2bced2ee6506737673e19fa281a6e8",
+      "sizeBytes": 14346,
       "sourcePath": "packages/protocol-runtime/src/apnt_import_creation_scope_v0.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_import_creation_scope_v1.ts",
-      "sha256": "779e1caaf0389606bbe8e722b18d5882e2fe1d583b71033a5dc50f2c220e0665",
-      "sizeBytes": 13790,
+      "sha256": "9184f77cef059f2001c8013d27c75d25cffe144be53b6615ab857173629eccc7",
+      "sizeBytes": 14018,
       "sourcePath": "packages/protocol-runtime/src/apnt_import_creation_scope_v1.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_import_current_transaction_projection_v0.ts",
-      "sha256": "13d758719fbc867f6fa1d23f0520d1b5be646991896e1bed1ee9527a94e3c3cf",
-      "sizeBytes": 27382,
+      "sha256": "d831f12885b1676fb37f0cff71c9c9b9c80e78edb5c904bb5c8f3ad24a62a403",
+      "sizeBytes": 27554,
       "sourcePath": "packages/protocol-runtime/src/apnt_import_current_transaction_projection_v0.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_import_settlement_projection_v0.ts",
-      "sha256": "6a15a5f9f165367b2e38b44ec79580c5464f892cc6ad1e568444d4eaed637856",
-      "sizeBytes": 18071,
+      "sha256": "46b3688041134e600c57d9bb89e4cd09367056b4071b6c4f4cdcb94fb2696baf",
+      "sizeBytes": 18243,
       "sourcePath": "packages/protocol-runtime/src/apnt_import_settlement_projection_v0.ts"
     },
     {
@@ -523,104 +523,104 @@
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_lifecycle_acceptance_policy_v0.ts",
-      "sha256": "25ce2c203448de37b9776e645726f6b73bb5f3302a9da8af7ba6b66330e21f68",
-      "sizeBytes": 17766,
+      "sha256": "21ffd2d288ab97a959b57926c90d0bc8d9176b4fc1fd4ec3719af361a1d0ba65",
+      "sizeBytes": 17938,
       "sourcePath": "packages/protocol-runtime/src/apnt_lifecycle_acceptance_policy_v0.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_nullifier_v0.ts",
-      "sha256": "d3a795c8cd23ac4769656a0fdca791f05199723a207e02fb94f58fe2bcdf1765",
-      "sizeBytes": 2230,
+      "sha256": "cadd7e17da2f2de51f5a0fa42ecd610e781b5e318ae43db39ece03b1193093a5",
+      "sizeBytes": 2473,
       "sourcePath": "packages/protocol-runtime/src/apnt_nullifier_v0.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_privacy_risk_non_claim_report_v0.ts",
-      "sha256": "46e406a9ae8b49213799577ba3c910784b21250174d0b9080a2782bef8c55eba",
-      "sizeBytes": 7777,
+      "sha256": "e90750dbd728c46c76224de77c8a0301dc246264174f0de8b3ea53acfa67e322",
+      "sizeBytes": 7949,
       "sourcePath": "packages/protocol-runtime/src/apnt_privacy_risk_non_claim_report_v0.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_private_note_transition_relation_v1_contract.ts",
-      "sha256": "4ad1bc998d9e24d1b0d5f749a5b15519b7efec0fe882450d21fce4bc1d1ae611",
-      "sizeBytes": 4653,
+      "sha256": "1fcf52e09d0d23f048d4c6b4c59c8ef9ddc2383e2ec31dda9d29f3d8483a1b13",
+      "sizeBytes": 4825,
       "sourcePath": "packages/protocol-runtime/src/apnt_private_note_transition_relation_v1_contract.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_settlement_authorization_covenant_v0.ts",
-      "sha256": "e1d06f6e00f771d9f9a15a1d58688ed342c09c2f1d1a6e865d3365e6ed823a1b",
-      "sizeBytes": 14809,
+      "sha256": "fba5ebe8487ca767d443fe12fc5848b0c82be5e22237fdeda13a065acf6a8ecc",
+      "sizeBytes": 15183,
       "sourcePath": "packages/protocol-runtime/src/apnt_settlement_authorization_covenant_v0.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_spend_authority_v0.ts",
-      "sha256": "59d023521c7e56829ed950122112b035100be4903b80c78aec8fa9300bc69c52",
-      "sizeBytes": 2416,
+      "sha256": "8b8753d967aed43514e3d0652bfe1df83d794d0b66f4e2e55d04ff9fb4a53742",
+      "sizeBytes": 2677,
       "sourcePath": "packages/protocol-runtime/src/apnt_spend_authority_v0.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_transaction_projection_v1.ts",
-      "sha256": "69f47dd784eb0f7f1e8247d73d775ae36e6ad1a75d2cf886bc751e44659309ca",
-      "sizeBytes": 19390,
+      "sha256": "b12cec7fcb1d4de6cd3cd286a1f169bb1b245198a4e8f407ee97ccfbae385ff6",
+      "sizeBytes": 19621,
       "sourcePath": "packages/protocol-runtime/src/apnt_transaction_projection_v1.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_transition_settlement_projection_v0.ts",
-      "sha256": "b3a0a73556eca6d3053953bf4cbb002d8822b488f26df92bfb8f6893704f637e",
-      "sizeBytes": 8529,
+      "sha256": "9596cb7155526bd48aa593e22c409e635a3c99383247fc132c123af25e9b5c6f",
+      "sizeBytes": 8840,
       "sourcePath": "packages/protocol-runtime/src/apnt_transition_settlement_projection_v0.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_transition_settlement_projection_v2_adapter.ts",
-      "sha256": "7b49198d38b5711fa20820b9bfa1f8c07f1f5028ca76e85a099a28d4f697099c",
-      "sizeBytes": 1827,
+      "sha256": "6883f1dfa14507e2d273083b9261386c3e4ce8cb914b2e9473e930be452d5b62",
+      "sizeBytes": 2052,
       "sourcePath": "packages/protocol-runtime/src/apnt_transition_settlement_projection_v2_adapter.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_transition_statement_v0.ts",
-      "sha256": "45d88a022b50efdca8f8d3380fd8b0ff3ceccdb735fe80694a98805aa383aa48",
-      "sizeBytes": 25990,
+      "sha256": "0e9952bc135f5c855fdd2c7d67833643bb0e659f8277107b1977097f829e8103",
+      "sizeBytes": 26332,
       "sourcePath": "packages/protocol-runtime/src/apnt_transition_statement_v0.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_transition_statement_v1.ts",
-      "sha256": "51183d01306ec1f786f6acae1cfd724f613b63980ca650e5a71d55bd4dcb36be",
-      "sizeBytes": 43344,
+      "sha256": "b47da2c54c5909542434d1898a905bba7b4b5f3a168a1cfbdec01fe940a9bfdf",
+      "sizeBytes": 43763,
       "sourcePath": "packages/protocol-runtime/src/apnt_transition_statement_v1.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_transition_statement_v2.ts",
-      "sha256": "f32d995998c3b1f9fba5a1a6a4fa3eb99d593417d291b59c9dd86cd356bb4115",
-      "sizeBytes": 43055,
+      "sha256": "54bf0bc1932c8abeb940cfeed9d781e7bf453b51df80766c258d7b1b3ebaf4f1",
+      "sizeBytes": 43411,
       "sourcePath": "packages/protocol-runtime/src/apnt_transition_statement_v2.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_transition_validity_model_v0.ts",
-      "sha256": "445b6583294803195fc3343bfc7b92eddd3d19f5bb9262f754c86b16a80c937f",
-      "sizeBytes": 10306,
+      "sha256": "13c1ad963878a7ebcd80692c7c463770dd3eed4373cc1f2e9a59e68388038d6b",
+      "sizeBytes": 10478,
       "sourcePath": "packages/protocol-runtime/src/apnt_transition_validity_model_v0.ts"
     },
     {
@@ -635,16 +635,16 @@
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_value_conservation_model_v0.ts",
-      "sha256": "3c80e22ca2b64f04c619cdd3ba7a83a98a71a859b05053a210f987c7b77afe21",
-      "sizeBytes": 9391,
+      "sha256": "ca9c460b46ecb52184f323955a650f4f1db81c50fff3f8b1febb6ca39cb71e84",
+      "sizeBytes": 9563,
       "sourcePath": "packages/protocol-runtime/src/apnt_value_conservation_model_v0.ts"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/apnt_verifier_factory_v0.ts",
-      "sha256": "42f8a6a5a55fc6394cb5354205e7e3d3c97b3e772b00e79296b4010d3ec2adb4",
-      "sizeBytes": 4550,
+      "sha256": "09d39d5ec7ab14d4b4f54d45dc870c7b232736b56b510a8c6778fdbe2ad27301",
+      "sizeBytes": 4892,
       "sourcePath": "packages/protocol-runtime/src/apnt_verifier_factory_v0.ts"
     },
     {
@@ -659,40 +659,40 @@
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_aggregate_branch_v0.casm",
-      "sha256": "54d33be926a13012816222151353cec5b8330c283f5c9b0121be7c1fcd67bec9",
-      "sizeBytes": 2985,
+      "sha256": "8b647222ce6ceb5ae47b9a4a2a2c768aa494917721c4cba65b0ce8c80df0a967",
+      "sizeBytes": 3292,
       "sourcePath": "packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_aggregate_branch_v0.casm"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_exit_branch_v0.casm",
-      "sha256": "bc212c276827cc49dd1b83a5ced5fd35319ab87fbf56299993cbbeb2c5157bc4",
-      "sizeBytes": 3481,
+      "sha256": "468318f41e9cc66b9da0dd8c0310440208a3dcf276b9582a2c4683989a529d05",
+      "sizeBytes": 3659,
       "sourcePath": "packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_exit_branch_v0.casm"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_v0.casm",
-      "sha256": "357ace4423a5b4cafd2be77aba141b86bf84457c5d5fb0b2fb47861a51f2f02c",
-      "sizeBytes": 4157,
+      "sha256": "eb275c8eff3fd0da514faad9cea196a7fe85f6f7062f18562039a5358dd5fbf4",
+      "sizeBytes": 4323,
       "sourcePath": "packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_v0.casm"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/cashassembly/apnt_settlement_authorization_covenant_v0.casm",
-      "sha256": "79bf16bfa5671edc39b5d511241a4c42c158918f056a2a3372c7ba9a07b92ff4",
-      "sizeBytes": 5241,
+      "sha256": "d263770a80790db04e5f5d7072f2f5c29ff3e29bc05fb676bcf705ce79c55f72",
+      "sizeBytes": 5474,
       "sourcePath": "packages/protocol-runtime/src/cashassembly/apnt_settlement_authorization_covenant_v0.casm"
     },
     {
       "category": "protocol-runtime",
       "expandedFromGlob": null,
       "publicPath": "packages/protocol-runtime/src/cashassembly/apnt_verifier_factory_v0.casm",
-      "sha256": "8104dfcb19592c2b77ca9de985de571a1ce585ba378264abfef4b63a1762f0d5",
-      "sizeBytes": 1612,
+      "sha256": "2f4bbfd9695c20e0fc4f4c355e5bb37b4bd303c33b4e4b76f5bf9aed8569f5d7",
+      "sizeBytes": 1880,
       "sourcePath": "packages/protocol-runtime/src/cashassembly/apnt_verifier_factory_v0.casm"
     },
     {
@@ -795,7 +795,7 @@
       "category": "verifier-surface",
       "expandedFromGlob": null,
       "publicPath": "packages/reference-aggregator/fixtures/apnt-settlement-authorization-covenant-bytecode-v0.json",
-      "sha256": "6085905becfb62649a8aabf340c716a6ab0d6b92a69966d2a0015bdfa22a2a1f",
+      "sha256": "8d8232bfc97e5dd106a6c46fbeec9355da071e5b5a8e57427d3628941ffc7a65",
       "sizeBytes": 10322,
       "sourcePath": "packages/reference-aggregator/fixtures/apnt-settlement-authorization-covenant-bytecode-v0.json"
     },
@@ -1526,7 +1526,7 @@
             "--fetch-retry-maxtimeout=5000",
             "--store-dir=<isolated-tmp>/pnpm-store"
           ],
-          "durationMs": 1692,
+          "durationMs": 1658,
           "exitCode": 0,
           "name": "install-generate-lockfile",
           "ok": true,
@@ -1543,7 +1543,7 @@
             "--fetch-retry-maxtimeout=5000",
             "--store-dir=<isolated-tmp>/pnpm-store"
           ],
-          "durationMs": 279,
+          "durationMs": 283,
           "exitCode": 0,
           "name": "install-frozen-lockfile",
           "ok": true,
@@ -1556,7 +1556,7 @@
             "-r",
             "build"
           ],
-          "durationMs": 793,
+          "durationMs": 795,
           "exitCode": 0,
           "name": "build",
           "ok": true,
@@ -1569,7 +1569,7 @@
             "-r",
             "typecheck"
           ],
-          "durationMs": 555,
+          "durationMs": 560,
           "exitCode": 0,
           "name": "typecheck",
           "ok": true,
@@ -1583,7 +1583,7 @@
             "-p",
             "packages/protocol-runtime/tsconfig.json"
           ],
-          "durationMs": 618,
+          "durationMs": 625,
           "exitCode": 0,
           "name": "typecheck-protocol-runtime-standalone",
           "ok": true,
@@ -1598,7 +1598,7 @@
             "--",
             "--passWithNoTests"
           ],
-          "durationMs": 1373,
+          "durationMs": 1494,
           "exitCode": 0,
           "name": "test",
           "ok": true,
@@ -1628,7 +1628,7 @@
         "vitest": "2.1.9"
       }
     },
-    "generatedAt": "2026-08-14T21:00:00Z",
+    "generatedAt": "2026-08-14T22:00:00Z",
     "generator": "scripts/public-export@1",
     "note": "This block is EXCLUDED from determinismDigest. Pass --now=<iso> to pin generatedAt and make a run byte-reproducible."
   },
@@ -2366,9 +2366,9 @@
       "sha256": "df342d0f2caa183a0562827efa17615c81c40cf46aa1bbcd0cbb335d6e05f664"
     },
     "branch": "main",
-    "commit": "139f4e02e8503f7686109fac2f1ff7fe0ea45bd9",
+    "commit": "d847897f71d620267a4531db65383ee58eed5c1b",
     "repository": "bch-cloak (private)",
-    "workingTreeDirty": true
+    "workingTreeDirty": false
   },
   "standaloneVerifiers": [
     {

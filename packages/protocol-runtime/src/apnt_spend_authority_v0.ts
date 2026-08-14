@@ -1,3 +1,7 @@
+// Maturity: preview — imported by apnt_bundle_nullifier_v1.ts and
+// apnt_nullifier_v0.ts, but neither of those is itself imported anywhere
+// published, and no published artifact pins it. Read it, don't build on it.
+// See AGENTS.md, "The maturity ladder".
 import { asBytes32, type Bytes32 } from "./bytes.js";
 import { sha256DomainSeparated } from "./hash.js";
 

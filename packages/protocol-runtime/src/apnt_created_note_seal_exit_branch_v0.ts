@@ -1,3 +1,6 @@
+// Maturity: stable — the mandatory direct-exit branch of the created-note
+// seal; imported by apnt_created_note_seal_v0.ts. Not yet exercised by any
+// published verify:* command. See AGENTS.md, "The maturity ladder".
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 

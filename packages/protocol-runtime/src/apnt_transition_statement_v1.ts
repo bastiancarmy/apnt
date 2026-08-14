@@ -1,3 +1,9 @@
+// Maturity: frozen — its APNTTSV1 wire encoding is checked byte-for-byte by
+// `npm run verify:transition-settlement-projection-independent` and
+// `npm run verify:settlement-authorization-covenant-independent` (both require
+// the literal APNTTSV1 magic), and is pinned in
+// tools/apnt-private-note-transition-rust-parity/fixtures/typescript-golden-vectors-public-v0.json.
+// See AGENTS.md, "The maturity ladder".
 import { asBytes32, copyBytes, type Bytes32 } from "./bytes.js";
 import { sha256DomainSeparated } from "./hash.js";
 import { APNT_V1_BCH_MAX_MONEY_SATS } from "./apnt_bundle_backed_private_note_v1.js";

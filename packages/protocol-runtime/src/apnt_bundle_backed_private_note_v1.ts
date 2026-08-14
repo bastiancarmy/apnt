@@ -1,3 +1,5 @@
+// Maturity: stable — the shared private-note type; 11 published
+// protocol-runtime modules import it. See AGENTS.md, "The maturity ladder".
 import { asBytes32, type Bytes32 } from "./bytes.js";
 import { sha256DomainSeparated } from "./hash.js";
 

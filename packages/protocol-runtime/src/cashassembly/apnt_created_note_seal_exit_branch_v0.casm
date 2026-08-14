@@ -1,5 +1,9 @@
 // APNT created-note seal, direct-exit branch v0.
 //
+// Maturity: stable — compiled by apnt_created_note_seal_exit_branch_v0.ts;
+// not yet exercised by any published verify:* command. See AGENTS.md, "The
+// maturity ladder".
+//
 // Target architecture:
 // openspec/changes/define-apnt-private-spend-covenant-v0/design.md §1.2,
 // with the coexistence framing in §3.1.

@@ -1,3 +1,7 @@
+// Maturity: stable — the current, single implementation of the created-note
+// seal (the on-chain lock for a newly created private note). Not yet
+// exercised by any published verify:* command. See AGENTS.md, "The maturity
+// ladder".
 import { readFileSync } from "node:fs";
 
 import { asBytes32, asFixedBytes, bytesToHex, type Bytes32 } from "./bytes.js";

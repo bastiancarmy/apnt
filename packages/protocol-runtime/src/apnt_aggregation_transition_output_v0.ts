@@ -1,3 +1,6 @@
+// Maturity: preview — measured zero published importers and no published
+// artifact references it. Read it, don't build on it. See AGENTS.md, "The
+// maturity ladder".
 import { asBytes32, bytesToHex, copyBytes, hexToBytes, type Bytes32 } from "./bytes.js";
 import { sha256DomainSeparated } from "./hash.js";
 import { serializeDeterministicUtf8 } from "./serialization.js";
