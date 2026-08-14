@@ -1,0 +1,31 @@
+{
+  "version": 0,
+  "classification": "public-safe compiled-in authenticated verifier artifact",
+  "verifierImplementationIdentity": "apnt-private-note-transition-groth16-verifier-v0",
+  "verifierCrateVersion": "0.1.0",
+  "relationIdentity": "apnt-private-note-transition-relation-v0",
+  "semanticContractCommitment": "ed354cade2fd7fc553210756b552aa042a376ea42f0b7eb87d4716b753593e6b",
+  "proofSystem": "sp1",
+  "proofProfile": "sp1-v6.1.0-groth16-bn254-v0",
+  "proofBytesLength": 356,
+  "sp1CrateVersion": "6.3.1",
+  "sp1CircuitVersion": "v6.1.0",
+  "sp1VerifierCrateVersion": "6.3.1",
+  "programVkeyHash": "002e374da3dc5e898b30efd70baf166ab5633c95c3b80009e0b563b3c428a65c",
+  "guestElfSha256": "b852785f667f686c902c4f622c113aa05ade8aaceca273de24132c0edd55df9c",
+  "guestElfBytes": 986496,
+  "groth16VerificationKeySha256": "4388a21c687fdd5f218d7e3d13190cac4c5355818d3605fd5fb811df468ee696",
+  "groth16VerificationKeyBytes": 492,
+  "publicValuesCodec": "APNTPRR0",
+  "publicValuesLength": 210,
+  "publicInputMapping": "five canonical BN254 big-endian scalars: program VKey, masked SHA-256(public values), zero exit code, recursion VKey root, zero proof nonce",
+  "canonicalProofEncoding": "356-byte SP1 Groth16 envelope: 4-byte wrapper-key prefix, 32-byte exit code, 32-byte recursion VKey root, 32-byte proof nonce, 256-byte affine BN254 proof coordinates",
+  "fixedDownstreamNonClaims": [
+    "chainValidated",
+    "walletAccepted",
+    "walletNoteRecorded",
+    "walletNoteSpendable",
+    "productionPrivacyClaimed",
+    "privateMaterialPublished"
+  ]
+}

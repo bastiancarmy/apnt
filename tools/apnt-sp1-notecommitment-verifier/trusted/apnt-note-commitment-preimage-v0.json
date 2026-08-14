@@ -1,0 +1,9 @@
+{
+  "version": 0,
+  "relationId": "apnt-note-commitment-preimage-v0",
+  "proofSystem": "sp1",
+  "proofFormat": "sp1-core-bincode-v1",
+  "sp1Version": "v6.1.0",
+  "programVkeyHash": "001b8aa7a7ac9d95dd3345b219a31f96a388d89e2ef744e5885e721f4531c8ad",
+  "publicValuesLayout": "raw-noteCommitment32-be-32"
+}

@@ -1,0 +1,45 @@
+{
+  "proof": {
+    "version": 0,
+    "classification": "public-safe canonical SP1 Groth16 proof fixture",
+    "caseId": "canonical-import-created-note-multi-note-v0",
+    "relationIdentity": "apnt-import-created-note-relation-v0",
+    "semanticContractCommitment": "b5c9dc5f9afec320465f874ef2f14976b8a7d6965a86b8b31ec3c4e567c05e01",
+    "statementCommitment": "1a97b07e734847ab06399e07b8db1f916af06c7cc2edb06464af2f25b8ddd08c",
+    "proofSystem": "sp1",
+    "proofProfile": "sp1-v6.1.0-groth16-bn254-v0",
+    "proofMode": "groth16",
+    "sp1CrateVersion": "6.3.1",
+    "sp1CircuitVersion": "v6.1.0",
+    "programVkeyHash": "00a227a5c3dcb8b396c65af5b7a1246117356775a978415ddf5106b8e7e3510f",
+    "guestElfSha256": "2937a9c5d4fc272672ec92dc7b3787a8eb00fd93baba999b02d71f87230cc3cb",
+    "guestElfBytes": 718552,
+    "groth16VerificationKeySha256": "4388a21c687fdd5f218d7e3d13190cac4c5355818d3605fd5fb811df468ee696",
+    "groth16VerificationKeyBytes": 492,
+    "groth16PublicInputsDecimal": [
+      "286502861619519603155430260005878897658371757152648956719931573063035080975",
+      "7857145372819604416453992488521908950966715131480529417953715741302051337424",
+      "0",
+      "83960146348496814183195590144795274058764451818716359375255161226434597714",
+      "0"
+    ],
+    "publicValuesCodec": "APNTIRV0",
+    "publicValuesBytes": "41504e54495256300031006263682d636c6f616b2d61706e742d76303a696d706f72742d637265617465642d6e6f74652d72656c6174696f6e2d7630240061706e742d696d706f72742d637265617465642d6e6f74652d72656c6174696f6e2d7630b5c9dc5f9afec320465f874ef2f14976b8a7d6965a86b8b31ec3c4e567c05e01011a97b07e734847ab06399e07b8db1f916af06c7cc2edb06464af2f25b8ddd08c0c4702000000040000000200000002000000010101010101010101010101010000000000000000",
+    "publicValuesSha256": "115efc976fe445715d6e242f667c2a78aac6d0f62ba003bd25fd776f42bc74d0",
+    "publicValuesLength": 202,
+    "proofBytes": "4388a21c0000000000000000000000000000000000000000000000000000000000000000002f850ee998974d6cc00e50cd0814b098c05bfade466d28573240d057f2535200000000000000000000000000000000000000000000000000000000000000001d88a84c95825cc8ba6b16804bec2c3a5cd77fe6fe80a7ed71dadea17103391f2378d9196463be08e8f3ec58e6eeb614527b5508177b890294e36a86bafdaa07098ae4b70d8b1c63f637ee11e50a2d00782b4e9a08eac27499bad23606b5c7940ae98fbb0dbd6a98367d6e0c7f3b3eceaa3550ab8a53ff6a02e105623bd7cbc200865d4e576abc2ac908d96fb068232ab008ad61fea45c841889d035dafc7b940647152dbe40d87c4d3dafa8c53440b1a9af3e0e05bc689c1618a9318ff2bd6806b0a9ba3a66db2642bb6658281fb86fa85a3b63ba1177f5c3702edf14c2269f06ca847c541862435e94f6479487d5f6ff20e484136e76ef88669b23172c2808",
+    "proofSha256": "9f69cfd164413a7d7e055f2563302dd9e8dc05a79483a1a9be6d79e0eb2bb802",
+    "proofBytesLength": 356,
+    "encodedProofBytesLength": 352,
+    "rawProofBytesLength": 324,
+    "privateMaterialPublished": false,
+    "privateProvingInputPersisted": false
+  },
+  "measurement": {
+    "version": 0,
+    "proofProfile": "sp1-v6.1.0-groth16-bn254-v0",
+    "endToEndProofGenerationDurationMs": 161196,
+    "groth16WrappingIsIncluded": true,
+    "isolatedGroth16WrappingDurationAvailable": false
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "version": 0,
+  "proofSystem": "sp1",
+  "proofFormat": "sp1-core-bincode-v1",
+  "relationId": "apnt-note-commitment-preimage-v0",
+  "programVkeyHash": "001b8aa7a7ac9d95dd3345b219a31f96a388d89e2ef744e5885e721f4531c8ad",
+  "expectedNoteCommitment32": "f837b822d1eec361973cf2202a3e7c09308a7466bdf620c7891ba471a9237f70",
+  "proofBytes": "00",
+  "publicValuesBytes": "f837b822d1eec361973cf2202a3e7c09308a7466bdf620c7891ba471a9237f70"
+}

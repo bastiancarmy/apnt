@@ -1,0 +1,16 @@
+{
+  "version": 0,
+  "proofProfile": "sp1-v6.1.0-groth16-bn254-v0",
+  "endToEndProofGenerationDurationMs": 161196,
+  "proofGenerationProcessWallTimeMs": 171030,
+  "proofGenerationPeakResidentBytes": 30809866240,
+  "proofGenerationPeakFootprintBytes": 30837284936,
+  "sp1RecursiveWrapBusyDurationMs": 19200,
+  "sp1RecursiveWrapIdleDurationMs": 54000,
+  "finalGroth16ProverDurationMs": 13547,
+  "generationTimeGnarkVerificationDurationMicros": 682,
+  "groth16WrappingIsIncluded": true,
+  "isolatedGroth16WrappingDurationAvailable": true,
+  "measurementHost": "Apple-M4-Max-arm64-macos",
+  "measurementDate": "2026-07-16"
+}

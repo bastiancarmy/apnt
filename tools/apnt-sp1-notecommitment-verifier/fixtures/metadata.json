@@ -1,0 +1,15 @@
+{
+  "version": 0,
+  "relationId": "apnt-note-commitment-preimage-v0",
+  "sp1Version": "v6.1.0",
+  "proofType": "SP1Proof::Core",
+  "proofSerialization": "bincode-1.3-fixint-little-endian-reject-trailing",
+  "proofByteLength": 2790944,
+  "proofSha256": "af599c8e1770f6b89171df95d8b413dfb24b00398101443e25ec9111aa720301",
+  "publicValuesEncoding": "lowercase-hex-of-raw-noteCommitment32-be-32",
+  "publicValuesByteLength": 32,
+  "programVkeyHash": "001b8aa7a7ac9d95dd3345b219a31f96a388d89e2ef744e5885e721f4531c8ad",
+  "expectedNoteCommitment32": "f837b822d1eec361973cf2202a3e7c09308a7466bdf620c7891ba471a9237f70",
+  "privateMaterialPublished": false,
+  "privateWitnessPersisted": false
+}

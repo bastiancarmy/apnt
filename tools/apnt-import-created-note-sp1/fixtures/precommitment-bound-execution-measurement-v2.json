@@ -1,0 +1,255 @@
+{
+  "version": 2,
+  "classification": "public-safe V2 guest execution and parity measurement",
+  "relationIdentity": "apnt-import-created-note-relation-v2",
+  "sp1Version": "v6.1.0",
+  "programVkeyHash": "008ffe9d6dabf30e7c7c1731db0222acdccf1f3d560c025698dec9092dfad998",
+  "publicValuesLayout": "raw-APNTIRV2-235-bytes",
+  "publicValuesLength": 235,
+  "guestElfBytes": 845528,
+  "proofConstruction": "not run",
+  "proofVerification": "not run",
+  "groth16Wrapping": "not run",
+  "cases": [
+    {
+      "id": "accepted",
+      "group": "accepted",
+      "instructionCount": 5561812,
+      "executionDurationMs": 93,
+      "publicValuesLength": 235,
+      "touchedMemoryAddresses": 0,
+      "estimatedRecordSizeBytes": 1652789344,
+      "normalizedGas": 5972504
+    },
+    {
+      "id": "v2-deployed-bind-unrelated-to-claimed-note-set",
+      "group": "focused-v2-mutation",
+      "instructionCount": 5561302,
+      "executionDurationMs": 89,
+      "publicValuesLength": 235,
+      "touchedMemoryAddresses": 0,
+      "estimatedRecordSizeBytes": 1652638384,
+      "normalizedGas": 5972272
+    },
+    {
+      "id": "v2-covenant-body-from-another-round",
+      "group": "focused-v2-mutation",
+      "instructionCount": 5462421,
+      "executionDurationMs": 86,
+      "publicValuesLength": 235,
+      "touchedMemoryAddresses": 0,
+      "estimatedRecordSizeBytes": 1623102440,
+      "normalizedGas": 5854338
+    },
+    {
+      "id": "v2-covenant-body-gate-tampered",
+      "group": "focused-v2-mutation",
+      "instructionCount": 5462421,
+      "executionDurationMs": 86,
+      "publicValuesLength": 235,
+      "touchedMemoryAddresses": 0,
+      "estimatedRecordSizeBytes": 1623102440,
+      "normalizedGas": 5854338
+    },
+    {
+      "id": "v2-covenant-body-bind-tampered",
+      "group": "focused-v2-mutation",
+      "instructionCount": 5462421,
+      "executionDurationMs": 86,
+      "publicValuesLength": 235,
+      "touchedMemoryAddresses": 0,
+      "estimatedRecordSizeBytes": 1623102440,
+      "normalizedGas": 5854338
+    },
+    {
+      "id": "v2-covenant-body-missing-op-drop",
+      "group": "focused-v2-mutation",
+      "instructionCount": 5458348,
+      "executionDurationMs": 86,
+      "publicValuesLength": 235,
+      "touchedMemoryAddresses": 0,
+      "estimatedRecordSizeBytes": 1621880640,
+      "normalizedGas": 5848692
+    },
+    {
+      "id": "v2-covenant-body-wrong-push-opcode",
+      "group": "focused-v2-mutation",
+      "instructionCount": 5458345,
+      "executionDurationMs": 86,
+      "publicValuesLength": 235,
+      "touchedMemoryAddresses": 0,
+      "estimatedRecordSizeBytes": 1621879752,
+      "normalizedGas": 5848690
+    },
+    {
+      "id": "v2-covenant-body-zero-bind",
+      "group": "focused-v2-mutation",
+      "instructionCount": 5458428,
+      "executionDurationMs": 85,
+      "publicValuesLength": 235,
+      "touchedMemoryAddresses": 0,
+      "estimatedRecordSizeBytes": 1621904320,
+      "normalizedGas": 5848764
+    },
+    {
+      "id": "v2-covenant-body-empty-gate",
+      "group": "focused-v2-mutation",
+      "instructionCount": 5458253,
+      "executionDurationMs": 86,
+      "publicValuesLength": 235,
+      "touchedMemoryAddresses": 0,
+      "estimatedRecordSizeBytes": 1621852520,
+      "normalizedGas": 5848359
+    },
+    {
+      "id": "statement-commitment-mismatch",
+      "group": "forwarded-v1-mutation",
+      "instructionCount": 796219,
+      "executionDurationMs": 18,
+      "publicValuesLength": 235,
+      "touchedMemoryAddresses": 0,
+      "estimatedRecordSizeBytes": 236300168,
+      "normalizedGas": 892205
+    },
+    {
+      "id": "seal-close-projection-mismatch",
+      "group": "forwarded-v1-mutation",
+      "instructionCount": 797229,
+      "executionDurationMs": 17,
+      "publicValuesLength": 235,
+      "touchedMemoryAddresses": 0,
+      "estimatedRecordSizeBytes": 236599128,
+      "normalizedGas": 893295
+    },
+    {
+      "id": "import-authorization-mismatch",
+      "group": "forwarded-v1-mutation",
+      "instructionCount": 798334,
+      "executionDurationMs": 17,
+      "publicValuesLength": 235,
+      "touchedMemoryAddresses": 0,
+      "estimatedRecordSizeBytes": 236926208,
+      "normalizedGas": 894088
+    },
+    {
+      "id": "network-mismatch",
+      "group": "forwarded-v1-mutation",
+      "instructionCount": 796307,
+      "executionDurationMs": 17,
+      "publicValuesLength": 235,
+      "touchedMemoryAddresses": 0,
+      "estimatedRecordSizeBytes": 236326216,
+      "normalizedGas": 892340
+    },
+    {
+      "id": "settlement-projection-profile-mismatch",
+      "group": "forwarded-v1-mutation",
+      "instructionCount": 797990,
+      "executionDurationMs": 17,
+      "publicValuesLength": 235,
+      "touchedMemoryAddresses": 0,
+      "estimatedRecordSizeBytes": 236824384,
+      "normalizedGas": 895007
+    },
+    {
+      "id": "settlement-import-lock-mismatch",
+      "group": "forwarded-v1-mutation",
+      "instructionCount": 799491,
+      "executionDurationMs": 17,
+      "publicValuesLength": 235,
+      "touchedMemoryAddresses": 0,
+      "estimatedRecordSizeBytes": 237272728,
+      "normalizedGas": 895543
+    },
+    {
+      "id": "settlement-backing-lock-mismatch",
+      "group": "forwarded-v1-mutation",
+      "instructionCount": 823850,
+      "executionDurationMs": 18,
+      "publicValuesLength": 235,
+      "touchedMemoryAddresses": 0,
+      "estimatedRecordSizeBytes": 244543712,
+      "normalizedGas": 927238
+    },
+    {
+      "id": "transparent-import-conservation-mismatch",
+      "group": "forwarded-v1-mutation",
+      "instructionCount": 944339,
+      "executionDurationMs": 19,
+      "publicValuesLength": 235,
+      "touchedMemoryAddresses": 0,
+      "estimatedRecordSizeBytes": 280329896,
+      "normalizedGas": 1052353
+    },
+    {
+      "id": "created-note-commitment-mismatch",
+      "group": "forwarded-v1-mutation",
+      "instructionCount": 906118,
+      "executionDurationMs": 19,
+      "publicValuesLength": 235,
+      "touchedMemoryAddresses": 0,
+      "estimatedRecordSizeBytes": 268951712,
+      "normalizedGas": 1012258
+    },
+    {
+      "id": "created-backing-cell-opening-mismatch",
+      "group": "forwarded-v1-mutation",
+      "instructionCount": 910395,
+      "executionDurationMs": 19,
+      "publicValuesLength": 235,
+      "touchedMemoryAddresses": 0,
+      "estimatedRecordSizeBytes": 270217704,
+      "normalizedGas": 1015783
+    },
+    {
+      "id": "created-backing-cell-missing",
+      "group": "forwarded-v1-mutation",
+      "instructionCount": 906097,
+      "executionDurationMs": 19,
+      "publicValuesLength": 235,
+      "touchedMemoryAddresses": 0,
+      "estimatedRecordSizeBytes": 268929304,
+      "normalizedGas": 1009051
+    },
+    {
+      "id": "authority-material-missing",
+      "group": "forwarded-v1-mutation",
+      "instructionCount": 4654465,
+      "executionDurationMs": 73,
+      "publicValuesLength": 235,
+      "touchedMemoryAddresses": 0,
+      "estimatedRecordSizeBytes": 1383287640,
+      "normalizedGas": 5115372
+    },
+    {
+      "id": "nullifier-material-missing",
+      "group": "forwarded-v1-mutation",
+      "instructionCount": 4652119,
+      "executionDurationMs": 73,
+      "publicValuesLength": 235,
+      "touchedMemoryAddresses": 0,
+      "estimatedRecordSizeBytes": 1382609416,
+      "normalizedGas": 5115033
+    },
+    {
+      "id": "caller-supplied-acceptance",
+      "group": "forwarded-v1-mutation",
+      "instructionCount": 742224,
+      "executionDurationMs": 16,
+      "publicValuesLength": 235,
+      "touchedMemoryAddresses": 0,
+      "estimatedRecordSizeBytes": 220167872,
+      "normalizedGas": 823800
+    },
+    {
+      "id": "relation-identity-mismatch",
+      "group": "forwarded-v1-mutation",
+      "instructionCount": 746710,
+      "executionDurationMs": 17,
+      "publicValuesLength": 235,
+      "touchedMemoryAddresses": 0,
+      "estimatedRecordSizeBytes": 221495728,
+      "normalizedGas": 828022
+    }
+  ]
+}

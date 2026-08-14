@@ -1,0 +1,66 @@
+{
+  "proof": {
+    "version": 1,
+    "classification": "public-safe canonical V1 SP1 Groth16 proof artifact",
+    "caseId": "accepted",
+    "relationIdentity": "apnt-import-created-note-relation-v1",
+    "semanticContractCommitment": "4780a731fd12c0be93c4a028156384205240786e7aeb180e1b7330d54c2f4130",
+    "statementCommitment": "1e3a1eae5ad7db90d3561483b9dd096e6cd13fad2258d6c2a10dff12925c4ded",
+    "settlementProjectionCommitment": "54d6135dca84383fd025785fef1e6b4d8373201f7c66a615e3cd44d7015fa4ba",
+    "proofSystem": "sp1",
+    "proofProfile": "sp1-v6.1.0-groth16-bn254-v1",
+    "proofMode": "groth16",
+    "prover": "local-cpu",
+    "sp1CrateVersion": "6.3.1",
+    "sp1CircuitVersion": "v6.1.0",
+    "programVkeyHash": "00004f2f4d013b69cc540d9bcacb0098da0d3ad91a39cec414751a3804ff3ae1",
+    "guestElfSha256": "35c70d92cc8df225929084f80ae81e0357ccef86a31a8e0c9d30f9f0b82222fa",
+    "guestElfBytes": 832416,
+    "groth16VerificationKeySha256": "4388a21c687fdd5f218d7e3d13190cac4c5355818d3605fd5fb811df468ee696",
+    "groth16VerificationKeyBytes": 492,
+    "groth16PublicInputLabels": [
+      "program-vkey",
+      "masked-sha256-public-values",
+      "exit-code",
+      "recursion-vkey-root",
+      "proof-nonce"
+    ],
+    "groth16PublicInputsDecimal": [
+      "546513188443118687921006884546240110353080975831146290260731213314472673",
+      "7117433566084668567915740931737459828471365987492670981270396352450115357962",
+      "0",
+      "83960146348496814183195590144795274058764451818716359375255161226434597714",
+      "0"
+    ],
+    "groth16PublicInputsBigEndian32": [
+      "00004f2f4d013b69cc540d9bcacb0098da0d3ad91a39cec414751a3804ff3ae1",
+      "0fbc531b9ab3a40be8c2c54b31c5783e96c329634bf59e5b01cd6ffcb7934d0a",
+      "0000000000000000000000000000000000000000000000000000000000000000",
+      "002f850ee998974d6cc00e50cd0814b098c05bfade466d28573240d057f25352",
+      "0000000000000000000000000000000000000000000000000000000000000000"
+    ],
+    "publicValuesCodec": "APNTIRV1",
+    "publicValuesBytes": "41504e54495256310131006263682d636c6f616b2d61706e742d76303a696d706f72742d637265617465642d6e6f74652d72656c6174696f6e2d7631240061706e742d696d706f72742d637265617465642d6e6f74652d72656c6174696f6e2d76314780a731fd12c0be93c4a028156384205240786e7aeb180e1b7330d54c2f4130011e3a1eae5ad7db90d3561483b9dd096e6cd13fad2258d6c2a10dff12925c4ded54d6135dca84383fd025785fef1e6b4d8373201f7c66a615e3cd44d7015fa4ba0c4702000000040000000200000002000000010101010101010101010101010000000000000000",
+    "publicValuesSha256": "0fbc531b9ab3a40be8c2c54b31c5783e96c329634bf59e5b01cd6ffcb7934d0a",
+    "publicValuesLength": 234,
+    "proofBytes": "4388a21c0000000000000000000000000000000000000000000000000000000000000000002f850ee998974d6cc00e50cd0814b098c05bfade466d28573240d057f2535200000000000000000000000000000000000000000000000000000000000000002fe6dd965dc9db16060579a3290be765bd03aabd1aebf757498a55870d04b65d261df62e8c7defeab2a91a25405d3135afa42ae7ab35561f5e290366166752e9071e55f8447d7050ee773e28065349e7f0209d39f95015b394b8796b42ada9a72bd2c08fa19685a2a0d13de934a6c3fd2ae3708d2e459b4f23cf4c8e06b40f9c08f979aac0b00c1cab6068c3efbd1df5744cbc5c8606d8b52d19092bccc06b9300db4a15dd9884f84f4aa76f9d089e82fa4ce7add9b79b2cc760c1b0dddde9b30a0e81deedefede8f4cf32f98a7c931e74af9e91883dbd4c90d4f6a9d0584e792ea7f6299d924a1020624dc550f56aef57fca40fe310f8d021f4a37e4feaac63",
+    "proofSha256": "33ad90d485619d33b5238ab95a32ee8e86c1cd6ccbccc370f2dfd0280acfff6d",
+    "proofBytesLength": 356,
+    "encodedProofBytesLength": 352,
+    "rawProofBytesLength": 324,
+    "proofNonce": "00000000",
+    "nativeVerificationSucceeded": true,
+    "privateMaterialPublished": false,
+    "privateProvingInputPersisted": false
+  },
+  "measurement": {
+    "version": 1,
+    "proofProfile": "sp1-v6.1.0-groth16-bn254-v1",
+    "endToEndProofGenerationDurationMs": 168118,
+    "nativeVerificationDurationMicros": 149061,
+    "groth16WrappingIsIncluded": true,
+    "isolatedGroth16WrappingDurationAvailable": false,
+    "deterministicProofNonce": true,
+    "deterministicProofBytesClaimed": false
+  }
+}

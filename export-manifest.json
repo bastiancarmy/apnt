@@ -19,11 +19,24 @@
       "layer": "v0.1",
       "name": "chain-io",
       "rationale": "@bch-cloak/chain-io in full: the Fulcrum/Electrum client used to read chain state. Both sources, its tsconfig and its manifest. It has no workspace dependencies and imports only Node builtins. It is published complete rather than partially, including the UNSAFE_TRANSPARENT_UTXO_FIELDS_V0 scrubber that keeps private field names out of transparent UTXO records. Four of its five test files are published so that the build gate's `pnpm -r test` leg exercises something real rather than matching zero files; each imports only ../src/index.js, node builtins and vitest, and their only network endpoint is a 127.0.0.1 fixture."
+    },
+    {
+      "layer": "v0.2",
+      "name": "verifier-surface",
+      "rationale": "The verification surface: the canonical Groth16 proof artifacts, the quotient/residue certificate runs, the frozen trusted verifier descriptors, the Rust note-commitment verifier crate, and THREE independent Node checkers — one grading certificate-run keying, one re-deriving statementCommitment32 and settlementProjection32 from published statement bytes, one re-deriving the settlement-authorization covenant's bytes and L_verdict. All three run on a bare Node with no install, no network and no build, and the export executes all four configured argument sets inside a filesystem-sandboxed copy of the staged tree before this tree may ship. Their two data inputs are derived, not copied: typescript-golden-vectors-public-v0.json is emitted by derive-public-golden-vectors-v0.mjs, which strips the private witness and refuses to write unless six redaction proofs pass; apnt-settlement-authorization-covenant-bytecode-v0.json is emitted by the landed covenant builders and carries only on-chain script bytes. The verify-apnt skill ships here rather than under repo-metadata: it walks a contributor through checking a proof artifact, a settlement, a note commitment and a trust anchor, so it belongs with the artifacts it teaches a reader to check, not with repo identity that ships before any of them exist."
     }
   ],
-  "determinismDigest": "af3f67c17f5aba22b6f2e8ad305b468ae4835ceb4119879767c9e6d9b4f9714e",
-  "fileCount": 112,
+  "determinismDigest": "9cc9f8b7030102fdd53406c6258b1278865e2523a8230499e14a0f7ddadb891f",
+  "fileCount": 153,
   "files": [
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": ".claude/skills/verify-apnt/SKILL.md",
+      "sha256": "4edc7ab58f2681c37e0ad5c0596cb1441d30b9a0d866e20f47ea986f573fabbc",
+      "sizeBytes": 24629,
+      "sourcePath": "scripts/public-export/public-tree/.claude/skills/verify-apnt/SKILL.md"
+    },
     {
       "category": "repo-metadata",
       "expandedFromGlob": null,
@@ -209,6 +222,14 @@
       "sourcePath": "scripts/public-export/public-tree/docs/the-seal.md"
     },
     {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "docs/trust-anchors.md",
+      "sha256": "7ab3c20c16ba5d33ea1054292734500ff4c4b7f68f5d769f34feed7afeb7f65b",
+      "sizeBytes": 9438,
+      "sourcePath": "scripts/public-export/public-tree/docs/trust-anchors.md"
+    },
+    {
       "category": "repo-metadata",
       "expandedFromGlob": null,
       "publicPath": "docs/why-not-a-pool.md",
@@ -236,8 +257,8 @@
       "category": "repo-metadata",
       "expandedFromGlob": null,
       "publicPath": "package.json",
-      "sha256": "3d2851125a1f7f33630616a739edcd9f99e058d514d6673f4be0245c13e2d8a6",
-      "sizeBytes": 5234,
+      "sha256": "51183e1230eeb960f3e8732fe8637380094de92ce48e72795ad1843f673ffa98",
+      "sizeBytes": 8801,
       "sourcePath": "scripts/public-export/public-tree/package.json"
     },
     {
@@ -729,6 +750,30 @@
       "sourcePath": "packages/protocol-runtime/tsconfig.json"
     },
     {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "packages/reference-aggregator/fixtures/apnt-settlement-authorization-covenant-bytecode-v0.json",
+      "sha256": "6085905becfb62649a8aabf340c716a6ab0d6b92a69966d2a0015bdfa22a2a1f",
+      "sizeBytes": 10322,
+      "sourcePath": "packages/reference-aggregator/fixtures/apnt-settlement-authorization-covenant-bytecode-v0.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "packages/reference-aggregator/tools/verify-apnt-settlement-authorization-covenant-independently-v0.mjs",
+      "sha256": "0690366ce1d117e3a4308b5eed834c1810474d9c20637b22a18e22f922390498",
+      "sizeBytes": 25963,
+      "sourcePath": "packages/reference-aggregator/tools/verify-apnt-settlement-authorization-covenant-independently-v0.mjs"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "packages/reference-aggregator/tools/verify-apnt-transition-settlement-projection-independently-v0.mjs",
+      "sha256": "fb3cccaa1bc106de57b4ba98570abb4294b87a2dff40cb01eda0222e6fd9649e",
+      "sizeBytes": 26085,
+      "sourcePath": "packages/reference-aggregator/tools/verify-apnt-transition-settlement-projection-independently-v0.mjs"
+    },
+    {
       "category": "repo-metadata",
       "expandedFromGlob": null,
       "publicPath": "pnpm-workspace.yaml",
@@ -913,6 +958,294 @@
       "sourcePath": "openspec/specs/apnt-transition-statement/spec.md"
     },
     {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-sp1/fixtures/canonical-authenticated-verifier-evidence-v0.json",
+      "sha256": "43caf1ef34a84dbf0f99284b262d3e7ecd1fe8ffe3b729dec3161eb6ba897913",
+      "sizeBytes": 4107,
+      "sourcePath": "tools/apnt-import-created-note-sp1/fixtures/canonical-authenticated-verifier-evidence-v0.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-sp1/fixtures/canonical-groth16-proof-v0.json",
+      "sha256": "3210d9083c6e811d201fa435bfee142f5ede819ee7106416aef0edd7a65cd2bb",
+      "sizeBytes": 3108,
+      "sourcePath": "tools/apnt-import-created-note-sp1/fixtures/canonical-groth16-proof-v0.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-sp1/fixtures/canonical-groth16-proof-v1.json",
+      "sha256": "c3128144f372043f5040e833298829d560e668bb34d58d562b0ad0111898919d",
+      "sizeBytes": 4056,
+      "sourcePath": "tools/apnt-import-created-note-sp1/fixtures/canonical-groth16-proof-v1.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-sp1/fixtures/canonical-groth16-proof-v2.json",
+      "sha256": "10a5dddc43249c7454cb27af3527d8af060dc03ae3d4d04c2e56bd6c6f6dcae7",
+      "sizeBytes": 5648,
+      "sourcePath": "tools/apnt-import-created-note-sp1/fixtures/canonical-groth16-proof-v2.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-sp1/fixtures/canonical-groth16-proof-v4.json",
+      "sha256": "c23e9166b85d4ebe34ba5b820c06a674c4fecaed4b0db0ec375fa35e8c06613a",
+      "sizeBytes": 5805,
+      "sourcePath": "tools/apnt-import-created-note-sp1/fixtures/canonical-groth16-proof-v4.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-sp1/fixtures/canonical-projection-bound-groth16-proof-v1-key-00004f2f.json",
+      "sha256": "c2f5649438fd3ee6d034a617bad610504b532aae459e315344a90d82e55d6db7",
+      "sizeBytes": 4093,
+      "sourcePath": "tools/apnt-import-created-note-sp1/fixtures/canonical-projection-bound-groth16-proof-v1-key-00004f2f.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-sp1/fixtures/canonical-projection-bound-groth16-proof-v1.json",
+      "sha256": "e496a8ce3c18595fa6839fc122f60b5b5e4eeaf0d6bd766099d24cabb14f6d0c",
+      "sizeBytes": 3733,
+      "sourcePath": "tools/apnt-import-created-note-sp1/fixtures/canonical-projection-bound-groth16-proof-v1.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-sp1/fixtures/canonical-projection-bound-groth16-proof-v4.json",
+      "sha256": "2d4cebee9a2b0e537406fe789965172eeeab634b227379b53583d393eef6636f",
+      "sizeBytes": 5860,
+      "sourcePath": "tools/apnt-import-created-note-sp1/fixtures/canonical-projection-bound-groth16-proof-v4.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-sp1/fixtures/live-candidate-groth16-proof-v1.json",
+      "sha256": "8da7004ae6a4ff2a4dd9c96a25951d7431f56884f8da5506f917d5e1eeb1b928",
+      "sizeBytes": 5716,
+      "sourcePath": "tools/apnt-import-created-note-sp1/fixtures/live-candidate-groth16-proof-v1.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-sp1/fixtures/non-circular-execution-measurement-v1.json",
+      "sha256": "b5aeed67723adfaf36a7cf15afdbb3e59daadf32ebee0fa9dbf0546caa597fbe",
+      "sizeBytes": 3364,
+      "sourcePath": "tools/apnt-import-created-note-sp1/fixtures/non-circular-execution-measurement-v1.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-sp1/fixtures/precommitment-bound-execution-measurement-v2.json",
+      "sha256": "e6decd54fbeaa809d619ca9a700a9d1d15a985b766b8a18f476689ffb6a2ec32",
+      "sizeBytes": 7914,
+      "sourcePath": "tools/apnt-import-created-note-sp1/fixtures/precommitment-bound-execution-measurement-v2.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-sp1/fixtures/proof-generation-measurement-v0.json",
+      "sha256": "c4cd95cc29023ef1411dfc1ffba9b348b14352f0695717cdd3a4fedcb7bdc0fc",
+      "sizeBytes": 620,
+      "sourcePath": "tools/apnt-import-created-note-sp1/fixtures/proof-generation-measurement-v0.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-sp1/fixtures/second-candidate-groth16-proof-v2.json",
+      "sha256": "f77dd19081169af99d1082bdb8d2166718d0e46e48a95baacbdd28134f6de7d4",
+      "sizeBytes": 5725,
+      "sourcePath": "tools/apnt-import-created-note-sp1/fixtures/second-candidate-groth16-proof-v2.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-sp1/fixtures/v1-keyed-quotient-residue-certificate-run.json",
+      "sha256": "9e2e9e7dba67bd46914adfa7e64b4b82548bbf2393de5c3da0bc3486c214d806",
+      "sizeBytes": 193534,
+      "sourcePath": "tools/apnt-import-created-note-sp1/fixtures/v1-keyed-quotient-residue-certificate-run.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-sp1/fixtures/v4-keyed-projection-bound-quotient-residue-certificate-run.json",
+      "sha256": "e9ada3ee32dde272522ed37405f5a61b278803a8e1626fe45e36c8a057bf7505",
+      "sizeBytes": 195132,
+      "sourcePath": "tools/apnt-import-created-note-sp1/fixtures/v4-keyed-projection-bound-quotient-residue-certificate-run.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-sp1/fixtures/v4-keyed-quotient-residue-certificate-run.json",
+      "sha256": "f2ea517d29dfc433fae065745d11bf55460ce95195692e417735176f06e8b4ff",
+      "sizeBytes": 195411,
+      "sourcePath": "tools/apnt-import-created-note-sp1/fixtures/v4-keyed-quotient-residue-certificate-run.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-sp1/scripts/quotient-residue-regeneration/assert-certificate-run-vkey-binding.mjs",
+      "sha256": "3b8c8be29cd4fc20186bbc0ee2e32846e6ba0462807c3dfff327b23d2c647797",
+      "sizeBytes": 16175,
+      "sourcePath": "tools/apnt-import-created-note-sp1/scripts/quotient-residue-regeneration/assert-certificate-run-vkey-binding.mjs"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-sp1/trusted/import-created-note-groth16-verifier-v0.json",
+      "sha256": "5ec15c1b588ff7a980d7be945099da6b3f4956743aa209eb424141bc18c8897d",
+      "sizeBytes": 1295,
+      "sourcePath": "tools/apnt-import-created-note-sp1/trusted/import-created-note-groth16-verifier-v0.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-sp1/trusted/import-created-note-groth16-verifier-v1.json",
+      "sha256": "4e68b1eecb762f6498a09df2662bf008722e62d205f446836e4bdf73964ddb29",
+      "sizeBytes": 2911,
+      "sourcePath": "tools/apnt-import-created-note-sp1/trusted/import-created-note-groth16-verifier-v1.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-sp1/trusted/import-created-note-groth16-verifier-v2.json",
+      "sha256": "07ef993519d89d655efa970586e669d7d919531f8d75d435d6604741082135b2",
+      "sizeBytes": 2227,
+      "sourcePath": "tools/apnt-import-created-note-sp1/trusted/import-created-note-groth16-verifier-v2.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-private-note-transition-rust-parity/fixtures/typescript-golden-vectors-public-v0.json",
+      "sha256": "423dc83551d7062ddb3deae62b6868af959e6a862e8219605b25fd7da254f434",
+      "sizeBytes": 62922,
+      "sourcePath": "tools/apnt-private-note-transition-rust-parity/fixtures/typescript-golden-vectors-public-v0.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-private-note-transition-sp1/fixtures/README.md",
+      "sha256": "c929323f9a9a3dad9db8113173ea3025e0f697e05c7c8fe2d6ab9642ba5d84d1",
+      "sizeBytes": 24547,
+      "sourcePath": "tools/apnt-private-note-transition-sp1/fixtures/README.md"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-private-note-transition-sp1/fixtures/canonical-groth16-live-chipnet-26x2000-two-source-v0.json",
+      "sha256": "afab21966f4b76bf02d6a5477d240f0054b98d741aebd9d1067bf9aee78a2e26",
+      "sizeBytes": 3549,
+      "sourcePath": "tools/apnt-private-note-transition-sp1/fixtures/canonical-groth16-live-chipnet-26x2000-two-source-v0.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-private-note-transition-sp1/fixtures/canonical-groth16-live-chipnet-9x2000-v0.json",
+      "sha256": "242edb1bc604597a012e17c35b907c280e6646bedf1c10e4d2e9a65cdf23293a",
+      "sizeBytes": 3537,
+      "sourcePath": "tools/apnt-private-note-transition-sp1/fixtures/canonical-groth16-live-chipnet-9x2000-v0.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-private-note-transition-sp1/fixtures/canonical-groth16-private-split-flat-aggregator-service-fee-v0.json",
+      "sha256": "ff434cd68c7f075b336c67605c9fad72a9fea08e50a8b440bed620c69ededc94",
+      "sizeBytes": 3546,
+      "sourcePath": "tools/apnt-private-note-transition-sp1/fixtures/canonical-groth16-private-split-flat-aggregator-service-fee-v0.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-private-note-transition-sp1/fixtures/canonical-groth16-private-split-v0.json",
+      "sha256": "bdb18184d6befa0eb02ed5df9f385154c3edc509e52de2acedfbdeea7e45421c",
+      "sizeBytes": 3518,
+      "sourcePath": "tools/apnt-private-note-transition-sp1/fixtures/canonical-groth16-private-split-v0.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-private-note-transition-sp1/trusted/private-note-transition-groth16-verifier-v0.json",
+      "sha256": "4158a79c0d63b0c914db97f4f979e32ef740f8e3bb5f83d508dd89cc5f417ac6",
+      "sizeBytes": 1558,
+      "sourcePath": "tools/apnt-private-note-transition-sp1/trusted/private-note-transition-groth16-verifier-v0.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-sp1-notecommitment-verifier/Cargo.toml",
+      "sha256": "f0119d7f0b3c2b0653de14851de38ca7e0e78e6917c91bf9baf29770c2ebcb0b",
+      "sizeBytes": 256,
+      "sourcePath": "tools/apnt-sp1-notecommitment-verifier/Cargo.toml"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-sp1-notecommitment-verifier/fixtures/malformed-proof-request.json",
+      "sha256": "f31b4dd76ba06f4691ebb302b9b59fb8393dff337f68151402197aac48e0e7f4",
+      "sizeBytes": 435,
+      "sourcePath": "tools/apnt-sp1-notecommitment-verifier/fixtures/malformed-proof-request.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-sp1-notecommitment-verifier/fixtures/metadata.json",
+      "sha256": "2c94a77345489996e815056c525a5a114b85e36578e68577c5ca95dfd24f8413",
+      "sizeBytes": 686,
+      "sourcePath": "tools/apnt-sp1-notecommitment-verifier/fixtures/metadata.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-sp1-notecommitment-verifier/fixtures/valid-request.json",
+      "sha256": "610e542b1c95225fe77b41bf8c25dfe2b7df1f2dc35ea0aafd15ffafefa2f6f0",
+      "sizeBytes": 5582321,
+      "sourcePath": "tools/apnt-sp1-notecommitment-verifier/fixtures/valid-request.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-sp1-notecommitment-verifier/trusted/apnt-note-commitment-preimage-v0.json",
+      "sha256": "84c3ac66c738beab61fd541dd6d839487d53b195001929b7c1a274f3476f1a99",
+      "sizeBytes": 304,
+      "sourcePath": "tools/apnt-sp1-notecommitment-verifier/trusted/apnt-note-commitment-preimage-v0.json"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-sp1-notecommitment-verifier/verifier/Cargo.toml",
+      "sha256": "6bbf2994ebba46d9393bbc501e645fab9ed06ab0895963eadeaae883868d1ca1",
+      "sizeBytes": 418,
+      "sourcePath": "tools/apnt-sp1-notecommitment-verifier/verifier/Cargo.toml"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-sp1-notecommitment-verifier/verifier/src/bin/apnt-sp1-notecommitment-verify.rs",
+      "sha256": "8b3a13efcd98e6c363a08de415d93ee15228e959a1bc4f1eb7311934abbcb590",
+      "sizeBytes": 1121,
+      "sourcePath": "tools/apnt-sp1-notecommitment-verifier/verifier/src/bin/apnt-sp1-notecommitment-verify.rs"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-sp1-notecommitment-verifier/verifier/src/lib.rs",
+      "sha256": "2709f14e7c795aab533364ffc776363635eab162b5eadaad0139e6cbab320e92",
+      "sizeBytes": 13085,
+      "sourcePath": "tools/apnt-sp1-notecommitment-verifier/verifier/src/lib.rs"
+    },
+    {
+      "category": "verifier-surface",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-sp1-notecommitment-verifier/verifier/tests/verifier_interface_v0.rs",
+      "sha256": "ea3d0f939f8048721c6274929f4e4a270fdc35b9f4a6ce7cdc1b3841b5b2fb57",
+      "sizeBytes": 9989,
+      "sourcePath": "tools/apnt-sp1-notecommitment-verifier/verifier/tests/verifier_interface_v0.rs"
+    },
+    {
       "category": "repo-metadata",
       "expandedFromGlob": null,
       "publicPath": "tsconfig.base.json",
@@ -930,9 +1263,12 @@
       },
       "generator": "scripts/public-export/build-gate@1",
       "scope": {
-        "cargoManifestsOutOfScope": [],
+        "cargoManifestsOutOfScope": [
+          "tools/apnt-sp1-notecommitment-verifier/Cargo.toml",
+          "tools/apnt-sp1-notecommitment-verifier/verifier/Cargo.toml"
+        ],
         "protocolRuntimeTypecheckedDirectly": true,
-        "verifyScriptRun": false
+        "verifyScriptRun": true
       },
       "skippedReason": null,
       "status": "passed",
@@ -947,7 +1283,7 @@
             "--fetch-retry-maxtimeout=5000",
             "--store-dir=<isolated-tmp>/pnpm-store"
           ],
-          "durationMs": 1704,
+          "durationMs": 1673,
           "exitCode": 0,
           "name": "install-generate-lockfile",
           "ok": true,
@@ -964,7 +1300,7 @@
             "--fetch-retry-maxtimeout=5000",
             "--store-dir=<isolated-tmp>/pnpm-store"
           ],
-          "durationMs": 306,
+          "durationMs": 281,
           "exitCode": 0,
           "name": "install-frozen-lockfile",
           "ok": true,
@@ -977,7 +1313,7 @@
             "-r",
             "build"
           ],
-          "durationMs": 831,
+          "durationMs": 796,
           "exitCode": 0,
           "name": "build",
           "ok": true,
@@ -990,7 +1326,7 @@
             "-r",
             "typecheck"
           ],
-          "durationMs": 573,
+          "durationMs": 553,
           "exitCode": 0,
           "name": "typecheck",
           "ok": true,
@@ -1004,7 +1340,7 @@
             "-p",
             "packages/protocol-runtime/tsconfig.json"
           ],
-          "durationMs": 630,
+          "durationMs": 617,
           "exitCode": 0,
           "name": "typecheck-protocol-runtime-standalone",
           "ok": true,
@@ -1019,16 +1355,29 @@
             "--",
             "--passWithNoTests"
           ],
-          "durationMs": 1365,
+          "durationMs": 1315,
           "exitCode": 0,
           "name": "test",
           "ok": true,
           "signal": null,
           "testFilesRun": 4,
           "timedOut": false
+        },
+        {
+          "command": [
+            "pnpm",
+            "run",
+            "verify"
+          ],
+          "durationMs": 625,
+          "exitCode": 0,
+          "name": "verify",
+          "ok": true,
+          "signal": null,
+          "timedOut": false
         }
       ],
-      "summary": "PASSED: 6 step(s) all exited 0",
+      "summary": "PASSED: 7 step(s) all exited 0",
       "toolchain": {
         "@types/node": "25.9.5",
         "node": "v20.19.4",
@@ -1040,7 +1389,7 @@
     "generator": "scripts/public-export@1",
     "note": "This block is EXCLUDED from determinismDigest. Pass --now=<iso> to pin generatedAt and make a run byte-reproducible."
   },
-  "layer": "v0.1",
+  "layer": "v0.2",
   "pathMap": [
     {
       "from": "openspec/specs/apnt-aggregation-transition-output/spec.md",
@@ -1375,6 +1724,22 @@
       "to": "packages/protocol-runtime/tsconfig.json"
     },
     {
+      "from": "packages/reference-aggregator/fixtures/apnt-settlement-authorization-covenant-bytecode-v0.json",
+      "to": "packages/reference-aggregator/fixtures/apnt-settlement-authorization-covenant-bytecode-v0.json"
+    },
+    {
+      "from": "packages/reference-aggregator/tools/verify-apnt-settlement-authorization-covenant-independently-v0.mjs",
+      "to": "packages/reference-aggregator/tools/verify-apnt-settlement-authorization-covenant-independently-v0.mjs"
+    },
+    {
+      "from": "packages/reference-aggregator/tools/verify-apnt-transition-settlement-projection-independently-v0.mjs",
+      "to": "packages/reference-aggregator/tools/verify-apnt-transition-settlement-projection-independently-v0.mjs"
+    },
+    {
+      "from": "scripts/public-export/public-tree/.claude/skills/verify-apnt/SKILL.md",
+      "to": ".claude/skills/verify-apnt/SKILL.md"
+    },
+    {
       "from": "scripts/public-export/public-tree/.github/CODEOWNERS",
       "to": ".github/CODEOWNERS"
     },
@@ -1463,6 +1828,10 @@
       "to": "docs/the-seal.md"
     },
     {
+      "from": "scripts/public-export/public-tree/docs/trust-anchors.md",
+      "to": "docs/trust-anchors.md"
+    },
+    {
       "from": "scripts/public-export/public-tree/docs/why-not-a-pool.md",
       "to": "docs/why-not-a-pool.md"
     },
@@ -1487,6 +1856,150 @@
       "to": "pnpm-workspace.yaml"
     },
     {
+      "from": "tools/apnt-import-created-note-sp1/fixtures/canonical-authenticated-verifier-evidence-v0.json",
+      "to": "tools/apnt-import-created-note-sp1/fixtures/canonical-authenticated-verifier-evidence-v0.json"
+    },
+    {
+      "from": "tools/apnt-import-created-note-sp1/fixtures/canonical-groth16-proof-v0.json",
+      "to": "tools/apnt-import-created-note-sp1/fixtures/canonical-groth16-proof-v0.json"
+    },
+    {
+      "from": "tools/apnt-import-created-note-sp1/fixtures/canonical-groth16-proof-v1.json",
+      "to": "tools/apnt-import-created-note-sp1/fixtures/canonical-groth16-proof-v1.json"
+    },
+    {
+      "from": "tools/apnt-import-created-note-sp1/fixtures/canonical-groth16-proof-v2.json",
+      "to": "tools/apnt-import-created-note-sp1/fixtures/canonical-groth16-proof-v2.json"
+    },
+    {
+      "from": "tools/apnt-import-created-note-sp1/fixtures/canonical-groth16-proof-v4.json",
+      "to": "tools/apnt-import-created-note-sp1/fixtures/canonical-groth16-proof-v4.json"
+    },
+    {
+      "from": "tools/apnt-import-created-note-sp1/fixtures/canonical-projection-bound-groth16-proof-v1-key-00004f2f.json",
+      "to": "tools/apnt-import-created-note-sp1/fixtures/canonical-projection-bound-groth16-proof-v1-key-00004f2f.json"
+    },
+    {
+      "from": "tools/apnt-import-created-note-sp1/fixtures/canonical-projection-bound-groth16-proof-v1.json",
+      "to": "tools/apnt-import-created-note-sp1/fixtures/canonical-projection-bound-groth16-proof-v1.json"
+    },
+    {
+      "from": "tools/apnt-import-created-note-sp1/fixtures/canonical-projection-bound-groth16-proof-v4.json",
+      "to": "tools/apnt-import-created-note-sp1/fixtures/canonical-projection-bound-groth16-proof-v4.json"
+    },
+    {
+      "from": "tools/apnt-import-created-note-sp1/fixtures/live-candidate-groth16-proof-v1.json",
+      "to": "tools/apnt-import-created-note-sp1/fixtures/live-candidate-groth16-proof-v1.json"
+    },
+    {
+      "from": "tools/apnt-import-created-note-sp1/fixtures/non-circular-execution-measurement-v1.json",
+      "to": "tools/apnt-import-created-note-sp1/fixtures/non-circular-execution-measurement-v1.json"
+    },
+    {
+      "from": "tools/apnt-import-created-note-sp1/fixtures/precommitment-bound-execution-measurement-v2.json",
+      "to": "tools/apnt-import-created-note-sp1/fixtures/precommitment-bound-execution-measurement-v2.json"
+    },
+    {
+      "from": "tools/apnt-import-created-note-sp1/fixtures/proof-generation-measurement-v0.json",
+      "to": "tools/apnt-import-created-note-sp1/fixtures/proof-generation-measurement-v0.json"
+    },
+    {
+      "from": "tools/apnt-import-created-note-sp1/fixtures/second-candidate-groth16-proof-v2.json",
+      "to": "tools/apnt-import-created-note-sp1/fixtures/second-candidate-groth16-proof-v2.json"
+    },
+    {
+      "from": "tools/apnt-import-created-note-sp1/fixtures/v1-keyed-quotient-residue-certificate-run.json",
+      "to": "tools/apnt-import-created-note-sp1/fixtures/v1-keyed-quotient-residue-certificate-run.json"
+    },
+    {
+      "from": "tools/apnt-import-created-note-sp1/fixtures/v4-keyed-projection-bound-quotient-residue-certificate-run.json",
+      "to": "tools/apnt-import-created-note-sp1/fixtures/v4-keyed-projection-bound-quotient-residue-certificate-run.json"
+    },
+    {
+      "from": "tools/apnt-import-created-note-sp1/fixtures/v4-keyed-quotient-residue-certificate-run.json",
+      "to": "tools/apnt-import-created-note-sp1/fixtures/v4-keyed-quotient-residue-certificate-run.json"
+    },
+    {
+      "from": "tools/apnt-import-created-note-sp1/scripts/quotient-residue-regeneration/assert-certificate-run-vkey-binding.mjs",
+      "to": "tools/apnt-import-created-note-sp1/scripts/quotient-residue-regeneration/assert-certificate-run-vkey-binding.mjs"
+    },
+    {
+      "from": "tools/apnt-import-created-note-sp1/trusted/import-created-note-groth16-verifier-v0.json",
+      "to": "tools/apnt-import-created-note-sp1/trusted/import-created-note-groth16-verifier-v0.json"
+    },
+    {
+      "from": "tools/apnt-import-created-note-sp1/trusted/import-created-note-groth16-verifier-v1.json",
+      "to": "tools/apnt-import-created-note-sp1/trusted/import-created-note-groth16-verifier-v1.json"
+    },
+    {
+      "from": "tools/apnt-import-created-note-sp1/trusted/import-created-note-groth16-verifier-v2.json",
+      "to": "tools/apnt-import-created-note-sp1/trusted/import-created-note-groth16-verifier-v2.json"
+    },
+    {
+      "from": "tools/apnt-private-note-transition-rust-parity/fixtures/typescript-golden-vectors-public-v0.json",
+      "to": "tools/apnt-private-note-transition-rust-parity/fixtures/typescript-golden-vectors-public-v0.json"
+    },
+    {
+      "from": "tools/apnt-private-note-transition-sp1/fixtures/README.md",
+      "to": "tools/apnt-private-note-transition-sp1/fixtures/README.md"
+    },
+    {
+      "from": "tools/apnt-private-note-transition-sp1/fixtures/canonical-groth16-live-chipnet-26x2000-two-source-v0.json",
+      "to": "tools/apnt-private-note-transition-sp1/fixtures/canonical-groth16-live-chipnet-26x2000-two-source-v0.json"
+    },
+    {
+      "from": "tools/apnt-private-note-transition-sp1/fixtures/canonical-groth16-live-chipnet-9x2000-v0.json",
+      "to": "tools/apnt-private-note-transition-sp1/fixtures/canonical-groth16-live-chipnet-9x2000-v0.json"
+    },
+    {
+      "from": "tools/apnt-private-note-transition-sp1/fixtures/canonical-groth16-private-split-flat-aggregator-service-fee-v0.json",
+      "to": "tools/apnt-private-note-transition-sp1/fixtures/canonical-groth16-private-split-flat-aggregator-service-fee-v0.json"
+    },
+    {
+      "from": "tools/apnt-private-note-transition-sp1/fixtures/canonical-groth16-private-split-v0.json",
+      "to": "tools/apnt-private-note-transition-sp1/fixtures/canonical-groth16-private-split-v0.json"
+    },
+    {
+      "from": "tools/apnt-private-note-transition-sp1/trusted/private-note-transition-groth16-verifier-v0.json",
+      "to": "tools/apnt-private-note-transition-sp1/trusted/private-note-transition-groth16-verifier-v0.json"
+    },
+    {
+      "from": "tools/apnt-sp1-notecommitment-verifier/Cargo.toml",
+      "to": "tools/apnt-sp1-notecommitment-verifier/Cargo.toml"
+    },
+    {
+      "from": "tools/apnt-sp1-notecommitment-verifier/fixtures/malformed-proof-request.json",
+      "to": "tools/apnt-sp1-notecommitment-verifier/fixtures/malformed-proof-request.json"
+    },
+    {
+      "from": "tools/apnt-sp1-notecommitment-verifier/fixtures/metadata.json",
+      "to": "tools/apnt-sp1-notecommitment-verifier/fixtures/metadata.json"
+    },
+    {
+      "from": "tools/apnt-sp1-notecommitment-verifier/fixtures/valid-request.json",
+      "to": "tools/apnt-sp1-notecommitment-verifier/fixtures/valid-request.json"
+    },
+    {
+      "from": "tools/apnt-sp1-notecommitment-verifier/trusted/apnt-note-commitment-preimage-v0.json",
+      "to": "tools/apnt-sp1-notecommitment-verifier/trusted/apnt-note-commitment-preimage-v0.json"
+    },
+    {
+      "from": "tools/apnt-sp1-notecommitment-verifier/verifier/Cargo.toml",
+      "to": "tools/apnt-sp1-notecommitment-verifier/verifier/Cargo.toml"
+    },
+    {
+      "from": "tools/apnt-sp1-notecommitment-verifier/verifier/src/bin/apnt-sp1-notecommitment-verify.rs",
+      "to": "tools/apnt-sp1-notecommitment-verifier/verifier/src/bin/apnt-sp1-notecommitment-verify.rs"
+    },
+    {
+      "from": "tools/apnt-sp1-notecommitment-verifier/verifier/src/lib.rs",
+      "to": "tools/apnt-sp1-notecommitment-verifier/verifier/src/lib.rs"
+    },
+    {
+      "from": "tools/apnt-sp1-notecommitment-verifier/verifier/tests/verifier_interface_v0.rs",
+      "to": "tools/apnt-sp1-notecommitment-verifier/verifier/tests/verifier_interface_v0.rs"
+    },
+    {
       "from": "tsconfig.base.json",
       "to": "tsconfig.base.json"
     }
@@ -1502,5 +2015,58 @@
     "repository": "bch-cloak (private)",
     "workingTreeDirty": false
   },
-  "standaloneVerifiers": []
+  "standaloneVerifiers": [
+    {
+      "args": [
+        "--distinct-bodies",
+        "tools/apnt-import-created-note-sp1/fixtures/v4-keyed-quotient-residue-certificate-run.json=tools/apnt-import-created-note-sp1/fixtures/v1-keyed-quotient-residue-certificate-run.json",
+        "tools/apnt-import-created-note-sp1/fixtures/v4-keyed-quotient-residue-certificate-run.json=tools/apnt-import-created-note-sp1/fixtures/canonical-groth16-proof-v4.json=accept",
+        "tools/apnt-import-created-note-sp1/fixtures/v1-keyed-quotient-residue-certificate-run.json=tools/apnt-import-created-note-sp1/fixtures/canonical-groth16-proof-v1.json=accept",
+        "tools/apnt-import-created-note-sp1/fixtures/v1-keyed-quotient-residue-certificate-run.json=tools/apnt-import-created-note-sp1/fixtures/canonical-groth16-proof-v4.json=reject",
+        "tools/apnt-import-created-note-sp1/fixtures/v4-keyed-quotient-residue-certificate-run.json=tools/apnt-import-created-note-sp1/fixtures/canonical-groth16-proof-v1.json=reject"
+      ],
+      "entrypoint": "tools/apnt-import-created-note-sp1/scripts/quotient-residue-regeneration/assert-certificate-run-vkey-binding.mjs",
+      "name": "certificate-run-vkey-keying-matrix"
+    },
+    {
+      "args": [
+        "--retained",
+        "tools/apnt-import-created-note-sp1/fixtures/v1-keyed-quotient-residue-certificate-run.json=9e2e9e7dba67bd46914adfa7e64b4b82548bbf2393de5c3da0bc3486c214d806",
+        "--retained",
+        "tools/apnt-import-created-note-sp1/fixtures/v4-keyed-quotient-residue-certificate-run.json=f2ea517d29dfc433fae065745d11bf55460ce95195692e417735176f06e8b4ff",
+        "--retained",
+        "tools/apnt-import-created-note-sp1/fixtures/v4-keyed-projection-bound-quotient-residue-certificate-run.json=e9ada3ee32dde272522ed37405f5a61b278803a8e1626fe45e36c8a057bf7505",
+        "--retained",
+        "tools/apnt-import-created-note-sp1/fixtures/canonical-groth16-proof-v1.json=c3128144f372043f5040e833298829d560e668bb34d58d562b0ad0111898919d",
+        "--retained",
+        "tools/apnt-import-created-note-sp1/fixtures/canonical-groth16-proof-v4.json=c23e9166b85d4ebe34ba5b820c06a674c4fecaed4b0db0ec375fa35e8c06613a",
+        "--retained",
+        "tools/apnt-import-created-note-sp1/fixtures/canonical-projection-bound-groth16-proof-v4.json=2d4cebee9a2b0e537406fe789965172eeeab634b227379b53583d393eef6636f",
+        "tools/apnt-import-created-note-sp1/fixtures/v4-keyed-projection-bound-quotient-residue-certificate-run.json=tools/apnt-import-created-note-sp1/fixtures/canonical-projection-bound-groth16-proof-v4.json=accept",
+        "tools/apnt-import-created-note-sp1/fixtures/v4-keyed-projection-bound-quotient-residue-certificate-run.json=tools/apnt-import-created-note-sp1/fixtures/canonical-groth16-proof-v4.json=reject"
+      ],
+      "entrypoint": "tools/apnt-import-created-note-sp1/scripts/quotient-residue-regeneration/assert-certificate-run-vkey-binding.mjs",
+      "name": "certificate-run-retained-digest-binding"
+    },
+    {
+      "args": [
+        "--golden-vectors",
+        "tools/apnt-private-note-transition-rust-parity/fixtures/typescript-golden-vectors-public-v0.json",
+        "--fixture-dir",
+        "tools/apnt-private-note-transition-sp1/fixtures"
+      ],
+      "entrypoint": "packages/reference-aggregator/tools/verify-apnt-transition-settlement-projection-independently-v0.mjs",
+      "name": "transition-settlement-projection-independent"
+    },
+    {
+      "args": [
+        "--golden-vectors",
+        "tools/apnt-private-note-transition-rust-parity/fixtures/typescript-golden-vectors-public-v0.json",
+        "--bytecode",
+        "packages/reference-aggregator/fixtures/apnt-settlement-authorization-covenant-bytecode-v0.json"
+      ],
+      "entrypoint": "packages/reference-aggregator/tools/verify-apnt-settlement-authorization-covenant-independently-v0.mjs",
+      "name": "settlement-authorization-covenant-independent"
+    }
+  ]
 }
