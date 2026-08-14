@@ -168,11 +168,14 @@ accepted transition or import can create a seal without one — and the two
 published source files that describe this no longer disagree with each
 other.
 
-**Checkable in this export today:** both guest entry points
+**What you can check, and at which layer.** The `.casm` templates are published
+at `v0.1` Foundation, so the seal's own bytes are checkable in any checkout.
+The guest entry points
 (`tools/apnt-private-note-transition-sp1/program/src/main.rs`,
-`tools/apnt-import-created-note-sp1/program-v4/src/main.rs`), the `.casm`
-templates, and the trust-anchor descriptors are all published, so you can
-confirm the call chain's starting point yourself. **Not yet in this
+`tools/apnt-import-created-note-sp1/program-v4/src/main.rs`) arrive at `v0.3`
+Reproduction, and the trust-anchor descriptors at `v0.2` Verification — if your
+`export-manifest.json` records `layer: "v0.1"`, those files are not in this
+checkout and you cannot confirm the call chain here yet. **Not yet in this
 export:** the relation crates those entry points call into
 (`tools/apnt-private-note-transition-rust-parity/src/lib.rs`,
 `tools/apnt-import-created-note-rust-parity/src/relation_v4.rs`) and the

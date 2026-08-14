@@ -21,7 +21,7 @@
       "rationale": "@bch-cloak/chain-io in full: the Fulcrum/Electrum client used to read chain state. Both sources, its tsconfig and its manifest. It has no workspace dependencies and imports only Node builtins. It is published complete rather than partially, including the UNSAFE_TRANSPARENT_UTXO_FIELDS_V0 scrubber that keeps private field names out of transparent UTXO records. Four of its five test files are published so that the build gate's `pnpm -r test` leg exercises something real rather than matching zero files; each imports only ../src/index.js, node builtins and vitest, and their only network endpoint is a 127.0.0.1 fixture."
     }
   ],
-  "determinismDigest": "6a383f560a67e1fe7822cb771387d36ed71641fc537742c5f9346ea5452311b0",
+  "determinismDigest": "a0f6172cd658ac4e9b21ce83818143ac5742a1677f28a4ffde1fa5d63d6bea98",
   "fileCount": 110,
   "files": [
     {
@@ -188,16 +188,16 @@
       "category": "repo-metadata",
       "expandedFromGlob": null,
       "publicPath": "docs/the-seal.md",
-      "sha256": "a652ce4f1c29ab0cbd11e11bdf6030de205c982775d62a8397f50dfbb3282282",
-      "sizeBytes": 15424,
+      "sha256": "52a319a550bf10559f36b83bd8b73c4897a66d3b65013755110bfb0211916363",
+      "sizeBytes": 15639,
       "sourcePath": "scripts/public-export/public-tree/docs/the-seal.md"
     },
     {
       "category": "repo-metadata",
       "expandedFromGlob": null,
       "publicPath": "docs/why-not-a-pool.md",
-      "sha256": "4cf6a388b6ebe57f6b907ad0b4eee6417d42d88f1089bde288728435f46dd853",
-      "sizeBytes": 9023,
+      "sha256": "fc0baa1e1e727e0a53624e59e13eaa39b739437453e74d2d3a5aab80b7e0d07b",
+      "sizeBytes": 8866,
       "sourcePath": "scripts/public-export/public-tree/docs/why-not-a-pool.md"
     },
     {
@@ -212,8 +212,8 @@
       "category": "repo-metadata",
       "expandedFromGlob": null,
       "publicPath": "openspec/README.md",
-      "sha256": "60bba50ad2a37e0acec15fe6ae53d682bc3d7bd04cdd4fc59db61b157743c9e1",
-      "sizeBytes": 5125,
+      "sha256": "c2e150077c5a0da0d0110401b8f0806ff6105be2b0e8f7de52a23ca294a63a3c",
+      "sizeBytes": 5241,
       "sourcePath": "scripts/public-export/public-tree/openspec/README.md"
     },
     {
@@ -931,7 +931,7 @@
             "--fetch-retry-maxtimeout=5000",
             "--store-dir=<isolated-tmp>/pnpm-store"
           ],
-          "durationMs": 2089,
+          "durationMs": 2006,
           "exitCode": 0,
           "name": "install-generate-lockfile",
           "ok": true,
@@ -948,7 +948,7 @@
             "--fetch-retry-maxtimeout=5000",
             "--store-dir=<isolated-tmp>/pnpm-store"
           ],
-          "durationMs": 291,
+          "durationMs": 286,
           "exitCode": 0,
           "name": "install-frozen-lockfile",
           "ok": true,
@@ -961,7 +961,7 @@
             "-r",
             "build"
           ],
-          "durationMs": 805,
+          "durationMs": 792,
           "exitCode": 0,
           "name": "build",
           "ok": true,
@@ -974,7 +974,7 @@
             "-r",
             "typecheck"
           ],
-          "durationMs": 573,
+          "durationMs": 564,
           "exitCode": 0,
           "name": "typecheck",
           "ok": true,
@@ -988,7 +988,7 @@
             "-p",
             "packages/protocol-runtime/tsconfig.json"
           ],
-          "durationMs": 664,
+          "durationMs": 615,
           "exitCode": 0,
           "name": "typecheck-protocol-runtime-standalone",
           "ok": true,
@@ -1003,7 +1003,7 @@
             "--",
             "--passWithNoTests"
           ],
-          "durationMs": 1436,
+          "durationMs": 1509,
           "exitCode": 0,
           "name": "test",
           "ok": true,
@@ -1020,7 +1020,7 @@
         "vitest": "2.1.9"
       }
     },
-    "generatedAt": "2026-08-14T00:00:00Z",
+    "generatedAt": "2026-08-14T12:00:00Z",
     "generator": "scripts/public-export@1",
     "note": "This block is EXCLUDED from determinismDigest. Pass --now=<iso> to pin generatedAt and make a run byte-reproducible."
   },
@@ -1471,10 +1471,10 @@
   "source": {
     "allowlist": {
       "path": "scripts/public-export/allowlist.json",
-      "sha256": "1d76547952fbdd66ca851e2582776a1211114a31a7a3dffa49f1672c74a5aeb2"
+      "sha256": "3779de8629fa3a3d59789bbe28aec55ddb82c73522dd36245476b85c65b6f85d"
     },
     "branch": "main",
-    "commit": "c8ef177e44881d7f04846a970394b01712f7b34a",
+    "commit": "f9c99cd9de76164779d7b9b41a8f05177dd3f941",
     "repository": "bch-cloak (private)",
     "workingTreeDirty": false
   },

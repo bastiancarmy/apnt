@@ -38,8 +38,9 @@ A `MUST` is not optional and is not aspirational — every promoted spec is
 backed by an implementation. **Independent-verifier coverage is partial, and
 that is stated exactly rather than implied as complete.**
 `tools/apnt-private-note-transition-sp1/fixtures/README.md` names **seven**
-independent verifiers for the transition relation alone; **two** ship in this
-export (see `.claude/skills/verify-apnt/`, §1). Of the five that don't, one
+independent verifiers for the transition relation alone; **two** ship at `v0.2` Verification and later — as does the verify-apnt skill
+that documents them. If your
+`export-manifest.json` records `layer: "v0.1"`, neither is in this checkout. Of the five that don't, one
 reason is confirmed directly from a shipped tool's own output: the projection
 verifier's `notEstablishedHere` field says its sibling
 noncustodial-spend-authority verifier "needs the witness and therefore cannot

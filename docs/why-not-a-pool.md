@@ -9,25 +9,17 @@ version of this argument that only lists advantages would not be credible.
 ## The contention/authority argument
 
 A single shared state object means every private operation that touches it
-contends for the same UTXO. The private repository's aggregator
-competition-rules decision record states the problem plainly. **Provenance:**
-that record exists in the private repository but is not part of this
-export — it is withheld deliberately as commercially sensitive design
-reasoning about aggregator competition, a different concern from the
-architecture point this one paragraph makes. Quoted here because the point
-itself is not sensitive:
+contends for the same UTXO. That contention is not a subtle property: with one
+current state object, concurrent operations must be serialised against it, and
+whoever decides the ordering holds a position of authority over unrelated
+parties. A single global transition root has the same shape.
 
-> For a simple single-state MVP profile, aggregators may race on one current
-> state object:
->
-> ```
-> State_N -> State_N+1
-> ```
->
-> This creates a simple BCH-resolved race model. However, this is not
-> production scale. A single current state UTXO or single global transition
-> root is a global bottleneck.
-> — `docs-internal/decisions-recovered/0022-apnt-aggregator-competition-rules.md`
+We are stating this in our own voice rather than citing an internal record.
+Aggregator economics and competition policy are private, operator-side
+decisions — the boundary is described in `CONTRIBUTING.md` — and the
+architectural point here does not need them: it follows from the shape of a
+shared mutable object, and any developer familiar with the UTXO model can
+derive it independently.
 
 **This is design reasoning, written down and dated — it is not a
 measurement.** Nothing in this repository's corpus benchmarks a
