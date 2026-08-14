@@ -21,13 +21,23 @@
       "rationale": "@bch-cloak/chain-io in full: the Fulcrum/Electrum client used to read chain state. Both sources, its tsconfig and its manifest. It has no workspace dependencies and imports only Node builtins. It is published complete rather than partially, including the UNSAFE_TRANSPARENT_UTXO_FIELDS_V0 scrubber that keeps private field names out of transparent UTXO records. Four of its five test files are published so that the build gate's `pnpm -r test` leg exercises something real rather than matching zero files; each imports only ../src/index.js, node builtins and vitest, and their only network endpoint is a 127.0.0.1 fixture."
     },
     {
+      "layer": "v0.3",
+      "name": "guest-relation-source",
+      "rationale": "The SP1 guest sources and Rust relation bodies — the code the published proofs are actually about. Published for audit rather than for building: the Cargo manifests here still name path dependencies and test modules that were withheld, so cargo will not resolve this tree. That is stated in the public README rather than implied. Proving orchestration (prover, runner, cost-probe, fixture-generator) is not published at all."
+    },
+    {
+      "layer": "v0.3",
+      "name": "canonical-guest-build",
+      "rationale": "The container-pinned canonical guest build that makes a guest ELF, its byte length and its program VKey reproducible across checkouts of different path lengths. CANDIDATES.md is published WITH its honest 'nothing here is a pin' caveat, which is the point of publishing it. Its README is withheld because that file carries operator absolute paths."
+    },
+    {
       "layer": "v0.2",
       "name": "verifier-surface",
       "rationale": "The verification surface: the canonical Groth16 proof artifacts, the quotient/residue certificate runs, the frozen trusted verifier descriptors, the Rust note-commitment verifier crate, and THREE independent Node checkers — one grading certificate-run keying, one re-deriving statementCommitment32 and settlementProjection32 from published statement bytes, one re-deriving the settlement-authorization covenant's bytes and L_verdict. All three run on a bare Node with no install, no network and no build, and the export executes all four configured argument sets inside a filesystem-sandboxed copy of the staged tree before this tree may ship. Their two data inputs are derived, not copied: typescript-golden-vectors-public-v0.json is emitted by derive-public-golden-vectors-v0.mjs, which strips the private witness and refuses to write unless six redaction proofs pass; apnt-settlement-authorization-covenant-bytecode-v0.json is emitted by the landed covenant builders and carries only on-chain script bytes. The verify-apnt skill ships here rather than under repo-metadata: it walks a contributor through checking a proof artifact, a settlement, a note commitment and a trust anchor, so it belongs with the artifacts it teaches a reader to check, not with repo identity that ships before any of them exist."
     }
   ],
-  "determinismDigest": "9cc9f8b7030102fdd53406c6258b1278865e2523a8230499e14a0f7ddadb891f",
-  "fileCount": 153,
+  "determinismDigest": "34dd40e4c40b23c1a55cca2177d5b9c77663dcfcdf1794c2bd9e31d3f3723fea",
+  "fileCount": 177,
   "files": [
     {
       "category": "verifier-surface",
@@ -958,6 +968,46 @@
       "sourcePath": "openspec/specs/apnt-transition-statement/spec.md"
     },
     {
+      "category": "guest-relation-source",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-rust-parity/Cargo.toml",
+      "sha256": "817e14b0e8ec7696796f1253efca487b5e59d15b3790dae719546361877e3e68",
+      "sizeBytes": 597,
+      "sourcePath": "tools/apnt-import-created-note-rust-parity/Cargo.toml"
+    },
+    {
+      "category": "guest-relation-source",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-rust-parity/src/recovery.rs",
+      "sha256": "4e798613607fe58077099872633bbb126c10553ccb10fd11993fe700032a56f9",
+      "sizeBytes": 39366,
+      "sourcePath": "tools/apnt-import-created-note-rust-parity/src/recovery.rs"
+    },
+    {
+      "category": "guest-relation-source",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-rust-parity/src/relation.rs",
+      "sha256": "319731420cb4f752ce8c725f7fa97f66194681d7de2c8776d1e2c10d8c2ab36c",
+      "sizeBytes": 64069,
+      "sourcePath": "tools/apnt-import-created-note-rust-parity/src/relation.rs"
+    },
+    {
+      "category": "guest-relation-source",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-rust-parity/src/relation_v1.rs",
+      "sha256": "8209e3b59a49481a77f34d385f1474dd0fa3f816b86252ed2ae758c5f9af96e4",
+      "sizeBytes": 54112,
+      "sourcePath": "tools/apnt-import-created-note-rust-parity/src/relation_v1.rs"
+    },
+    {
+      "category": "guest-relation-source",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-rust-parity/src/relation_v2.rs",
+      "sha256": "23fbd05989a87c769e361de6d8f1510b8e773b81e1c98d7dd51bba82c07b7d53",
+      "sizeBytes": 34463,
+      "sourcePath": "tools/apnt-import-created-note-rust-parity/src/relation_v2.rs"
+    },
+    {
       "category": "verifier-surface",
       "expandedFromGlob": null,
       "publicPath": "tools/apnt-import-created-note-sp1/fixtures/canonical-authenticated-verifier-evidence-v0.json",
@@ -1086,6 +1136,54 @@
       "sourcePath": "tools/apnt-import-created-note-sp1/fixtures/v4-keyed-quotient-residue-certificate-run.json"
     },
     {
+      "category": "guest-relation-source",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-sp1/program-v2/Cargo.toml",
+      "sha256": "309bae0f97761944a32d716f1bd94aa5ff4de24f8a687a5e908ed46537e36736",
+      "sizeBytes": 241,
+      "sourcePath": "tools/apnt-import-created-note-sp1/program-v2/Cargo.toml"
+    },
+    {
+      "category": "guest-relation-source",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-sp1/program-v2/src/main.rs",
+      "sha256": "bb43b1ce7e4455e23851ab8777ec75706715d9a41c2dd3cc17c2d8eeb630782d",
+      "sizeBytes": 1564,
+      "sourcePath": "tools/apnt-import-created-note-sp1/program-v2/src/main.rs"
+    },
+    {
+      "category": "guest-relation-source",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-sp1/program-v4/Cargo.toml",
+      "sha256": "bd7817a98f4a59a66754131c11874d52baf42d75545d6b3471bdaa7755eab20a",
+      "sizeBytes": 241,
+      "sourcePath": "tools/apnt-import-created-note-sp1/program-v4/Cargo.toml"
+    },
+    {
+      "category": "guest-relation-source",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-sp1/program-v4/src/main.rs",
+      "sha256": "9d4f2222fc72f2f5d01e3e022374ab9c95a1d1902570d5afde6fb14a9185673c",
+      "sizeBytes": 2278,
+      "sourcePath": "tools/apnt-import-created-note-sp1/program-v4/src/main.rs"
+    },
+    {
+      "category": "guest-relation-source",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-sp1/program/Cargo.toml",
+      "sha256": "247d60958c86931df9bf53b3d6b7d645ba90f599ea65bfab13ea33d7edd1beaf",
+      "sizeBytes": 238,
+      "sourcePath": "tools/apnt-import-created-note-sp1/program/Cargo.toml"
+    },
+    {
+      "category": "guest-relation-source",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-import-created-note-sp1/program/src/main.rs",
+      "sha256": "3b792e3593873d5de9a9c7b60435ca167ada3032c1a7e65309ec4c78ffe627cb",
+      "sizeBytes": 693,
+      "sourcePath": "tools/apnt-import-created-note-sp1/program/src/main.rs"
+    },
+    {
       "category": "verifier-surface",
       "expandedFromGlob": null,
       "publicPath": "tools/apnt-import-created-note-sp1/scripts/quotient-residue-regeneration/assert-certificate-run-vkey-binding.mjs",
@@ -1166,12 +1264,76 @@
       "sourcePath": "tools/apnt-private-note-transition-sp1/fixtures/canonical-groth16-private-split-v0.json"
     },
     {
+      "category": "guest-relation-source",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-private-note-transition-sp1/program/Cargo.toml",
+      "sha256": "01889256b30f87243f6b07b2e93028f545cca3132b8832c24512fbe8cd0f23d1",
+      "sizeBytes": 250,
+      "sourcePath": "tools/apnt-private-note-transition-sp1/program/Cargo.toml"
+    },
+    {
+      "category": "guest-relation-source",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-private-note-transition-sp1/program/src/main.rs",
+      "sha256": "77d723c83161a9a485883988d38f2a1dba29bc9bfc0ff7231b205221bbf43e3b",
+      "sizeBytes": 398,
+      "sourcePath": "tools/apnt-private-note-transition-sp1/program/src/main.rs"
+    },
+    {
       "category": "verifier-surface",
       "expandedFromGlob": null,
       "publicPath": "tools/apnt-private-note-transition-sp1/trusted/private-note-transition-groth16-verifier-v0.json",
       "sha256": "4158a79c0d63b0c914db97f4f979e32ef740f8e3bb5f83d508dd89cc5f417ac6",
       "sizeBytes": 1558,
       "sourcePath": "tools/apnt-private-note-transition-sp1/trusted/private-note-transition-groth16-verifier-v0.json"
+    },
+    {
+      "category": "guest-relation-source",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-private-note-transition-v1-rust-parity/Cargo.toml",
+      "sha256": "4e836b05a997227f99e487ee6fb15332d9dce7d87bf87d3cd4dad1586f7ac5c4",
+      "sizeBytes": 711,
+      "sourcePath": "tools/apnt-private-note-transition-v1-rust-parity/Cargo.toml"
+    },
+    {
+      "category": "guest-relation-source",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-private-note-transition-v1-rust-parity/README.md",
+      "sha256": "0c89adfdd3f04c42fe2697aeaaf89ba8a4d64db46433f57e10455a4e5767a3a4",
+      "sizeBytes": 913,
+      "sourcePath": "tools/apnt-private-note-transition-v1-rust-parity/README.md"
+    },
+    {
+      "category": "guest-relation-source",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-private-note-transition-v1-rust-parity/src/lib.rs",
+      "sha256": "480d0c2dff69adb2adf2362831b8207f8e370cf02425115f0055464cd766ea76",
+      "sizeBytes": 123390,
+      "sourcePath": "tools/apnt-private-note-transition-v1-rust-parity/src/lib.rs"
+    },
+    {
+      "category": "guest-relation-source",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-private-note-transition-v1-sp1/README.md",
+      "sha256": "1f4b68e7b9fd49e6bfab0b50b063c3dc8a7ec8be132fb0a947c351da067f99df",
+      "sizeBytes": 636,
+      "sourcePath": "tools/apnt-private-note-transition-v1-sp1/README.md"
+    },
+    {
+      "category": "guest-relation-source",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-private-note-transition-v1-sp1/program/Cargo.toml",
+      "sha256": "0f57e8aebca6efad89e400886558e219b134bea09f6ca5876ee8c8e036370d08",
+      "sizeBytes": 259,
+      "sourcePath": "tools/apnt-private-note-transition-v1-sp1/program/Cargo.toml"
+    },
+    {
+      "category": "guest-relation-source",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-private-note-transition-v1-sp1/program/src/main.rs",
+      "sha256": "d63a2f967c89ced9f2b5da9a4ed4cf4b06de28db962ce1dafc7c3f406cd4b2e6",
+      "sizeBytes": 405,
+      "sourcePath": "tools/apnt-private-note-transition-v1-sp1/program/src/main.rs"
     },
     {
       "category": "verifier-surface",
@@ -1204,6 +1366,14 @@
       "sha256": "610e542b1c95225fe77b41bf8c25dfe2b7df1f2dc35ea0aafd15ffafefa2f6f0",
       "sizeBytes": 5582321,
       "sourcePath": "tools/apnt-sp1-notecommitment-verifier/fixtures/valid-request.json"
+    },
+    {
+      "category": "guest-relation-source",
+      "expandedFromGlob": null,
+      "publicPath": "tools/apnt-sp1-notecommitment-verifier/program/Cargo.toml",
+      "sha256": "f04b17187be3525ce917f5515308287f881463c8a2efe526fe230930fb742eb1",
+      "sizeBytes": 165,
+      "sourcePath": "tools/apnt-sp1-notecommitment-verifier/program/Cargo.toml"
     },
     {
       "category": "verifier-surface",
@@ -1246,6 +1416,38 @@
       "sourcePath": "tools/apnt-sp1-notecommitment-verifier/verifier/tests/verifier_interface_v0.rs"
     },
     {
+      "category": "canonical-guest-build",
+      "expandedFromGlob": null,
+      "publicPath": "tools/sp1-canonical-guest-build/CANDIDATES.md",
+      "sha256": "c06a5da722952e2bd3512db32f5b2a57d5df6c02170a03e9e1b12817ef88b50a",
+      "sizeBytes": 6120,
+      "sourcePath": "tools/sp1-canonical-guest-build/CANDIDATES.md"
+    },
+    {
+      "category": "canonical-guest-build",
+      "expandedFromGlob": null,
+      "publicPath": "tools/sp1-canonical-guest-build/canonical-guest-build.sh",
+      "sha256": "bc1def60f47ef6e5b1ec620e989053b79f0783165ead8867d7bc9532fc0a6adc",
+      "sizeBytes": 6636,
+      "sourcePath": "tools/sp1-canonical-guest-build/canonical-guest-build.sh"
+    },
+    {
+      "category": "canonical-guest-build",
+      "expandedFromGlob": null,
+      "publicPath": "tools/sp1-canonical-guest-build/vkey-probe/Cargo.toml",
+      "sha256": "80bf9bbb0bf8715b669b5b6b97c5caf91063d88c2c1d22f95ed628b0cd71035b",
+      "sizeBytes": 575,
+      "sourcePath": "tools/sp1-canonical-guest-build/vkey-probe/Cargo.toml"
+    },
+    {
+      "category": "canonical-guest-build",
+      "expandedFromGlob": null,
+      "publicPath": "tools/sp1-canonical-guest-build/vkey-probe/src/main.rs",
+      "sha256": "affd1683fded488e33160e7da0e3095ad184c8df2942bf46b4dc0f358db56cda",
+      "sizeBytes": 2044,
+      "sourcePath": "tools/sp1-canonical-guest-build/vkey-probe/src/main.rs"
+    },
+    {
       "category": "repo-metadata",
       "expandedFromGlob": null,
       "publicPath": "tsconfig.base.json",
@@ -1264,8 +1466,17 @@
       "generator": "scripts/public-export/build-gate@1",
       "scope": {
         "cargoManifestsOutOfScope": [
+          "tools/apnt-import-created-note-rust-parity/Cargo.toml",
+          "tools/apnt-import-created-note-sp1/program-v2/Cargo.toml",
+          "tools/apnt-import-created-note-sp1/program-v4/Cargo.toml",
+          "tools/apnt-import-created-note-sp1/program/Cargo.toml",
+          "tools/apnt-private-note-transition-sp1/program/Cargo.toml",
+          "tools/apnt-private-note-transition-v1-rust-parity/Cargo.toml",
+          "tools/apnt-private-note-transition-v1-sp1/program/Cargo.toml",
           "tools/apnt-sp1-notecommitment-verifier/Cargo.toml",
-          "tools/apnt-sp1-notecommitment-verifier/verifier/Cargo.toml"
+          "tools/apnt-sp1-notecommitment-verifier/program/Cargo.toml",
+          "tools/apnt-sp1-notecommitment-verifier/verifier/Cargo.toml",
+          "tools/sp1-canonical-guest-build/vkey-probe/Cargo.toml"
         ],
         "protocolRuntimeTypecheckedDirectly": true,
         "verifyScriptRun": true
@@ -1283,7 +1494,7 @@
             "--fetch-retry-maxtimeout=5000",
             "--store-dir=<isolated-tmp>/pnpm-store"
           ],
-          "durationMs": 1673,
+          "durationMs": 1632,
           "exitCode": 0,
           "name": "install-generate-lockfile",
           "ok": true,
@@ -1300,7 +1511,7 @@
             "--fetch-retry-maxtimeout=5000",
             "--store-dir=<isolated-tmp>/pnpm-store"
           ],
-          "durationMs": 281,
+          "durationMs": 283,
           "exitCode": 0,
           "name": "install-frozen-lockfile",
           "ok": true,
@@ -1313,7 +1524,7 @@
             "-r",
             "build"
           ],
-          "durationMs": 796,
+          "durationMs": 788,
           "exitCode": 0,
           "name": "build",
           "ok": true,
@@ -1326,7 +1537,7 @@
             "-r",
             "typecheck"
           ],
-          "durationMs": 553,
+          "durationMs": 573,
           "exitCode": 0,
           "name": "typecheck",
           "ok": true,
@@ -1340,7 +1551,7 @@
             "-p",
             "packages/protocol-runtime/tsconfig.json"
           ],
-          "durationMs": 617,
+          "durationMs": 615,
           "exitCode": 0,
           "name": "typecheck-protocol-runtime-standalone",
           "ok": true,
@@ -1355,7 +1566,7 @@
             "--",
             "--passWithNoTests"
           ],
-          "durationMs": 1315,
+          "durationMs": 1325,
           "exitCode": 0,
           "name": "test",
           "ok": true,
@@ -1369,7 +1580,7 @@
             "run",
             "verify"
           ],
-          "durationMs": 625,
+          "durationMs": 602,
           "exitCode": 0,
           "name": "verify",
           "ok": true,
@@ -1389,7 +1600,7 @@
     "generator": "scripts/public-export@1",
     "note": "This block is EXCLUDED from determinismDigest. Pass --now=<iso> to pin generatedAt and make a run byte-reproducible."
   },
-  "layer": "v0.2",
+  "layer": "v0.3",
   "pathMap": [
     {
       "from": "openspec/specs/apnt-aggregation-transition-output/spec.md",
@@ -1856,6 +2067,26 @@
       "to": "pnpm-workspace.yaml"
     },
     {
+      "from": "tools/apnt-import-created-note-rust-parity/Cargo.toml",
+      "to": "tools/apnt-import-created-note-rust-parity/Cargo.toml"
+    },
+    {
+      "from": "tools/apnt-import-created-note-rust-parity/src/recovery.rs",
+      "to": "tools/apnt-import-created-note-rust-parity/src/recovery.rs"
+    },
+    {
+      "from": "tools/apnt-import-created-note-rust-parity/src/relation.rs",
+      "to": "tools/apnt-import-created-note-rust-parity/src/relation.rs"
+    },
+    {
+      "from": "tools/apnt-import-created-note-rust-parity/src/relation_v1.rs",
+      "to": "tools/apnt-import-created-note-rust-parity/src/relation_v1.rs"
+    },
+    {
+      "from": "tools/apnt-import-created-note-rust-parity/src/relation_v2.rs",
+      "to": "tools/apnt-import-created-note-rust-parity/src/relation_v2.rs"
+    },
+    {
       "from": "tools/apnt-import-created-note-sp1/fixtures/canonical-authenticated-verifier-evidence-v0.json",
       "to": "tools/apnt-import-created-note-sp1/fixtures/canonical-authenticated-verifier-evidence-v0.json"
     },
@@ -1920,6 +2151,30 @@
       "to": "tools/apnt-import-created-note-sp1/fixtures/v4-keyed-quotient-residue-certificate-run.json"
     },
     {
+      "from": "tools/apnt-import-created-note-sp1/program-v2/Cargo.toml",
+      "to": "tools/apnt-import-created-note-sp1/program-v2/Cargo.toml"
+    },
+    {
+      "from": "tools/apnt-import-created-note-sp1/program-v2/src/main.rs",
+      "to": "tools/apnt-import-created-note-sp1/program-v2/src/main.rs"
+    },
+    {
+      "from": "tools/apnt-import-created-note-sp1/program-v4/Cargo.toml",
+      "to": "tools/apnt-import-created-note-sp1/program-v4/Cargo.toml"
+    },
+    {
+      "from": "tools/apnt-import-created-note-sp1/program-v4/src/main.rs",
+      "to": "tools/apnt-import-created-note-sp1/program-v4/src/main.rs"
+    },
+    {
+      "from": "tools/apnt-import-created-note-sp1/program/Cargo.toml",
+      "to": "tools/apnt-import-created-note-sp1/program/Cargo.toml"
+    },
+    {
+      "from": "tools/apnt-import-created-note-sp1/program/src/main.rs",
+      "to": "tools/apnt-import-created-note-sp1/program/src/main.rs"
+    },
+    {
       "from": "tools/apnt-import-created-note-sp1/scripts/quotient-residue-regeneration/assert-certificate-run-vkey-binding.mjs",
       "to": "tools/apnt-import-created-note-sp1/scripts/quotient-residue-regeneration/assert-certificate-run-vkey-binding.mjs"
     },
@@ -1960,8 +2215,40 @@
       "to": "tools/apnt-private-note-transition-sp1/fixtures/canonical-groth16-private-split-v0.json"
     },
     {
+      "from": "tools/apnt-private-note-transition-sp1/program/Cargo.toml",
+      "to": "tools/apnt-private-note-transition-sp1/program/Cargo.toml"
+    },
+    {
+      "from": "tools/apnt-private-note-transition-sp1/program/src/main.rs",
+      "to": "tools/apnt-private-note-transition-sp1/program/src/main.rs"
+    },
+    {
       "from": "tools/apnt-private-note-transition-sp1/trusted/private-note-transition-groth16-verifier-v0.json",
       "to": "tools/apnt-private-note-transition-sp1/trusted/private-note-transition-groth16-verifier-v0.json"
+    },
+    {
+      "from": "tools/apnt-private-note-transition-v1-rust-parity/Cargo.toml",
+      "to": "tools/apnt-private-note-transition-v1-rust-parity/Cargo.toml"
+    },
+    {
+      "from": "tools/apnt-private-note-transition-v1-rust-parity/README.md",
+      "to": "tools/apnt-private-note-transition-v1-rust-parity/README.md"
+    },
+    {
+      "from": "tools/apnt-private-note-transition-v1-rust-parity/src/lib.rs",
+      "to": "tools/apnt-private-note-transition-v1-rust-parity/src/lib.rs"
+    },
+    {
+      "from": "tools/apnt-private-note-transition-v1-sp1/README.md",
+      "to": "tools/apnt-private-note-transition-v1-sp1/README.md"
+    },
+    {
+      "from": "tools/apnt-private-note-transition-v1-sp1/program/Cargo.toml",
+      "to": "tools/apnt-private-note-transition-v1-sp1/program/Cargo.toml"
+    },
+    {
+      "from": "tools/apnt-private-note-transition-v1-sp1/program/src/main.rs",
+      "to": "tools/apnt-private-note-transition-v1-sp1/program/src/main.rs"
     },
     {
       "from": "tools/apnt-sp1-notecommitment-verifier/Cargo.toml",
@@ -1978,6 +2265,10 @@
     {
       "from": "tools/apnt-sp1-notecommitment-verifier/fixtures/valid-request.json",
       "to": "tools/apnt-sp1-notecommitment-verifier/fixtures/valid-request.json"
+    },
+    {
+      "from": "tools/apnt-sp1-notecommitment-verifier/program/Cargo.toml",
+      "to": "tools/apnt-sp1-notecommitment-verifier/program/Cargo.toml"
     },
     {
       "from": "tools/apnt-sp1-notecommitment-verifier/trusted/apnt-note-commitment-preimage-v0.json",
@@ -1998,6 +2289,22 @@
     {
       "from": "tools/apnt-sp1-notecommitment-verifier/verifier/tests/verifier_interface_v0.rs",
       "to": "tools/apnt-sp1-notecommitment-verifier/verifier/tests/verifier_interface_v0.rs"
+    },
+    {
+      "from": "tools/sp1-canonical-guest-build/CANDIDATES.md",
+      "to": "tools/sp1-canonical-guest-build/CANDIDATES.md"
+    },
+    {
+      "from": "tools/sp1-canonical-guest-build/canonical-guest-build.sh",
+      "to": "tools/sp1-canonical-guest-build/canonical-guest-build.sh"
+    },
+    {
+      "from": "tools/sp1-canonical-guest-build/vkey-probe/Cargo.toml",
+      "to": "tools/sp1-canonical-guest-build/vkey-probe/Cargo.toml"
+    },
+    {
+      "from": "tools/sp1-canonical-guest-build/vkey-probe/src/main.rs",
+      "to": "tools/sp1-canonical-guest-build/vkey-probe/src/main.rs"
     },
     {
       "from": "tsconfig.base.json",

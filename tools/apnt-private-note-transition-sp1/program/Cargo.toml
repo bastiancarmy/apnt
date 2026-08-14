@@ -1,0 +1,9 @@
+[package]
+name = "apnt-private-note-transition-sp1-program"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+apnt-private-note-transition-rust-parity = { path = "../../apnt-private-note-transition-rust-parity" }
+sp1-zkvm = "=6.3.1"

@@ -1,0 +1,14 @@
+[package]
+name = "apnt-import-created-note-rust-parity"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "Exact host relation and recovery-cryptography parity for APNT import-created-note v0"
+
+[dependencies]
+aes-gcm = { version = "=0.11.0", default-features = false, features = ["aes"] }
+k256 = { version = "=0.13.4", default-features = false, features = ["arithmetic", "schnorr", "alloc"] }
+libcrux-ml-kem = { version = "=0.0.10", default-features = false, features = ["mlkem768"] }
+serde = { version = "=1.0.228", features = ["derive"] }
+serde_json = "=1.0.145"
+sha2 = "=0.10.9"

@@ -1,0 +1,9 @@
+[package]
+name = "apnt-import-created-note-sp1-program-v4"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+apnt-import-created-note-rust-parity = { path = "../../apnt-import-created-note-rust-parity" }
+sp1-zkvm = "=6.3.1"

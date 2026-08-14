@@ -1,0 +1,10 @@
+[package]
+name = "apnt-sp1-notecommitment-preimage-program"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+sha2 = "=0.10.9"
+sp1-zkvm = "=6.3.1"
+
