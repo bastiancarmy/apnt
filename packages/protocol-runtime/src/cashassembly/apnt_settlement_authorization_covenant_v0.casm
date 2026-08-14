@@ -1,0 +1,116 @@
+// APNT settlement authorization covenant (SAC) v0.
+//
+// Target architecture:
+// openspec/changes/define-apnt-private-spend-covenant-v0/design.md
+//   §1.1.3 (properties B and C), as corrected by
+//   §1.1.5 ("Measured correction") and
+//   §1.1.6a ("Measured correction and decisions, recorded 2026-08-05").
+//
+// This is the redeem script of the P2SH32 program `L_verdict` that spends the
+// chunked verifier's terminal verdict token. It reconstructs the canonical
+// `APNTTSP0` settlement-projection transcript from transaction introspection
+// alone and requires its domain-separated SHA-256 to equal the verdict NFT's
+// own commitment. That is what carries "this transaction is the transaction
+// the proven statement authorizes" onto the chain.
+//
+// The transcript layout reproduced below is byte-exact with
+// `serializeAPNTTransitionSettlementProjectionV0`
+// (../apnt_transition_settlement_projection_v0.ts). All integers are
+// little-endian, matching that module's `writeU32LE` / `writeU64LE`.
+//
+//   "APNTTSP0" || 0x00                       9 constant bytes
+//   u32le(transactionVersion)                OP_TXVERSION
+//   u32le(locktime)                          OP_TXLOCKTIME
+//   u32le(inputCount)                        OP_TXINPUTCOUNT
+//   u32le(designatedVerifierInputIndex)      OP_INPUTINDEX
+//   for each input i != OP_INPUTINDEX:
+//     OP_OUTPOINTTXHASH(i)                   32 bytes, already wire order
+//     u32le(OP_OUTPOINTINDEX(i))
+//     u32le(OP_INPUTSEQUENCENUMBER(i))
+//     u64le(OP_UTXOVALUE(i))
+//   u32le(outputCount)                       OP_TXOUTPUTCOUNT
+//   for each output j:
+//     require size(OP_OUTPUTTOKENCATEGORY(j)) == 0     token-free outputs
+//     u64le(OP_OUTPUTVALUE(j))
+//     u32le(size(OP_OUTPUTBYTECODE(j))) || OP_OUTPUTBYTECODE(j)
+//   u64le(networkFeeSats)                    sum(OP_UTXOVALUE) - sum(OP_OUTPUTVALUE)
+//
+// then, per `sha256DomainSeparated` (../hash.ts):
+//
+//   SHA256( u16be(len(P)) || P || u16be(len(D)) || D || u32be(len(transcript))
+//           || transcript )
+//
+// where P is this repository's fixed hash personalization and D is
+// `bch-cloak-apnt-v0:transition-settlement-projection-commitment-v0`. The
+// constant part `u16be(len(P)) || P || u16be(len(D)) || D` is 110 bytes and is
+// substituted by the TypeScript builder into the domain-separation prefix
+// marker below, derived from those real constants so it can never drift from
+// `hash.ts`. Design.md's original "2+41+2+64 = 109" is wrong by one byte: the
+// personalization is 42 bytes, not 41.
+//
+// ONE OP_SHA256, never OP_HASH256. `settlementProjection32` is a single
+// domain-separated SHA-256, not a bare double hash. Using OP_HASH256 here
+// yields an unspendable, unsound covenant.
+//
+// The SAC does NOT require itself to be the last input. The transcript commits
+// `designatedVerifierInputIndex` as an explicit field, so this script reads
+// OP_INPUTINDEX directly and is correct at any index (design.md §1.1.6a
+// correction 5). It also does not check its own token category: authenticity of
+// the verdict category is the seal's aggregate branch's job.
+//
+// Expected witness stack on entry: [] (the redeem script itself is the only
+// unlocking push; this covenant takes no witness data).
+//
+// Fee accumulator convention: the running networkFeeSats total lives on the
+// ALTSTACK for the whole unrolled region; the transcript accumulator is the
+// single main-stack item. Because the transcript is one stack item, its length
+// is capped by the VM's maximumStackItemLength (10,000 bytes on BCH 2026) —
+// this, not script size or operation cost, is the ceiling that binds on batch
+// shape (design.md §1.1.6a correction 4).
+//
+// This is a locking-template artifact. It is not APNT acceptance, lane
+// advancement, note spendability, proof verification, or broadcast approval.
+
+// --- transcript head: "APNTTSP0" || 0x00 ---
+0x09 0x41504e545453503000
+
+// --- u32le(transactionVersion), widened to 5 bytes then truncated because a
+//     VM number at or above 2**31 needs a fifth sign byte ---
+OP_TXVERSION <5> OP_NUM2BIN <4> OP_SPLIT OP_DROP OP_CAT
+
+// --- u32le(locktime), same widening ---
+OP_TXLOCKTIME <5> OP_NUM2BIN <4> OP_SPLIT OP_DROP OP_CAT
+
+// --- u32le(inputCount), structurally small ---
+OP_TXINPUTCOUNT <4> OP_NUM2BIN OP_CAT
+
+// --- u32le(designatedVerifierInputIndex) ---
+OP_INPUTINDEX <4> OP_NUM2BIN OP_CAT
+
+// --- fee accumulator := 0, on the altstack ---
+OP_0 OP_TOALTSTACK
+
+// --- guarded, unrolled input loop (MAX_INPUTS slots) ---
+@UNROLLED_INPUT_SLOTS@
+
+// --- u32le(outputCount) ---
+OP_TXOUTPUTCOUNT <4> OP_NUM2BIN OP_CAT
+
+// --- guarded, unrolled output loop (MAX_OUTPUTS slots) ---
+@UNROLLED_OUTPUT_SLOTS@
+
+// --- u64le(networkFeeSats), from the altstack accumulator ---
+OP_FROMALTSTACK <8> OP_NUM2BIN OP_CAT
+
+// --- u32be(len(transcript)); OP_NUM2BIN is little-endian, so reverse it ---
+OP_SIZE <4> OP_NUM2BIN OP_REVERSEBYTES
+
+// --- the 110-byte domain-separation constant prefix ---
+@DOMAIN_SEPARATION_PREFIX_PUSH@
+
+// --- assemble prefix || u32be(len) || transcript, then hash once ---
+OP_SWAP OP_CAT OP_SWAP OP_CAT
+OP_SHA256
+
+// --- require it to equal this input's own verdict-NFT commitment ---
+OP_INPUTINDEX OP_UTXOTOKENCOMMITMENT OP_EQUAL

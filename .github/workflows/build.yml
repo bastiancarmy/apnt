@@ -1,0 +1,82 @@
+# build.yml — installs, builds, typechecks and tests this repository exactly
+# as a new contributor would, on every push and every pull request.
+#
+# Every action below is pinned to a full commit SHA, never a mutable tag.
+# This matters concretely, not abstractly: in March 2026, attackers
+# force-pushed 75 of 76 version tags on a single widely used action
+# (`aquasecurity/trivy-action`), and every pipeline that ran a scan under one
+# of those tags executed attacker-controlled code and had its secrets
+# exfiltrated. A tag can be silently repointed by whoever controls the
+# upstream repo; a commit SHA cannot be reassigned to different content
+# without changing the hash itself. Each pin below carries a comment naming
+# the human-readable release it corresponds to, so a bump is a deliberate,
+# reviewable act, not a silent drift.
+#
+# This workflow only reads the repository and runs commands inside the
+# runner's own sandbox. It never pushes, publishes, deploys, or opens a PR.
+
+name: build
+
+on:
+  push:
+  pull_request:
+
+# Least privilege: nothing here needs to write anything, anywhere.
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: install, build, typecheck, test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        # actions/checkout v7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Set up pnpm
+        # pnpm/action-setup v6.0.10. The `version` input is deliberately
+        # omitted: this action reads the pinned `packageManager` field from
+        # package.json (pnpm@9.0.0) on its own, so there is exactly one place
+        # in this repository that decides which pnpm version is in use.
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86
+
+      - name: Set up Node.js
+        # actions/setup-node v7.0.0
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          # Pinned to an EXACT version, deliberately narrower than
+          # package.json's own `engines` range (">=20.6.0"). This project has
+          # already broken once on an unpinned toolchain: with no
+          # `packageManager` pin, corepack resolved a pnpm release that
+          # itself requires Node >=22.13 and crashed outright under Node 20
+          # -- see the `packageManager` field and its comment in the root
+          # package.json for the other half of that fix. That failure came
+          # from the pnpm side; pinning the Node runtime here closes the same
+          # class of failure from the Node side, so CI can never silently
+          # drift onto a release this toolchain has not been proven against.
+          # 20.19.4 is the version this repository's own export tooling was
+          # measured against (see export-manifest.json's recorded toolchain).
+          node-version: "20.19.4"
+          cache: "pnpm"
+
+      - name: Install (frozen lockfile)
+        # The committed pnpm-lock.yaml is real provenance, not a convenience
+        # file: it is what decides which package versions this install
+        # actually resolves. --frozen-lockfile refuses to proceed if
+        # package.json and the lockfile have drifted apart, rather than
+        # silently re-resolving.
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Typecheck
+        run: pnpm run typecheck
+
+      - name: Test
+        run: pnpm run test

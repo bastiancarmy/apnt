@@ -1,0 +1,63 @@
+name: Bug report
+description: >-
+  Something in this tree is wrong, broken, or does not match what it claims —
+  a build failure, a stale doc, a script that crashes, a script that produces
+  the wrong output. Not a soundness or privacy finding — see the security
+  option below for that.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before filing: is this a way to make a relation, covenant, or
+        verifier accept something it shouldn't, or leak something it
+        shouldn't? If so, **stop and use "Report a vulnerability"** (Security
+        tab) or see `SECURITY.md` instead of filing a public bug report —
+        that channel is private to the maintainer.
+
+        This tree is generated (see the top-level `README.md`); a fix here
+        is applied upstream and arrives in the next release, not merged
+        directly. See `CONTRIBUTING.md` before proposing a diff.
+
+  - type: input
+    id: location
+    attributes:
+      label: Which file, script, or artifact
+      description: >-
+        A path in this repository, or a relationIdentity / programVkeyHash
+        from a trusted/*.json descriptor. Not a description of behavior you
+        saw somewhere else.
+      placeholder: e.g. packages/reference-aggregator/tools/verify-apnt-...-v0.mjs
+    validations:
+      required: true
+
+  - type: textarea
+    id: ran-vs-expected
+    attributes:
+      label: What you ran, and what you expected
+      description: The exact command(s), and what you expected to happen.
+      placeholder: |
+        $ node tools/.../some-verifier.mjs --flag value
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: What actually happened
+      description: Full output, not a paraphrase. Paste it, don't summarize it.
+    validations:
+      required: true
+
+  - type: textarea
+    id: claim
+    attributes:
+      label: What this establishes, and what it doesn't
+      description: >-
+        Match this repository's own honesty bar (AGENTS.md): state what your
+        report proves and what it does not. "I found an input that breaks
+        this script's parser" and "I found an input that breaks the
+        underlying relation's soundness" are different reports — don't
+        conflate them.
+    validations:
+      required: false

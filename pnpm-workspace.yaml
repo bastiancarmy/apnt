@@ -1,0 +1,8 @@
+# Published as `pnpm-workspace.yaml` in the public repository.
+#
+# Only `packages/chain-io` currently carries a package.json in the public tree.
+# `packages/protocol-runtime` is published as a partial source set for reading
+# and deliberately ships no manifest, so pnpm will not treat it as a workspace
+# package. See README.md, "What builds and what does not".
+packages:
+  - "packages/*"

@@ -1,0 +1,60 @@
+// APNT created-note seal, aggregate branch v0 (witness-index variant).
+//
+// Target architecture:
+// openspec/changes/define-apnt-private-spend-covenant-v0/design.md
+//   §1.1.6, as superseded by §1.1.6a's adopted decision.
+//
+// This is the aggregate half of a created note's seal. It delegates rather than
+// duplicates: it does not verify a proof, does not check spend authority, and
+// performs no transaction reconstruction. It requires only that a designated
+// verifier input is present in this transaction, that the input really carries
+// the deployment's pinned verifier token category, and that it is locked by the
+// pinned settlement authorization covenant `L_verdict`.
+//
+// Everything else rides on that one input: the SAC at `L_verdict` requires this
+// whole transaction to equal the projection committed in the verdict NFT, and
+// the verdict NFT can only exist at `L_verdict` by having been threaded through
+// a completed verifier run (design.md §1.1.2 property A).
+//
+// ADOPTED VARIANT: witness-index, not design.md §1.1.6's last-input script.
+// §1.1.6 derived the verifier input index as `OP_TXINPUTCOUNT OP_1SUB`, which
+// silently assumes that input is always last. Two of the four canonical
+// statements (`private-split`, `private-split-flat-aggregator-service-fee`)
+// place it at index 2, so that script cannot spend seals created under them
+// (design.md §1.1.6a correction 6). This variant takes the index from the
+// seal's own unlocking bytecode instead and is correct at any index.
+//
+// This is sound despite the spender choosing the index: whichever index is
+// named must still carry the pinned category AND be locked by the pinned
+// `L_verdict`, so it must be a genuine verdict input, and that input's own SAC
+// binds this entire transaction.
+//
+// Expected witness stack on entry:
+//   [ designatedVerifierInputIndex ]
+//
+// The pinned category constant is substituted by the TypeScript builder into
+// the verifier-category marker below, and MUST be in VM byte order — reversed
+// relative to the JSON/RPC representation (design.md §1.1.2, confirmed by
+// measurement).
+//
+// The pinned category is a bare 32 bytes, which by OP_UTXOTOKENCATEGORY's own
+// specification matches ONLY an immutable, non-minting NFT: a mutable or
+// minting token pushes the category concatenated with a capability byte (33
+// bytes) and will not compare equal. The chunked verifier's terminal token must
+// therefore be immutable (design.md §1.1.6a correction 7).
+//
+// This is a locking-template artifact. It is not APNT acceptance, lane
+// advancement, note spendability, proof verification, or broadcast approval.
+
+// --- duplicate the witness-supplied verifier input index ---
+OP_DUP
+
+// --- require that input's token category to be the pinned C_verifier ---
+OP_UTXOTOKENCATEGORY
+@VERIFIER_CATEGORY_PUSH@
+OP_EQUALVERIFY
+
+// --- require that input to be locked by the pinned L_verdict (the SAC) ---
+OP_UTXOBYTECODE
+@VERDICT_LOCKING_PUSH@
+OP_EQUAL

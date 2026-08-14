@@ -1,0 +1,56 @@
+// APNT verifier factory v0.
+//
+// This covenant is the perpetual home of one verifier category's minting NFT.
+// A valid spend has exactly three outputs:
+//
+//   0. the same minting NFT, returned to this exact locking bytecode;
+//   1. one mutable NFT of the same category, locked by the deployment's L_0;
+//   2. token-free change.
+//
+// `OP_UTXOTOKENCATEGORY` and `OP_OUTPUTTOKENCATEGORY` append capability byte
+// 0x02 for minting NFTs and 0x01 for mutable NFTs. The substituted values below
+// include those suffixes, so an immutable or wrong-capability NFT cannot match.
+// The category bytes are in VM/wire order, not explorer/display order.
+//
+// This factory establishes only the verifier graph's unique category entry
+// point. It does not verify a proof or establish chain inclusion, wallet
+// acceptance, or spendability.
+
+// Exactly the three deployment-defined outputs; no hidden token output.
+OP_TXOUTPUTCOUNT
+<3>
+OP_NUMEQUALVERIFY
+
+// The executing input itself must hold this category's minting capability.
+OP_INPUTINDEX
+OP_UTXOTOKENCATEGORY
+@INPUT_CATEGORY_MINTING_PUSH@
+OP_EQUALVERIFY
+
+// Output 0 perpetually returns the minting NFT to this exact covenant.
+<0>
+OP_OUTPUTTOKENCATEGORY
+@OUTPUT_CATEGORY_MINTING_PUSH@
+OP_EQUALVERIFY
+<0>
+OP_OUTPUTBYTECODE
+OP_INPUTINDEX
+OP_UTXOBYTECODE
+OP_EQUALVERIFY
+
+// Output 1 is the only verifier-run entry: a mutable NFT at exact L_0.
+<1>
+OP_OUTPUTTOKENCATEGORY
+@CATEGORY_MUTABLE_PUSH@
+OP_EQUALVERIFY
+<1>
+OP_OUTPUTBYTECODE
+@STAGE_ZERO_LOCKING_PUSH@
+OP_EQUALVERIFY
+
+// Output 2 is ordinary token-free change.
+<2>
+OP_OUTPUTTOKENCATEGORY
+OP_SIZE
+OP_NIP
+OP_NOT

@@ -1,0 +1,1482 @@
+{
+  "categories": [
+    {
+      "layer": "v0.1",
+      "name": "repo-metadata",
+      "rationale": "Top-level files that describe the public repository itself. README, LICENSE, third-party notices, package manifest, gitignore and workspace file are WRITTEN FOR THE PUBLIC TREE under scripts/public-export/public-tree/ and mapped to the root by pathMap — they are not copies of the private root files, which carry dead script targets and a private sibling-repository reference. tsconfig.base.json is the real base config both published tsconfigs extend. The verify-apnt skill is NOT here — it verifies proofs and trusted descriptors, so it ships with them under verifier-surface (v0.2), not with repo identity (v0.1); see that category's rationale."
+    },
+    {
+      "layer": "v0.1",
+      "name": "spec",
+      "rationale": "Promoted OpenSpec capability specifications. These are normative requirement documents with no private material: they describe what the protocol must do, not any key, seed or live wallet. Console and Ligero capabilities are excluded by rule; the transition-and-conservation spec is withheld because its requirement text names private witness fields."
+    },
+    {
+      "layer": "v0.1",
+      "name": "protocol-runtime",
+      "rationale": "A partial, import-closed, strict-clean subset of @bch-cloak/protocol-runtime: pure protocol objects, byte and serialization primitives, commitment hashing, note trees, transition statements, seals and projections, plus the CashAssembly covenant sources. The set has ZERO external npm dependencies and every relative import inside it resolves within the published tree. Its package barrel and package.json are deliberately NOT published, because modules they re-export were withheld and shipping them would claim a package that does not exist here."
+    },
+    {
+      "layer": "v0.1",
+      "name": "chain-io",
+      "rationale": "@bch-cloak/chain-io in full: the Fulcrum/Electrum client used to read chain state. Both sources, its tsconfig and its manifest. It has no workspace dependencies and imports only Node builtins. It is published complete rather than partially, including the UNSAFE_TRANSPARENT_UTXO_FIELDS_V0 scrubber that keeps private field names out of transparent UTXO records. Four of its five test files are published so that the build gate's `pnpm -r test` leg exercises something real rather than matching zero files; each imports only ../src/index.js, node builtins and vitest, and their only network endpoint is a 127.0.0.1 fixture."
+    }
+  ],
+  "determinismDigest": "6a383f560a67e1fe7822cb771387d36ed71641fc537742c5f9346ea5452311b0",
+  "fileCount": 110,
+  "files": [
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": ".github/CODEOWNERS",
+      "sha256": "352d96812aaa991a999a3d18b1880c33bbcc1c6eae0198b4a93cc93e5c3b5fdd",
+      "sizeBytes": 780,
+      "sourcePath": "scripts/public-export/public-tree/.github/CODEOWNERS"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": ".github/ISSUE_TEMPLATE/bug_report.yml",
+      "sha256": "0a081a1cbc34353fe8de0b11d1bbf8f69b33c90606891b0233cd6bef01047a20",
+      "sizeBytes": 2323,
+      "sourcePath": "scripts/public-export/public-tree/.github/ISSUE_TEMPLATE/bug_report.yml"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": ".github/ISSUE_TEMPLATE/config.yml",
+      "sha256": "05bf49a17ef3b379fa8a4835dab69a57a68c1d658416fc3f5311f217e047ad91",
+      "sizeBytes": 493,
+      "sourcePath": "scripts/public-export/public-tree/.github/ISSUE_TEMPLATE/config.yml"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": ".github/ISSUE_TEMPLATE/protocol_question.yml",
+      "sha256": "30cd9fe43e3420ed2de59442ae29d36599eb437b8bebcd95dd61fb85823f68fe",
+      "sizeBytes": 2144,
+      "sourcePath": "scripts/public-export/public-tree/.github/ISSUE_TEMPLATE/protocol_question.yml"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": ".github/ISSUE_TEMPLATE/verifier_failure.yml",
+      "sha256": "7c270107ed18419695c95f3348ca6731a899e998577b26bc5602fef0b87b7a14",
+      "sizeBytes": 2862,
+      "sourcePath": "scripts/public-export/public-tree/.github/ISSUE_TEMPLATE/verifier_failure.yml"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": ".github/PULL_REQUEST_TEMPLATE.md",
+      "sha256": "2683f77019c2f5f157782bed9795926b1db7c4af66e545a364dc200ba1c89710",
+      "sizeBytes": 3041,
+      "sourcePath": "scripts/public-export/public-tree/.github/PULL_REQUEST_TEMPLATE.md"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": ".github/scripts/verify-provenance.mjs",
+      "sha256": "c1c86ec15762ad1f7e689d2588bf00f5db5584ddfc9703427533ecb8b8d9b9f7",
+      "sizeBytes": 10504,
+      "sourcePath": "scripts/public-export/public-tree/.github/scripts/verify-provenance.mjs"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": ".github/workflows/build.yml",
+      "sha256": "f69d12093b857c7dd9155c591d95680b32b304f522b83b4ef5db3b6ddf34b85e",
+      "sizeBytes": 3512,
+      "sourcePath": "scripts/public-export/public-tree/.github/workflows/build.yml"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": ".github/workflows/provenance.yml",
+      "sha256": "0fbfecb1038e9eab16c7250bda7feb93b5b359e98c88389d15c541c5b0e9f434",
+      "sizeBytes": 3516,
+      "sourcePath": "scripts/public-export/public-tree/.github/workflows/provenance.yml"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": ".github/workflows/verify.yml",
+      "sha256": "997c3fdcd06ef8395fb380245c99de977dd0ef48e4c6b1120c9837c2217de38a",
+      "sizeBytes": 3970,
+      "sourcePath": "scripts/public-export/public-tree/.github/workflows/verify.yml"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": ".gitignore",
+      "sha256": "f61d4146cef41c6508d7dc9898d08d482f6bfacef4854e9be9a56870fdda5ae3",
+      "sizeBytes": 489,
+      "sourcePath": "scripts/public-export/public-tree/gitignore"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": "AGENTS.md",
+      "sha256": "2ebed45655c076a078c3fcca4deaf5625a0087f64dbd36294dca024bba965326",
+      "sizeBytes": 11742,
+      "sourcePath": "scripts/public-export/public-tree/AGENTS.md"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": "CLAUDE.md",
+      "sha256": "07cba44716ef26ee4ee797f0786effa3157861b4c60a9a632f2abdeb03012875",
+      "sizeBytes": 733,
+      "sourcePath": "scripts/public-export/public-tree/CLAUDE.md"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": "CONTRIBUTING.md",
+      "sha256": "79e6d75ca670517346c21b2e75673839915cfb8ee7c6a066c6274ea4dfd3a1ad",
+      "sizeBytes": 7235,
+      "sourcePath": "scripts/public-export/public-tree/CONTRIBUTING.md"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": "LICENSE",
+      "sha256": "5fe186f26827084561ff890c958f049126fe403b75cad5121e19ad38becaeadc",
+      "sizeBytes": 1079,
+      "sourcePath": "scripts/public-export/public-tree/LICENSE"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": "README.md",
+      "sha256": "b29e5c49b514df7c6c7b0c9bca6e07a4b9d9368d43dc6b5dcafedfacfd9d4652",
+      "sizeBytes": 14063,
+      "sourcePath": "scripts/public-export/public-tree/README.md"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": "RELEASE.md",
+      "sha256": "565e69c7c799b2dc84ec1e9d3f72424ab53ed39c2ceede61554d451f99bc879c",
+      "sizeBytes": 5357,
+      "sourcePath": "scripts/public-export/public-tree/RELEASE.md"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": "SECURITY.md",
+      "sha256": "0af7c55f6abd2a7e93c5628ed9ba8043d6568816e381ce6367303be10f75ccda",
+      "sizeBytes": 4141,
+      "sourcePath": "scripts/public-export/public-tree/SECURITY.md"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": "THIRD-PARTY-NOTICES.md",
+      "sha256": "e63eb8bdefa088dfc6917f886337143272e0be9d62752b9750726bb6fc433b2e",
+      "sizeBytes": 1671,
+      "sourcePath": "scripts/public-export/public-tree/THIRD-PARTY-NOTICES.md"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": "docs/live-settlement-evidence.md",
+      "sha256": "a27933fb93d1dbb9451fed88e50dfae582f66492750ce0967b0dcfea161ae7f1",
+      "sizeBytes": 8448,
+      "sourcePath": "scripts/public-export/public-tree/docs/live-settlement-evidence.md"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": "docs/the-seal.md",
+      "sha256": "a652ce4f1c29ab0cbd11e11bdf6030de205c982775d62a8397f50dfbb3282282",
+      "sizeBytes": 15424,
+      "sourcePath": "scripts/public-export/public-tree/docs/the-seal.md"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": "docs/why-not-a-pool.md",
+      "sha256": "4cf6a388b6ebe57f6b907ad0b4eee6417d42d88f1089bde288728435f46dd853",
+      "sizeBytes": 9023,
+      "sourcePath": "scripts/public-export/public-tree/docs/why-not-a-pool.md"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": "docs/why-sp1.md",
+      "sha256": "44583b82ae55d464af2356d1c3e80e64851e249e7f21f52b0cfddf3eb2f554f0",
+      "sizeBytes": 6834,
+      "sourcePath": "scripts/public-export/public-tree/docs/why-sp1.md"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": "openspec/README.md",
+      "sha256": "60bba50ad2a37e0acec15fe6ae53d682bc3d7bd04cdd4fc59db61b157743c9e1",
+      "sizeBytes": 5125,
+      "sourcePath": "scripts/public-export/public-tree/openspec/README.md"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": "package.json",
+      "sha256": "3d2851125a1f7f33630616a739edcd9f99e058d514d6673f4be0245c13e2d8a6",
+      "sizeBytes": 5234,
+      "sourcePath": "scripts/public-export/public-tree/package.json"
+    },
+    {
+      "category": "chain-io",
+      "expandedFromGlob": null,
+      "publicPath": "packages/chain-io/package.json",
+      "sha256": "0116050bf7a00a768fd240377713915600c7accec8ec637e6a6f994daeb181e3",
+      "sizeBytes": 392,
+      "sourcePath": "packages/chain-io/package.json"
+    },
+    {
+      "category": "chain-io",
+      "expandedFromGlob": null,
+      "publicPath": "packages/chain-io/src/index.ts",
+      "sha256": "b6963775e67454b58824d95600b6f1a7dd456354fae7bc587fecfc6c44ea9321",
+      "sizeBytes": 103503,
+      "sourcePath": "packages/chain-io/src/index.ts"
+    },
+    {
+      "category": "chain-io",
+      "expandedFromGlob": null,
+      "publicPath": "packages/chain-io/src/network_identity.ts",
+      "sha256": "70bd3ded8ca1a760399d73cb4dcee21238bf30fed41b2be79d56018b8abde4c3",
+      "sizeBytes": 3826,
+      "sourcePath": "packages/chain-io/src/network_identity.ts"
+    },
+    {
+      "category": "chain-io",
+      "expandedFromGlob": null,
+      "publicPath": "packages/chain-io/test/fulcrum_transport.test.ts",
+      "sha256": "8f1115d776566961f2db11ffc40886511db9eaafcee7c5b785514283020db65d",
+      "sizeBytes": 10269,
+      "sourcePath": "packages/chain-io/test/fulcrum_transport.test.ts"
+    },
+    {
+      "category": "chain-io",
+      "expandedFromGlob": null,
+      "publicPath": "packages/chain-io/test/network_identity.test.ts",
+      "sha256": "ca2168957ebc41e29fae44cc6a04284c2800ded0e46c4cb8623ddc7832739b3f",
+      "sizeBytes": 1354,
+      "sourcePath": "packages/chain-io/test/network_identity.test.ts"
+    },
+    {
+      "category": "chain-io",
+      "expandedFromGlob": null,
+      "publicPath": "packages/chain-io/test/transaction_location_evidence.test.ts",
+      "sha256": "4e647a2e2c6ee2be9172ca889544920df0f9798c9d7d6a396fcc3d1773592fae",
+      "sizeBytes": 6041,
+      "sourcePath": "packages/chain-io/test/transaction_location_evidence.test.ts"
+    },
+    {
+      "category": "chain-io",
+      "expandedFromGlob": null,
+      "publicPath": "packages/chain-io/test/transparent_funding_evidence.test.ts",
+      "sha256": "69f75d77eeb52482afcd47e3dd38338a31ed552c0912398f401dc621380cb12d",
+      "sizeBytes": 7218,
+      "sourcePath": "packages/chain-io/test/transparent_funding_evidence.test.ts"
+    },
+    {
+      "category": "chain-io",
+      "expandedFromGlob": null,
+      "publicPath": "packages/chain-io/tsconfig.json",
+      "sha256": "81cd9cd54fa6547e580a03dcf5f1deb2767e6738b4b8515caa05fb7676b32f1c",
+      "sizeBytes": 184,
+      "sourcePath": "packages/chain-io/tsconfig.json"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/scripts/copy-cashassembly-sources.mjs",
+      "sha256": "9ec9067e52a4ce7fb2fc98f68c9c4fce65360213c046c5f8e73e225a3ac6995e",
+      "sizeBytes": 1532,
+      "sourcePath": "packages/protocol-runtime/scripts/copy-cashassembly-sources.mjs"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_aggregation_transition_output_v0.ts",
+      "sha256": "e76acaccdffde2e3d8df613f1f41b837a88fb46d78654850e08798725030996c",
+      "sizeBytes": 32845,
+      "sourcePath": "packages/protocol-runtime/src/apnt_aggregation_transition_output_v0.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_aggregation_validity_model_v0.ts",
+      "sha256": "c4ac0ea6ebb6faf8c5841f13cddba46951eb3b1e3e4f9804a68fe0ae1d4d3d26",
+      "sizeBytes": 29842,
+      "sourcePath": "packages/protocol-runtime/src/apnt_aggregation_validity_model_v0.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_bch_asset_id_v0.ts",
+      "sha256": "7df4480c54343da9c596c9456613f24cbdbd3e4d5e262638470724696800d0c9",
+      "sizeBytes": 7434,
+      "sourcePath": "packages/protocol-runtime/src/apnt_bch_asset_id_v0.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_bch_standard_policy_limits_v0.ts",
+      "sha256": "278582ff71b239fcc52d9c555e64f4f28d8097de473b1cba84939c7d9ceccdfc",
+      "sizeBytes": 3579,
+      "sourcePath": "packages/protocol-runtime/src/apnt_bch_standard_policy_limits_v0.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_bundle_backed_private_note_v1.ts",
+      "sha256": "64d92aa70b99a069dd6cc68f4218621ac49ec8df4c4bd41b44e5429de82a02ab",
+      "sizeBytes": 6394,
+      "sourcePath": "packages/protocol-runtime/src/apnt_bundle_backed_private_note_v1.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_bundle_nullifier_v1.ts",
+      "sha256": "7bc33d5441bdec11bf579492115b912f588b98daa0f2aede76e9ff50c8fef289",
+      "sizeBytes": 2693,
+      "sourcePath": "packages/protocol-runtime/src/apnt_bundle_nullifier_v1.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_cashassembly_compiler_v0.ts",
+      "sha256": "e64fc3139b22c865a56984c41d1043858afe80724e6a48f119bf96775a831df7",
+      "sizeBytes": 6334,
+      "sourcePath": "packages/protocol-runtime/src/apnt_cashassembly_compiler_v0.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_created_note_seal_exit_branch_v0.ts",
+      "sha256": "d892c77ae3892fdbad6b3225cff51a4c17f958d132d461984a5d0b0819bc7517",
+      "sizeBytes": 10826,
+      "sourcePath": "packages/protocol-runtime/src/apnt_created_note_seal_exit_branch_v0.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_created_note_seal_v0.ts",
+      "sha256": "61f8d4e3368106db75369ecf0c67e2bc34933bfaea8f12984e10951f251aa964",
+      "sizeBytes": 12205,
+      "sourcePath": "packages/protocol-runtime/src/apnt_created_note_seal_v0.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_creation_scope_v1.ts",
+      "sha256": "423a75ba0c709bd33c7ff1417a1a055e8adca160e2cc46376dd8fbfd7753abb2",
+      "sizeBytes": 18689,
+      "sourcePath": "packages/protocol-runtime/src/apnt_creation_scope_v1.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_creation_scope_v2.ts",
+      "sha256": "95a6eebc5ea997d1b229a59afa2fd0cf136d7cabe739bb650005e06cd7e00c22",
+      "sizeBytes": 18595,
+      "sourcePath": "packages/protocol-runtime/src/apnt_creation_scope_v2.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_import_created_note_statement_v0.ts",
+      "sha256": "287b0096c9ae76301583dc6288a626208cfd6bf81b74c121e6d424c8ee1fe57d",
+      "sizeBytes": 51271,
+      "sourcePath": "packages/protocol-runtime/src/apnt_import_created_note_statement_v0.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_import_created_note_statement_v1.ts",
+      "sha256": "2ad1da6ed22880253f39f87575bcaacfc37fbdac0116ba48fcc67da0c0dbea30",
+      "sizeBytes": 24849,
+      "sourcePath": "packages/protocol-runtime/src/apnt_import_created_note_statement_v1.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_import_creation_scope_v0.ts",
+      "sha256": "cd556460b1b65b6a62806bf90182eeab2cb9c5a397f64e0a10ab7776102b4f59",
+      "sizeBytes": 14118,
+      "sourcePath": "packages/protocol-runtime/src/apnt_import_creation_scope_v0.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_import_creation_scope_v1.ts",
+      "sha256": "779e1caaf0389606bbe8e722b18d5882e2fe1d583b71033a5dc50f2c220e0665",
+      "sizeBytes": 13790,
+      "sourcePath": "packages/protocol-runtime/src/apnt_import_creation_scope_v1.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_import_current_transaction_projection_v0.ts",
+      "sha256": "13d758719fbc867f6fa1d23f0520d1b5be646991896e1bed1ee9527a94e3c3cf",
+      "sizeBytes": 27382,
+      "sourcePath": "packages/protocol-runtime/src/apnt_import_current_transaction_projection_v0.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_import_settlement_projection_v0.ts",
+      "sha256": "6a15a5f9f165367b2e38b44ec79580c5464f892cc6ad1e568444d4eaed637856",
+      "sizeBytes": 18071,
+      "sourcePath": "packages/protocol-runtime/src/apnt_import_settlement_projection_v0.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_lane_roots.ts",
+      "sha256": "1e0065c1b12efb553e5dc5775af9820c355862ba428d3cdc7c3a390681949796",
+      "sizeBytes": 10544,
+      "sourcePath": "packages/protocol-runtime/src/apnt_lane_roots.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_lifecycle_acceptance_policy_v0.ts",
+      "sha256": "25ce2c203448de37b9776e645726f6b73bb5f3302a9da8af7ba6b66330e21f68",
+      "sizeBytes": 17766,
+      "sourcePath": "packages/protocol-runtime/src/apnt_lifecycle_acceptance_policy_v0.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_nullifier_v0.ts",
+      "sha256": "d3a795c8cd23ac4769656a0fdca791f05199723a207e02fb94f58fe2bcdf1765",
+      "sizeBytes": 2230,
+      "sourcePath": "packages/protocol-runtime/src/apnt_nullifier_v0.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_privacy_risk_non_claim_report_v0.ts",
+      "sha256": "46e406a9ae8b49213799577ba3c910784b21250174d0b9080a2782bef8c55eba",
+      "sizeBytes": 7777,
+      "sourcePath": "packages/protocol-runtime/src/apnt_privacy_risk_non_claim_report_v0.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_private_note_transition_relation_v1_contract.ts",
+      "sha256": "4ad1bc998d9e24d1b0d5f749a5b15519b7efec0fe882450d21fce4bc1d1ae611",
+      "sizeBytes": 4653,
+      "sourcePath": "packages/protocol-runtime/src/apnt_private_note_transition_relation_v1_contract.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_settlement_authorization_covenant_v0.ts",
+      "sha256": "e1d06f6e00f771d9f9a15a1d58688ed342c09c2f1d1a6e865d3365e6ed823a1b",
+      "sizeBytes": 14809,
+      "sourcePath": "packages/protocol-runtime/src/apnt_settlement_authorization_covenant_v0.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_spend_authority_v0.ts",
+      "sha256": "59d023521c7e56829ed950122112b035100be4903b80c78aec8fa9300bc69c52",
+      "sizeBytes": 2416,
+      "sourcePath": "packages/protocol-runtime/src/apnt_spend_authority_v0.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_transaction_projection_v1.ts",
+      "sha256": "69f47dd784eb0f7f1e8247d73d775ae36e6ad1a75d2cf886bc751e44659309ca",
+      "sizeBytes": 19390,
+      "sourcePath": "packages/protocol-runtime/src/apnt_transaction_projection_v1.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_transition_settlement_projection_v0.ts",
+      "sha256": "b3a0a73556eca6d3053953bf4cbb002d8822b488f26df92bfb8f6893704f637e",
+      "sizeBytes": 8529,
+      "sourcePath": "packages/protocol-runtime/src/apnt_transition_settlement_projection_v0.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_transition_settlement_projection_v2_adapter.ts",
+      "sha256": "7b49198d38b5711fa20820b9bfa1f8c07f1f5028ca76e85a099a28d4f697099c",
+      "sizeBytes": 1827,
+      "sourcePath": "packages/protocol-runtime/src/apnt_transition_settlement_projection_v2_adapter.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_transition_statement_v0.ts",
+      "sha256": "45d88a022b50efdca8f8d3380fd8b0ff3ceccdb735fe80694a98805aa383aa48",
+      "sizeBytes": 25990,
+      "sourcePath": "packages/protocol-runtime/src/apnt_transition_statement_v0.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_transition_statement_v1.ts",
+      "sha256": "51183d01306ec1f786f6acae1cfd724f613b63980ca650e5a71d55bd4dcb36be",
+      "sizeBytes": 43344,
+      "sourcePath": "packages/protocol-runtime/src/apnt_transition_statement_v1.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_transition_statement_v2.ts",
+      "sha256": "f32d995998c3b1f9fba5a1a6a4fa3eb99d593417d291b59c9dd86cd356bb4115",
+      "sizeBytes": 43055,
+      "sourcePath": "packages/protocol-runtime/src/apnt_transition_statement_v2.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_transition_validity_model_v0.ts",
+      "sha256": "445b6583294803195fc3343bfc7b92eddd3d19f5bb9262f754c86b16a80c937f",
+      "sizeBytes": 10306,
+      "sourcePath": "packages/protocol-runtime/src/apnt_transition_validity_model_v0.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_utxo_seal.ts",
+      "sha256": "3d316a07c8459999e2d0034b65728d5790eaa4aee58cf4f8e3ab31e1707d3619",
+      "sizeBytes": 33966,
+      "sourcePath": "packages/protocol-runtime/src/apnt_utxo_seal.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_value_conservation_model_v0.ts",
+      "sha256": "3c80e22ca2b64f04c619cdd3ba7a83a98a71a859b05053a210f987c7b77afe21",
+      "sizeBytes": 9391,
+      "sourcePath": "packages/protocol-runtime/src/apnt_value_conservation_model_v0.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/apnt_verifier_factory_v0.ts",
+      "sha256": "42f8a6a5a55fc6394cb5354205e7e3d3c97b3e772b00e79296b4010d3ec2adb4",
+      "sizeBytes": 4550,
+      "sourcePath": "packages/protocol-runtime/src/apnt_verifier_factory_v0.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/bytes.ts",
+      "sha256": "d1c5a0520fd47576f95947055f812ea6c510a682b8a99b9438cf397d1dc8a70e",
+      "sizeBytes": 2410,
+      "sourcePath": "packages/protocol-runtime/src/bytes.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_aggregate_branch_v0.casm",
+      "sha256": "54d33be926a13012816222151353cec5b8330c283f5c9b0121be7c1fcd67bec9",
+      "sizeBytes": 2985,
+      "sourcePath": "packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_aggregate_branch_v0.casm"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_exit_branch_v0.casm",
+      "sha256": "bc212c276827cc49dd1b83a5ced5fd35319ab87fbf56299993cbbeb2c5157bc4",
+      "sizeBytes": 3481,
+      "sourcePath": "packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_exit_branch_v0.casm"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_v0.casm",
+      "sha256": "357ace4423a5b4cafd2be77aba141b86bf84457c5d5fb0b2fb47861a51f2f02c",
+      "sizeBytes": 4157,
+      "sourcePath": "packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_v0.casm"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/cashassembly/apnt_settlement_authorization_covenant_v0.casm",
+      "sha256": "79bf16bfa5671edc39b5d511241a4c42c158918f056a2a3372c7ba9a07b92ff4",
+      "sizeBytes": 5241,
+      "sourcePath": "packages/protocol-runtime/src/cashassembly/apnt_settlement_authorization_covenant_v0.casm"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/cashassembly/apnt_verifier_factory_v0.casm",
+      "sha256": "8104dfcb19592c2b77ca9de985de571a1ce585ba378264abfef4b63a1762f0d5",
+      "sizeBytes": 1612,
+      "sourcePath": "packages/protocol-runtime/src/cashassembly/apnt_verifier_factory_v0.casm"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/descriptor.ts",
+      "sha256": "1a91a62f987b063dc6c89b0d7429ab2e5c303b7211244de81eead5fbf49fa114",
+      "sizeBytes": 7817,
+      "sourcePath": "packages/protocol-runtime/src/descriptor.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/hash.ts",
+      "sha256": "e9ced1b9dbe5f821938df12ba692b653f1e4e9ad84373c457141c7b3cfb5a58a",
+      "sizeBytes": 2726,
+      "sourcePath": "packages/protocol-runtime/src/hash.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/import.ts",
+      "sha256": "deece7d6ef84736920bac15a6dae70c68eb08c9450257ea51ee9c4b31e42398e",
+      "sizeBytes": 9685,
+      "sourcePath": "packages/protocol-runtime/src/import.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/import_claim.ts",
+      "sha256": "7469c5bc7f47a4fb3e98e5a1c7a3cbc5d0abca20fba3b1328d009a638d59991c",
+      "sizeBytes": 7722,
+      "sourcePath": "packages/protocol-runtime/src/import_claim.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/import_evidence.ts",
+      "sha256": "e516f791c50426a0a27a729734ef797ea2aac11f3d1d75510e4333fb3d162b0f",
+      "sizeBytes": 4964,
+      "sourcePath": "packages/protocol-runtime/src/import_evidence.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/intents.ts",
+      "sha256": "8f727d5985c490f8f6d1e257bdffb650e4006eadd613711cef4a0c073d2daf8d",
+      "sizeBytes": 7184,
+      "sourcePath": "packages/protocol-runtime/src/intents.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/note_tree.ts",
+      "sha256": "aa2ad79b01ea6ad014e406cdc40cc8366a05dae8cb4b893b0805f0f9cbe9247a",
+      "sizeBytes": 3318,
+      "sourcePath": "packages/protocol-runtime/src/note_tree.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/notes.ts",
+      "sha256": "8a6135e36e149e4deffe2e508f68467a97852628fb2d6dbb9c54892250054bd8",
+      "sizeBytes": 1877,
+      "sourcePath": "packages/protocol-runtime/src/notes.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/seal_bound_private_note_candidate.ts",
+      "sha256": "ec3948bfc9579f1b3141c38ea24ddcfec0531761fe67fbadf8a3a089fc319cae",
+      "sizeBytes": 44622,
+      "sourcePath": "packages/protocol-runtime/src/seal_bound_private_note_candidate.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/serialization.ts",
+      "sha256": "0157c0d3ba1d98dbba82462fa5bc0fbbd3d3371a88864b1d97d5ef0f68944018",
+      "sizeBytes": 1801,
+      "sourcePath": "packages/protocol-runtime/src/serialization.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/src/state.ts",
+      "sha256": "271332cdbf842b1f49a118ea8179a138fc50e39c95f45c57918c1d60594400ee",
+      "sizeBytes": 2289,
+      "sourcePath": "packages/protocol-runtime/src/state.ts"
+    },
+    {
+      "category": "protocol-runtime",
+      "expandedFromGlob": null,
+      "publicPath": "packages/protocol-runtime/tsconfig.json",
+      "sha256": "5be0e6336ea84983a831dc22d7fe13bdcb16adbc7d2707d002ea974221b2b56a",
+      "sizeBytes": 191,
+      "sourcePath": "packages/protocol-runtime/tsconfig.json"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": "pnpm-workspace.yaml",
+      "sha256": "bca393670feda41fcde28e01e56e4dbb268a82225cc63b6d540b4485600f144e",
+      "sizeBytes": 389,
+      "sourcePath": "scripts/public-export/public-tree/pnpm-workspace.yaml"
+    },
+    {
+      "category": "spec",
+      "expandedFromGlob": null,
+      "publicPath": "spec/apnt-aggregation-transition-output.md",
+      "sha256": "4e48bc49087cc87438fea0e6850c78213ff1407516fb907f52fadf4b31107ba0",
+      "sizeBytes": 17462,
+      "sourcePath": "openspec/specs/apnt-aggregation-transition-output/spec.md"
+    },
+    {
+      "category": "spec",
+      "expandedFromGlob": null,
+      "publicPath": "spec/apnt-bundle-backed-transition-contracts.md",
+      "sha256": "a94ebb3097ffdfe7cd20ded7f183bd5520f3fd562b6921468f03ef91d9bff202",
+      "sizeBytes": 10832,
+      "sourcePath": "openspec/specs/apnt-bundle-backed-transition-contracts/spec.md"
+    },
+    {
+      "category": "spec",
+      "expandedFromGlob": null,
+      "publicPath": "spec/apnt-chain-evidence.md",
+      "sha256": "d42a84bb9eb3df177fc3553fae11b61b6c17b95ac0499570dfdd7e7df84729c9",
+      "sizeBytes": 2312,
+      "sourcePath": "openspec/specs/apnt-chain-evidence/spec.md"
+    },
+    {
+      "category": "spec",
+      "expandedFromGlob": null,
+      "publicPath": "spec/apnt-distributed-transition-experiment.md",
+      "sha256": "f29d1eaa1b04b03876972ae89bd763ea979586a58bc83dc4cb40818dff16b41e",
+      "sizeBytes": 5429,
+      "sourcePath": "openspec/specs/apnt-distributed-transition-experiment/spec.md"
+    },
+    {
+      "category": "spec",
+      "expandedFromGlob": null,
+      "publicPath": "spec/apnt-groth16-cashvm-execution.md",
+      "sha256": "984efa892c1e7ddade1b6fc297f4dc156df3684fdbce7c02fb9134f05c246b46",
+      "sizeBytes": 9798,
+      "sourcePath": "openspec/specs/apnt-groth16-cashvm-execution/spec.md"
+    },
+    {
+      "category": "spec",
+      "expandedFromGlob": null,
+      "publicPath": "spec/apnt-live-funding-normalization.md",
+      "sha256": "3d7769d6e31e7281d6c4c228be4e471085fa1abe35e1eca700572391d578194f",
+      "sizeBytes": 5979,
+      "sourcePath": "openspec/specs/apnt-live-funding-normalization/spec.md"
+    },
+    {
+      "category": "spec",
+      "expandedFromGlob": null,
+      "publicPath": "spec/apnt-live-seal-close-consumption.md",
+      "sha256": "b10abd2e1d4807542ccfc8b84b9481012cda680f6ab51563ccc2ba339e79d735",
+      "sizeBytes": 25570,
+      "sourcePath": "openspec/specs/apnt-live-seal-close-consumption/spec.md"
+    },
+    {
+      "category": "spec",
+      "expandedFromGlob": null,
+      "publicPath": "spec/apnt-live-validation.md",
+      "sha256": "1bc4dfced749640a17dd49889eb5240c02dbf3ce71ae3ba25867a4ea8326faa6",
+      "sizeBytes": 23096,
+      "sourcePath": "openspec/specs/apnt-live-validation/spec.md"
+    },
+    {
+      "category": "spec",
+      "expandedFromGlob": null,
+      "publicPath": "spec/apnt-noncustodial-spend-authority.md",
+      "sha256": "d0a7d41eddd14c82f7a8a20e7eb1e44bde6cdae8fe899a6131028485b4e1c053",
+      "sizeBytes": 2690,
+      "sourcePath": "openspec/specs/apnt-noncustodial-spend-authority/spec.md"
+    },
+    {
+      "category": "spec",
+      "expandedFromGlob": null,
+      "publicPath": "spec/apnt-note-commitment-preimage-verifier-artifact.md",
+      "sha256": "7b574249878007625a9bf55dbf0923bab175bbc6d8551f4550507a0949bd0d33",
+      "sizeBytes": 9350,
+      "sourcePath": "openspec/specs/apnt-note-commitment-preimage-verifier-artifact/spec.md"
+    },
+    {
+      "category": "spec",
+      "expandedFromGlob": null,
+      "publicPath": "spec/apnt-pluggable-prover-backend.md",
+      "sha256": "c5245f20cb4012a95051d10e7fa98c37585016d9ab40c34e865569dccd5d48e4",
+      "sizeBytes": 1389,
+      "sourcePath": "openspec/specs/apnt-pluggable-prover-backend/spec.md"
+    },
+    {
+      "category": "spec",
+      "expandedFromGlob": null,
+      "publicPath": "spec/apnt-private-note-validation.md",
+      "sha256": "99a7a678656418b61e63e294ff5263a9a8f153629f884023583b04314e1082d0",
+      "sizeBytes": 11304,
+      "sourcePath": "openspec/specs/apnt-private-note-validation/spec.md"
+    },
+    {
+      "category": "spec",
+      "expandedFromGlob": null,
+      "publicPath": "spec/apnt-private-spend-covenant.md",
+      "sha256": "763b56b0a26ac24529bf21a4314ac13b2613bf88de119dba9ea3a47d0b0059b6",
+      "sizeBytes": 1570,
+      "sourcePath": "openspec/specs/apnt-private-spend-covenant/spec.md"
+    },
+    {
+      "category": "spec",
+      "expandedFromGlob": null,
+      "publicPath": "spec/apnt-private-spend-interface.md",
+      "sha256": "7334787c69da70f8cffd37a632475cba62be149084565482cda1e358585e298e",
+      "sizeBytes": 9773,
+      "sourcePath": "openspec/specs/apnt-private-spend-interface/spec.md"
+    },
+    {
+      "category": "spec",
+      "expandedFromGlob": null,
+      "publicPath": "spec/apnt-proof-acceptance.md",
+      "sha256": "e46767e153dec7ebcdc048099ef7caa4484aff344f4e60de8fa3782c815ca933",
+      "sizeBytes": 11789,
+      "sourcePath": "openspec/specs/apnt-proof-acceptance/spec.md"
+    },
+    {
+      "category": "spec",
+      "expandedFromGlob": null,
+      "publicPath": "spec/apnt-proof-validation.md",
+      "sha256": "658a971ebcbe18aa8914b31737860ecbc18d25709955067a5171d115e37d2419",
+      "sizeBytes": 10297,
+      "sourcePath": "openspec/specs/apnt-proof-validation/spec.md"
+    },
+    {
+      "category": "spec",
+      "expandedFromGlob": null,
+      "publicPath": "spec/apnt-receive-descriptors.md",
+      "sha256": "b9fdc88a2ef233a71015569ed0a6db1c02d898d0df5deed6c75538bb20651946",
+      "sizeBytes": 12177,
+      "sourcePath": "openspec/specs/apnt-receive-descriptors/spec.md"
+    },
+    {
+      "category": "spec",
+      "expandedFromGlob": null,
+      "publicPath": "spec/apnt-recipient-profile-note-recording.md",
+      "sha256": "4203b0836c70c0213d4addbce44aa0d876ca8439a8a7c0de6f4db71e0cdc4690",
+      "sizeBytes": 5072,
+      "sourcePath": "openspec/specs/apnt-recipient-profile-note-recording/spec.md"
+    },
+    {
+      "category": "spec",
+      "expandedFromGlob": null,
+      "publicPath": "spec/apnt-recovery-packets.md",
+      "sha256": "f7e8147975ddc9885a54a80841f330371695ca0b4f889ac535aec79a331b52fb",
+      "sizeBytes": 10245,
+      "sourcePath": "openspec/specs/apnt-recovery-packets/spec.md"
+    },
+    {
+      "category": "spec",
+      "expandedFromGlob": null,
+      "publicPath": "spec/apnt-sp1-transition-prototype.md",
+      "sha256": "eab93cf0bb055c011ce072c3056c63c0037a8bc5a5f3d6f5d8374065911a98a6",
+      "sizeBytes": 1386,
+      "sourcePath": "openspec/specs/apnt-sp1-transition-prototype/spec.md"
+    },
+    {
+      "category": "spec",
+      "expandedFromGlob": null,
+      "publicPath": "spec/apnt-transfer-intents.md",
+      "sha256": "182d61a21745a88be63f5182be65deffc63f595ad25eb7908c2b2f6b660a0143",
+      "sizeBytes": 19026,
+      "sourcePath": "openspec/specs/apnt-transfer-intents/spec.md"
+    },
+    {
+      "category": "spec",
+      "expandedFromGlob": null,
+      "publicPath": "spec/apnt-transition-statement.md",
+      "sha256": "cedd0d5ef196ebf21ea08a707c3ad15673ced43f602581ed3e2d78232465e535",
+      "sizeBytes": 3978,
+      "sourcePath": "openspec/specs/apnt-transition-statement/spec.md"
+    },
+    {
+      "category": "repo-metadata",
+      "expandedFromGlob": null,
+      "publicPath": "tsconfig.base.json",
+      "sha256": "24da66f939553c4781d2163bc5842480a3b93332bee82c3edb41087f727d106d",
+      "sizeBytes": 308,
+      "sourcePath": "tsconfig.base.json"
+    }
+  ],
+  "generation": {
+    "buildGate": {
+      "generatedLockfile": {
+        "publicPath": "pnpm-lock.yaml",
+        "sha256": "6ac6c295a1f107f5ef0825b02e27c6c994918b63e4d70291955cb240ceaa4646",
+        "sizeBytes": 28311
+      },
+      "generator": "scripts/public-export/build-gate@1",
+      "scope": {
+        "cargoManifestsOutOfScope": [],
+        "protocolRuntimeTypecheckedDirectly": true,
+        "verifyScriptRun": false
+      },
+      "skippedReason": null,
+      "status": "passed",
+      "steps": [
+        {
+          "command": [
+            "pnpm",
+            "install",
+            "--no-frozen-lockfile",
+            "--fetch-retries=2",
+            "--fetch-retry-mintimeout=1000",
+            "--fetch-retry-maxtimeout=5000",
+            "--store-dir=<isolated-tmp>/pnpm-store"
+          ],
+          "durationMs": 2089,
+          "exitCode": 0,
+          "name": "install-generate-lockfile",
+          "ok": true,
+          "signal": null,
+          "timedOut": false
+        },
+        {
+          "command": [
+            "pnpm",
+            "install",
+            "--frozen-lockfile",
+            "--fetch-retries=2",
+            "--fetch-retry-mintimeout=1000",
+            "--fetch-retry-maxtimeout=5000",
+            "--store-dir=<isolated-tmp>/pnpm-store"
+          ],
+          "durationMs": 291,
+          "exitCode": 0,
+          "name": "install-frozen-lockfile",
+          "ok": true,
+          "signal": null,
+          "timedOut": false
+        },
+        {
+          "command": [
+            "pnpm",
+            "-r",
+            "build"
+          ],
+          "durationMs": 805,
+          "exitCode": 0,
+          "name": "build",
+          "ok": true,
+          "signal": null,
+          "timedOut": false
+        },
+        {
+          "command": [
+            "pnpm",
+            "-r",
+            "typecheck"
+          ],
+          "durationMs": 573,
+          "exitCode": 0,
+          "name": "typecheck",
+          "ok": true,
+          "signal": null,
+          "timedOut": false
+        },
+        {
+          "command": [
+            "<isolated-tmp>/tree/node_modules/.bin/tsc",
+            "--noEmit",
+            "-p",
+            "packages/protocol-runtime/tsconfig.json"
+          ],
+          "durationMs": 664,
+          "exitCode": 0,
+          "name": "typecheck-protocol-runtime-standalone",
+          "ok": true,
+          "signal": null,
+          "timedOut": false
+        },
+        {
+          "command": [
+            "pnpm",
+            "-r",
+            "test",
+            "--",
+            "--passWithNoTests"
+          ],
+          "durationMs": 1436,
+          "exitCode": 0,
+          "name": "test",
+          "ok": true,
+          "signal": null,
+          "testFilesRun": 4,
+          "timedOut": false
+        }
+      ],
+      "summary": "PASSED: 6 step(s) all exited 0",
+      "toolchain": {
+        "@types/node": "25.9.5",
+        "node": "v20.19.4",
+        "typescript": "5.9.3",
+        "vitest": "2.1.9"
+      }
+    },
+    "generatedAt": "2026-08-14T00:00:00Z",
+    "generator": "scripts/public-export@1",
+    "note": "This block is EXCLUDED from determinismDigest. Pass --now=<iso> to pin generatedAt and make a run byte-reproducible."
+  },
+  "layer": "v0.1",
+  "pathMap": [
+    {
+      "from": "openspec/specs/apnt-aggregation-transition-output/spec.md",
+      "to": "spec/apnt-aggregation-transition-output.md"
+    },
+    {
+      "from": "openspec/specs/apnt-bundle-backed-transition-contracts/spec.md",
+      "to": "spec/apnt-bundle-backed-transition-contracts.md"
+    },
+    {
+      "from": "openspec/specs/apnt-chain-evidence/spec.md",
+      "to": "spec/apnt-chain-evidence.md"
+    },
+    {
+      "from": "openspec/specs/apnt-distributed-transition-experiment/spec.md",
+      "to": "spec/apnt-distributed-transition-experiment.md"
+    },
+    {
+      "from": "openspec/specs/apnt-groth16-cashvm-execution/spec.md",
+      "to": "spec/apnt-groth16-cashvm-execution.md"
+    },
+    {
+      "from": "openspec/specs/apnt-live-funding-normalization/spec.md",
+      "to": "spec/apnt-live-funding-normalization.md"
+    },
+    {
+      "from": "openspec/specs/apnt-live-seal-close-consumption/spec.md",
+      "to": "spec/apnt-live-seal-close-consumption.md"
+    },
+    {
+      "from": "openspec/specs/apnt-live-validation/spec.md",
+      "to": "spec/apnt-live-validation.md"
+    },
+    {
+      "from": "openspec/specs/apnt-noncustodial-spend-authority/spec.md",
+      "to": "spec/apnt-noncustodial-spend-authority.md"
+    },
+    {
+      "from": "openspec/specs/apnt-note-commitment-preimage-verifier-artifact/spec.md",
+      "to": "spec/apnt-note-commitment-preimage-verifier-artifact.md"
+    },
+    {
+      "from": "openspec/specs/apnt-pluggable-prover-backend/spec.md",
+      "to": "spec/apnt-pluggable-prover-backend.md"
+    },
+    {
+      "from": "openspec/specs/apnt-private-note-validation/spec.md",
+      "to": "spec/apnt-private-note-validation.md"
+    },
+    {
+      "from": "openspec/specs/apnt-private-spend-covenant/spec.md",
+      "to": "spec/apnt-private-spend-covenant.md"
+    },
+    {
+      "from": "openspec/specs/apnt-private-spend-interface/spec.md",
+      "to": "spec/apnt-private-spend-interface.md"
+    },
+    {
+      "from": "openspec/specs/apnt-proof-acceptance/spec.md",
+      "to": "spec/apnt-proof-acceptance.md"
+    },
+    {
+      "from": "openspec/specs/apnt-proof-validation/spec.md",
+      "to": "spec/apnt-proof-validation.md"
+    },
+    {
+      "from": "openspec/specs/apnt-receive-descriptors/spec.md",
+      "to": "spec/apnt-receive-descriptors.md"
+    },
+    {
+      "from": "openspec/specs/apnt-recipient-profile-note-recording/spec.md",
+      "to": "spec/apnt-recipient-profile-note-recording.md"
+    },
+    {
+      "from": "openspec/specs/apnt-recovery-packets/spec.md",
+      "to": "spec/apnt-recovery-packets.md"
+    },
+    {
+      "from": "openspec/specs/apnt-sp1-transition-prototype/spec.md",
+      "to": "spec/apnt-sp1-transition-prototype.md"
+    },
+    {
+      "from": "openspec/specs/apnt-transfer-intents/spec.md",
+      "to": "spec/apnt-transfer-intents.md"
+    },
+    {
+      "from": "openspec/specs/apnt-transition-statement/spec.md",
+      "to": "spec/apnt-transition-statement.md"
+    },
+    {
+      "from": "packages/chain-io/package.json",
+      "to": "packages/chain-io/package.json"
+    },
+    {
+      "from": "packages/chain-io/src/index.ts",
+      "to": "packages/chain-io/src/index.ts"
+    },
+    {
+      "from": "packages/chain-io/src/network_identity.ts",
+      "to": "packages/chain-io/src/network_identity.ts"
+    },
+    {
+      "from": "packages/chain-io/test/fulcrum_transport.test.ts",
+      "to": "packages/chain-io/test/fulcrum_transport.test.ts"
+    },
+    {
+      "from": "packages/chain-io/test/network_identity.test.ts",
+      "to": "packages/chain-io/test/network_identity.test.ts"
+    },
+    {
+      "from": "packages/chain-io/test/transaction_location_evidence.test.ts",
+      "to": "packages/chain-io/test/transaction_location_evidence.test.ts"
+    },
+    {
+      "from": "packages/chain-io/test/transparent_funding_evidence.test.ts",
+      "to": "packages/chain-io/test/transparent_funding_evidence.test.ts"
+    },
+    {
+      "from": "packages/chain-io/tsconfig.json",
+      "to": "packages/chain-io/tsconfig.json"
+    },
+    {
+      "from": "packages/protocol-runtime/scripts/copy-cashassembly-sources.mjs",
+      "to": "packages/protocol-runtime/scripts/copy-cashassembly-sources.mjs"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_aggregation_transition_output_v0.ts",
+      "to": "packages/protocol-runtime/src/apnt_aggregation_transition_output_v0.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_aggregation_validity_model_v0.ts",
+      "to": "packages/protocol-runtime/src/apnt_aggregation_validity_model_v0.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_bch_asset_id_v0.ts",
+      "to": "packages/protocol-runtime/src/apnt_bch_asset_id_v0.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_bch_standard_policy_limits_v0.ts",
+      "to": "packages/protocol-runtime/src/apnt_bch_standard_policy_limits_v0.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_bundle_backed_private_note_v1.ts",
+      "to": "packages/protocol-runtime/src/apnt_bundle_backed_private_note_v1.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_bundle_nullifier_v1.ts",
+      "to": "packages/protocol-runtime/src/apnt_bundle_nullifier_v1.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_cashassembly_compiler_v0.ts",
+      "to": "packages/protocol-runtime/src/apnt_cashassembly_compiler_v0.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_created_note_seal_exit_branch_v0.ts",
+      "to": "packages/protocol-runtime/src/apnt_created_note_seal_exit_branch_v0.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_created_note_seal_v0.ts",
+      "to": "packages/protocol-runtime/src/apnt_created_note_seal_v0.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_creation_scope_v1.ts",
+      "to": "packages/protocol-runtime/src/apnt_creation_scope_v1.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_creation_scope_v2.ts",
+      "to": "packages/protocol-runtime/src/apnt_creation_scope_v2.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_import_created_note_statement_v0.ts",
+      "to": "packages/protocol-runtime/src/apnt_import_created_note_statement_v0.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_import_created_note_statement_v1.ts",
+      "to": "packages/protocol-runtime/src/apnt_import_created_note_statement_v1.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_import_creation_scope_v0.ts",
+      "to": "packages/protocol-runtime/src/apnt_import_creation_scope_v0.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_import_creation_scope_v1.ts",
+      "to": "packages/protocol-runtime/src/apnt_import_creation_scope_v1.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_import_current_transaction_projection_v0.ts",
+      "to": "packages/protocol-runtime/src/apnt_import_current_transaction_projection_v0.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_import_settlement_projection_v0.ts",
+      "to": "packages/protocol-runtime/src/apnt_import_settlement_projection_v0.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_lane_roots.ts",
+      "to": "packages/protocol-runtime/src/apnt_lane_roots.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_lifecycle_acceptance_policy_v0.ts",
+      "to": "packages/protocol-runtime/src/apnt_lifecycle_acceptance_policy_v0.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_nullifier_v0.ts",
+      "to": "packages/protocol-runtime/src/apnt_nullifier_v0.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_privacy_risk_non_claim_report_v0.ts",
+      "to": "packages/protocol-runtime/src/apnt_privacy_risk_non_claim_report_v0.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_private_note_transition_relation_v1_contract.ts",
+      "to": "packages/protocol-runtime/src/apnt_private_note_transition_relation_v1_contract.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_settlement_authorization_covenant_v0.ts",
+      "to": "packages/protocol-runtime/src/apnt_settlement_authorization_covenant_v0.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_spend_authority_v0.ts",
+      "to": "packages/protocol-runtime/src/apnt_spend_authority_v0.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_transaction_projection_v1.ts",
+      "to": "packages/protocol-runtime/src/apnt_transaction_projection_v1.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_transition_settlement_projection_v0.ts",
+      "to": "packages/protocol-runtime/src/apnt_transition_settlement_projection_v0.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_transition_settlement_projection_v2_adapter.ts",
+      "to": "packages/protocol-runtime/src/apnt_transition_settlement_projection_v2_adapter.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_transition_statement_v0.ts",
+      "to": "packages/protocol-runtime/src/apnt_transition_statement_v0.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_transition_statement_v1.ts",
+      "to": "packages/protocol-runtime/src/apnt_transition_statement_v1.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_transition_statement_v2.ts",
+      "to": "packages/protocol-runtime/src/apnt_transition_statement_v2.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_transition_validity_model_v0.ts",
+      "to": "packages/protocol-runtime/src/apnt_transition_validity_model_v0.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_utxo_seal.ts",
+      "to": "packages/protocol-runtime/src/apnt_utxo_seal.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_value_conservation_model_v0.ts",
+      "to": "packages/protocol-runtime/src/apnt_value_conservation_model_v0.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/apnt_verifier_factory_v0.ts",
+      "to": "packages/protocol-runtime/src/apnt_verifier_factory_v0.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/bytes.ts",
+      "to": "packages/protocol-runtime/src/bytes.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_aggregate_branch_v0.casm",
+      "to": "packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_aggregate_branch_v0.casm"
+    },
+    {
+      "from": "packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_exit_branch_v0.casm",
+      "to": "packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_exit_branch_v0.casm"
+    },
+    {
+      "from": "packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_v0.casm",
+      "to": "packages/protocol-runtime/src/cashassembly/apnt_created_note_seal_v0.casm"
+    },
+    {
+      "from": "packages/protocol-runtime/src/cashassembly/apnt_settlement_authorization_covenant_v0.casm",
+      "to": "packages/protocol-runtime/src/cashassembly/apnt_settlement_authorization_covenant_v0.casm"
+    },
+    {
+      "from": "packages/protocol-runtime/src/cashassembly/apnt_verifier_factory_v0.casm",
+      "to": "packages/protocol-runtime/src/cashassembly/apnt_verifier_factory_v0.casm"
+    },
+    {
+      "from": "packages/protocol-runtime/src/descriptor.ts",
+      "to": "packages/protocol-runtime/src/descriptor.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/hash.ts",
+      "to": "packages/protocol-runtime/src/hash.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/import.ts",
+      "to": "packages/protocol-runtime/src/import.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/import_claim.ts",
+      "to": "packages/protocol-runtime/src/import_claim.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/import_evidence.ts",
+      "to": "packages/protocol-runtime/src/import_evidence.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/intents.ts",
+      "to": "packages/protocol-runtime/src/intents.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/note_tree.ts",
+      "to": "packages/protocol-runtime/src/note_tree.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/notes.ts",
+      "to": "packages/protocol-runtime/src/notes.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/seal_bound_private_note_candidate.ts",
+      "to": "packages/protocol-runtime/src/seal_bound_private_note_candidate.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/serialization.ts",
+      "to": "packages/protocol-runtime/src/serialization.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/src/state.ts",
+      "to": "packages/protocol-runtime/src/state.ts"
+    },
+    {
+      "from": "packages/protocol-runtime/tsconfig.json",
+      "to": "packages/protocol-runtime/tsconfig.json"
+    },
+    {
+      "from": "scripts/public-export/public-tree/.github/CODEOWNERS",
+      "to": ".github/CODEOWNERS"
+    },
+    {
+      "from": "scripts/public-export/public-tree/.github/ISSUE_TEMPLATE/bug_report.yml",
+      "to": ".github/ISSUE_TEMPLATE/bug_report.yml"
+    },
+    {
+      "from": "scripts/public-export/public-tree/.github/ISSUE_TEMPLATE/config.yml",
+      "to": ".github/ISSUE_TEMPLATE/config.yml"
+    },
+    {
+      "from": "scripts/public-export/public-tree/.github/ISSUE_TEMPLATE/protocol_question.yml",
+      "to": ".github/ISSUE_TEMPLATE/protocol_question.yml"
+    },
+    {
+      "from": "scripts/public-export/public-tree/.github/ISSUE_TEMPLATE/verifier_failure.yml",
+      "to": ".github/ISSUE_TEMPLATE/verifier_failure.yml"
+    },
+    {
+      "from": "scripts/public-export/public-tree/.github/PULL_REQUEST_TEMPLATE.md",
+      "to": ".github/PULL_REQUEST_TEMPLATE.md"
+    },
+    {
+      "from": "scripts/public-export/public-tree/.github/scripts/verify-provenance.mjs",
+      "to": ".github/scripts/verify-provenance.mjs"
+    },
+    {
+      "from": "scripts/public-export/public-tree/.github/workflows/build.yml",
+      "to": ".github/workflows/build.yml"
+    },
+    {
+      "from": "scripts/public-export/public-tree/.github/workflows/provenance.yml",
+      "to": ".github/workflows/provenance.yml"
+    },
+    {
+      "from": "scripts/public-export/public-tree/.github/workflows/verify.yml",
+      "to": ".github/workflows/verify.yml"
+    },
+    {
+      "from": "scripts/public-export/public-tree/AGENTS.md",
+      "to": "AGENTS.md"
+    },
+    {
+      "from": "scripts/public-export/public-tree/CLAUDE.md",
+      "to": "CLAUDE.md"
+    },
+    {
+      "from": "scripts/public-export/public-tree/CONTRIBUTING.md",
+      "to": "CONTRIBUTING.md"
+    },
+    {
+      "from": "scripts/public-export/public-tree/LICENSE",
+      "to": "LICENSE"
+    },
+    {
+      "from": "scripts/public-export/public-tree/README.md",
+      "to": "README.md"
+    },
+    {
+      "from": "scripts/public-export/public-tree/RELEASE.md",
+      "to": "RELEASE.md"
+    },
+    {
+      "from": "scripts/public-export/public-tree/SECURITY.md",
+      "to": "SECURITY.md"
+    },
+    {
+      "from": "scripts/public-export/public-tree/THIRD-PARTY-NOTICES.md",
+      "to": "THIRD-PARTY-NOTICES.md"
+    },
+    {
+      "from": "scripts/public-export/public-tree/docs/live-settlement-evidence.md",
+      "to": "docs/live-settlement-evidence.md"
+    },
+    {
+      "from": "scripts/public-export/public-tree/docs/the-seal.md",
+      "to": "docs/the-seal.md"
+    },
+    {
+      "from": "scripts/public-export/public-tree/docs/why-not-a-pool.md",
+      "to": "docs/why-not-a-pool.md"
+    },
+    {
+      "from": "scripts/public-export/public-tree/docs/why-sp1.md",
+      "to": "docs/why-sp1.md"
+    },
+    {
+      "from": "scripts/public-export/public-tree/gitignore",
+      "to": ".gitignore"
+    },
+    {
+      "from": "scripts/public-export/public-tree/openspec/README.md",
+      "to": "openspec/README.md"
+    },
+    {
+      "from": "scripts/public-export/public-tree/package.json",
+      "to": "package.json"
+    },
+    {
+      "from": "scripts/public-export/public-tree/pnpm-workspace.yaml",
+      "to": "pnpm-workspace.yaml"
+    },
+    {
+      "from": "tsconfig.base.json",
+      "to": "tsconfig.base.json"
+    }
+  ],
+  "schemaVersion": "apnt-public-export-manifest/1",
+  "source": {
+    "allowlist": {
+      "path": "scripts/public-export/allowlist.json",
+      "sha256": "1d76547952fbdd66ca851e2582776a1211114a31a7a3dffa49f1672c74a5aeb2"
+    },
+    "branch": "main",
+    "commit": "c8ef177e44881d7f04846a970394b01712f7b34a",
+    "repository": "bch-cloak (private)",
+    "workingTreeDirty": false
+  },
+  "standaloneVerifiers": []
+}

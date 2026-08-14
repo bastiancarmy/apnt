@@ -1,0 +1,8 @@
+# Blank issues stay ENABLED, deliberately. SECURITY.md's own fallback path
+# depends on it: if GitHub's private vulnerability reporting is unavailable
+# to a reporter, its documented fallback is "open a public issue saying only
+# that you have a security report and would like a private channel — no
+# detail" — an unstructured, blank issue. Disabling blank issues here would
+# quietly break that fallback for the one category of report where it
+# matters most.
+blank_issues_enabled: true

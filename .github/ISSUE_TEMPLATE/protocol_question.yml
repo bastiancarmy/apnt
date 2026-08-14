@@ -1,0 +1,56 @@
+name: Protocol question or spec clarification
+description: >-
+  A relation, covenant, statement encoding, or capability spec (spec/) is
+  ambiguous, seems wrong, or seems to contradict the artifacts it describes.
+labels: ["protocol"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is the right place for: "does the transition relation actually
+        require X", "spec/apnt-....md says A but the shipped covenant does
+        B", "is this a semantic bug or is my reading of the spec wrong".
+
+        If you believe you've found a way to make a relation accept a
+        statement that violates its stated semantic contract, that is a
+        security report, not a question — see `SECURITY.md` and use "Report
+        a vulnerability" instead.
+
+        Also worth checking first: `AGENTS.md`'s "What is frozen" section. A
+        relation identity, covenant byte layout, or semantic-contract
+        commitment cannot be edited in place — if your question is really a
+        proposal to change one of those, it needs to be framed as a
+        successor identity, not a fix.
+
+  - type: input
+    id: reference
+    attributes:
+      label: Which spec, relation, or artifact
+      description: >-
+        A path under spec/, a relationIdentity, or a specific field in a
+        trusted/*.json descriptor.
+      placeholder: e.g. spec/apnt-private-note-validation.md, or apnt-private-note-transition-relation-v0
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: The question or the apparent contradiction
+      description: >-
+        Quote the specific text or field, and say precisely what seems
+        unclear, wrong, or inconsistent — not a general description.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: As best you can tell, is this...
+      options:
+        - "A spec that's ambiguous or under-specified"
+        - "A spec that contradicts a shipped artifact"
+        - "A genuine question about intended semantics"
+        - "Not sure — that's the question"
+    validations:
+      required: true

@@ -1,0 +1,71 @@
+// APNT created-note seal, direct-exit branch v0.
+//
+// Target architecture:
+// openspec/changes/define-apnt-private-spend-covenant-v0/design.md §1.2,
+// with the coexistence framing in §3.1.
+//
+// This is the exit half of a created note's seal, and it is the deliberate
+// opposite of the aggregate branch: a plain, ordinary, fully transparent BCH
+// spend authorized by a one-time key. No proof verification, no covenant
+// delegation, no transaction introspection, no token introspection. It exists
+// so that a note holder is never dependent on any aggregator, prover, relay or
+// counterparty to move their own funds — the non-custodial floor under the
+// whole protocol (AGENTS.md "Hard constraints", design.md §3.1/§3.2).
+//
+// It is a PUBLIC, TRANSPARENT exit. Taking it forfeits the privacy the
+// aggregate path provides. That is a stated protocol limitation, not a defect.
+//
+// Expected witness stack on entry (bottom to top):
+//   [ signature65, exitPublicKey33 ]
+//
+// The committed key hash is substituted by the TypeScript builder into the
+// marker below. It is `sha256(E33)` — PLAIN SHA-256, not
+// `sha256DomainSeparated`, over the 33-byte compressed one-time exit public key
+// `E`. That is deliberate (design.md §1.2): the domain-separated commitment the
+// relation binds is a DIFFERENT value over the SAME key (design.md §4.3), so
+// the on-chain preimage check stays two opcodes instead of five, and the two
+// values are not interchangeable by construction.
+//
+// Two requirements this script makes that a naive "P2PK with a hash lock" would
+// not, both load-bearing:
+//
+//   * exactly 65 bytes of signature (64-byte signature + 1 sighash byte).
+//     This forces a Schnorr signature rather than a DER-encoded ECDSA one. It
+//     makes the spend deterministically sized (real fee planning) and removes
+//     signature malleability as a consideration.
+//
+//   * the trailing sighash byte is exactly 0x41 (SIGHASH_ALL | SIGHASH_FORKID).
+//     Without this a spender could sign SIGHASH_NONE or SIGHASH_SINGLE and let
+//     a miner or relay redirect the exit output. Both of those sighash types
+//     are otherwise accepted by the VM's own signature-encoding check, so this
+//     comparison is the only thing that rejects them.
+//
+// IMPLEMENTATION NOTE, measured and not assumed: BCH's OP_CHECKSIG verifies the
+// EC-Schnorr-SHA256 construction specified for Bitcoin Cash (challenge
+// `SHA256(r || compressedPubkey33 || m)`), NOT BIP-340 (which uses tagged
+// hashes and a 32-byte x-only key). A BIP-340 signature over the same digest is
+// rejected by the real BCH 2026 VM. See the reference-aggregator verification
+// module for the executed measurement of both.
+//
+// This is a locking-template artifact. It is not APNT acceptance, note
+// spendability, proof verification, wallet acceptance, or broadcast approval.
+// Wiring this branch and the aggregate branch into one OP_IF/OP_ELSE/OP_ENDIF
+// seal is a separate task and is deliberately NOT done here.
+
+// --- require the supplied public key to be the committed one-time exit key ---
+OP_DUP
+OP_SHA256
+@EXIT_KEY_HASH_PUSH@
+OP_EQUALVERIFY
+
+// --- require exactly 65 signature bytes: 64-byte Schnorr + 1 sighash byte ---
+OP_SWAP
+OP_SIZE <65> OP_NUMEQUALVERIFY
+
+// --- require the sighash byte to be exactly SIGHASH_ALL | SIGHASH_FORKID ---
+OP_DUP <64> OP_SPLIT OP_NIP
+0x01 0x41 OP_EQUALVERIFY
+
+// --- the one deliberate on-chain signature check in the protocol ---
+OP_SWAP
+OP_CHECKSIG

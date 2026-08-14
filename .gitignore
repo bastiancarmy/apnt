@@ -1,0 +1,14 @@
+# Published as `.gitignore` in the public repository.
+# Kept deliberately small: this tree ships sources and artifacts, not builds.
+#
+# Note there are no entries here for the private repository's operator-state
+# directories. Those names are ALWAYS-fatal markers in the export's
+# private-material scan, so writing them down here would refuse the export that
+# publishes this file. The scan is the defence; a gitignore line never was.
+
+node_modules/
+dist/
+target/
+*.tsbuildinfo
+
+.DS_Store

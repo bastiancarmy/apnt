@@ -1,0 +1,78 @@
+# provenance.yml — re-derives the SHA-256 of every file this repository
+# ships and compares it against export-manifest.json, on every push, every
+# pull request, and a daily schedule.
+#
+# This is the workflow that is genuinely unusual for a repository like this
+# one, and worth explaining plainly: `apnt` has no human-authored commits.
+# Every byte in it arrived through a fail-closed export from a private
+# repository, or not at all, and export-manifest.json records the exact
+# SHA-256 of every file the export produced. That means this workflow can
+# prove -- to a stranger, or to the maintainer's own future self -- that the
+# tree on disk is still exactly what the export claimed to publish. A commit
+# that silently altered a published file, added an unlisted one, or deleted
+# a listed one without updating the manifest gets caught here, by anyone,
+# including by whoever has push access. That is the "don't trust, verify"
+# idea applied to the repository's own integrity, not just to its protocol
+# claims.
+#
+# What this DOES prove: the bytes on disk match what export-manifest.json
+# says was published, file by file, with nothing extra and nothing missing.
+# What this does NOT prove: that the export's original inclusion/exclusion
+# decision was correct -- that a file which should have been withheld really
+# was. That is an editorial judgment made once, by a human, at export time.
+# See RELEASE.md for this distinction stated plainly; do not read a clean run
+# of this workflow as "audited".
+#
+# The check itself is `.github/scripts/verify-provenance.mjs` -- a single
+# self-contained file with no imports beyond Node builtins, on purpose: this
+# is the check a reader is most likely to want to re-run themselves, by hand,
+# without trusting anything else in the repository first, so it deliberately
+# does not depend on the private export tooling that produced the manifest
+# it checks (that tooling is not published here).
+#
+# Actions are pinned to a full commit SHA, not a mutable tag -- see build.yml
+# for the concrete incident this defends against.
+#
+# This workflow only reads the repository. It never pushes, publishes,
+# deploys, or opens a PR -- and deliberately never runs `pnpm install`: a
+# fresh `node_modules` would itself be an "extra file" this check would
+# (correctly) refuse, so the checkout it verifies is a pristine one, exactly
+# as it would be for anyone who just cloned the repository.
+
+name: provenance
+
+on:
+  push:
+  pull_request:
+  schedule:
+    # 06:23 UTC daily -- offset from verify.yml's schedule so the two do not
+    # contend for the same shared-runner minute.
+    - cron: "23 6 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: provenance-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  provenance:
+    name: re-derive file hashes against export-manifest.json
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        # actions/checkout v7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Set up Node.js
+        # actions/setup-node v7.0.0. No pnpm setup here on purpose: this
+        # check needs nothing but the Node standard library (node:crypto,
+        # node:fs, node:path) -- see verify-provenance.mjs's own header.
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: "20.19.4"
+
+      - name: Verify manifest provenance
+        run: node .github/scripts/verify-provenance.mjs

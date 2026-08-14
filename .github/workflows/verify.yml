@@ -1,0 +1,91 @@
+# verify.yml — runs every independent verifier this repository's README
+# claims runs, on every push and on a daily schedule.
+#
+# The scheduled run matters more than it looks: it proves the published
+# artifacts KEEP verifying over time, with no code change required to notice
+# a regression. A verifier badge that has stayed green for months, with
+# nobody touching the repository in between, is some of the cheapest
+# credibility a project like this can earn -- and the cheapest way to lose it
+# is to only ever run the check when something changed.
+#
+# Each verifier gets its OWN step, deliberately, rather than one combined
+# `npm run verify` invocation. If one fails, GitHub's UI shows exactly which
+# step is red, the step name says which verifier and what it checks, and the
+# other three still run to completion instead of being skipped by a shell
+# `&&` chain -- so a contributor never has to guess which of four checks
+# broke or re-run locally just to find out.
+#
+# All four verifiers run with a bare `node` and nothing else: no
+# dependencies, no build step, no network access. That is a real property of
+# this repository (see README.md, "Verify it yourself"), not an
+# implementation convenience of this workflow -- `pnpm install` is
+# deliberately NOT run here, so this workflow is itself evidence for the
+# claim.
+#
+# Actions are pinned to a full commit SHA, not a mutable tag -- see build.yml
+# for the concrete incident (75-of-76 Trivy Action tags force-pushed in March
+# 2026) that makes this a real risk rather than a formality.
+#
+# This workflow only reads the repository and executes committed scripts. It
+# never pushes, publishes, deploys, or opens a PR.
+
+name: verify
+
+on:
+  push:
+  schedule:
+    # 06:11 UTC daily. An off-the-hour minute avoids the load spike every
+    # workflow scheduled for exactly :00 contributes to on GitHub's shared
+    # runners.
+    - cron: "11 6 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: run independent verifiers
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        # actions/checkout v7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Set up pnpm
+        # pnpm/action-setup v6.0.10. Version omitted deliberately -- see
+        # build.yml's comment; it reads package.json's pinned
+        # `packageManager` field. Used here only to invoke the `verify:*`
+        # scripts, never to install anything.
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86
+
+      - name: Set up Node.js
+        # actions/setup-node v7.0.0
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          # Same exact pin and the same reason as build.yml: an unpinned
+          # toolchain already broke this repository once (corepack resolving
+          # a pnpm that needs Node >=22.13, crashing under Node 20).
+          node-version: "20.19.4"
+
+      # Each step below runs the exact command package.json names for that
+      # verifier (`pnpm run verify:<name>`), so this workflow and
+      # package.json cannot silently disagree about what "the verifiers"
+      # means -- see README.md's "Verify it yourself" for what each one
+      # establishes and, as important, what it explicitly does not.
+
+      - name: "Verify: certificate-run keying (mixup detector)"
+        run: pnpm run verify:certificate-run-keying
+
+      - name: "Verify: certificate-run retention (artifact digest binding)"
+        run: pnpm run verify:certificate-run-retention
+
+      - name: "Verify: transition/settlement projection (independent re-derivation)"
+        run: pnpm run verify:transition-settlement-projection-independent
+
+      - name: "Verify: settlement-authorization covenant (independent re-derivation)"
+        run: pnpm run verify:settlement-authorization-covenant-independent

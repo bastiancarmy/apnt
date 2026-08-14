@@ -1,0 +1,84 @@
+// APNT created-note seal v0 — the complete locking bytecode.
+//
+// Target architecture:
+// openspec/changes/define-apnt-private-spend-covenant-v0/design.md §3.1,
+// with the branch decisions in §1.1.6a (witness-index aggregate branch) and
+// §1.2 (direct-exit branch).
+//
+// This is what a created note's output is actually locked by. It is a BARE
+// DIRECT-P2S locking script, not a P2SH32 wrapper, and that is load-bearing:
+// both branches are therefore visible on-chain at note-creation time, so any
+// observer can read a created seal's output script and confirm that an exit
+// branch exists and which key it commits to. Behind a P2SH32 hash the branches
+// would stay hidden until spend time and the mandatory-exit property would only
+// be checkable in-circuit (design.md §3.1).
+//
+// Measured composition, against maximumStandardLockingBytecodeLength = 201:
+//
+//     OP_IF   (1) + aggregate branch (74) + OP_ELSE (1)
+//                 + exit branch      (51) + OP_ENDIF (1)   = 128 bytes
+//
+// design.md §3.1 originally recorded 130 bytes. That figure summed §1.1.6's
+// last-input aggregate branch (76 bytes); §1.1.6a adopted the witness-index
+// variant (74 bytes) instead, so the real seal is 128. Both figures fit the
+// same 201-byte limit.
+//
+// Branch selection is the top unlocking-bytecode stack item, so a spender's
+// witness ends with the selector:
+//
+//     aggregate spend   push(designatedVerifierInputIndex) OP_1
+//     exit spend        push(signature65) push(exitPublicKey33) OP_0
+//
+// Both selectors are minimal encodings (OP_1 pushes 0x01, OP_0 pushes the empty
+// item), which is what the VM's minimal-`OP_IF` rule requires.
+//
+// BOTH BRANCHES ARE SIMULTANEOUSLY LIVE for the whole lifetime of a seal. A
+// recipient can broadcast an exit while an aggregate settlement for the same
+// seal is in flight; whichever confirms first wins and the other becomes invalid
+// because it spends a consumed outpoint. That is a liveness consideration for
+// aggregators, not a fund-security one (design.md §3.3).
+//
+// TRAP, recorded because it is easy to get wrong and expensive to discover late:
+// OP_CHECKSIG's covered bytecode is the ENTIRE locking script it executes under
+// — this whole 128-byte seal — not the 51-byte exit branch in isolation. A
+// signature produced against the bare branch does NOT validate here. The
+// reference-aggregator seal-level verification module executes exactly that
+// rejection so the trap is a measurement rather than a comment.
+//
+// SCOPE. This template is the WALLET-SIDE half of design.md §3.2's two
+// enforcement levels: it makes the exit branch visible on-chain at creation
+// time.
+//
+// CORRECTED 2026-08-13. This comment previously said the second level — an
+// accepted transition recomputing this template and requiring byte equality
+// with the created output's locking bytecode — was "deliberately NOT
+// implemented anywhere in this repository". That is no longer true, and the
+// stale text directly contradicted `apnt_created_note_seal_v0.ts`, which says
+// "Both levels now exist". Both files are published, so a reader saw the
+// contradiction and could not resolve it.
+//
+// Both levels now exist. The second lives in
+// `apnt_created_note_seal_skeleton_v0.ts` as a fixed-offset byte matcher over a
+// pinned skeleton (a guest must not read files or run the CASM compiler), and
+// is applied by the v1 structural validator and the transition relation, and by
+// import relations V3/V4 for import-created outputs.
+//
+// Note the scope word that made the old text wrong: "anywhere in this
+// repository" is a bare universal with no named subject. The accurate scoped
+// statement would have been "not implemented in the transition relation at the
+// time of writing".
+//
+// This is a locking-template artifact. It is not APNT acceptance, proof
+// verification, chain validation, wallet acceptance, or note spendability.
+
+OP_IF
+
+// --- aggregate branch: delegate to the settlement authorization covenant ----
+@AGGREGATE_BRANCH_SOURCE@
+
+OP_ELSE
+
+// --- direct-exit branch: the non-custodial floor, one on-chain signature ----
+@EXIT_BRANCH_SOURCE@
+
+OP_ENDIF

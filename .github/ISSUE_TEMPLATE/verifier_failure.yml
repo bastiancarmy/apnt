@@ -1,0 +1,74 @@
+name: Verifier failure
+description: >-
+  One of the independent verifiers (README.md, "Verify it yourself") passed
+  when it should have failed, failed when it should have passed, or crashed
+  on legitimate input.
+labels: ["verifier"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Read the verifier's own header comment first.** Every independent
+        verifier in this tree states, in its own file, what it establishes
+        and what it explicitly does not (this repository's honesty rule —
+        see `AGENTS.md`). A verifier rejecting something outside its stated
+        scope is not a bug in the verifier.
+
+        **If the disagreement reveals a real soundness gap** — the verifier
+        accepted an artifact it should have rejected, in a way its own
+        header does NOT already disclose as a known scope boundary — **stop
+        and use "Report a vulnerability" instead** (see `SECURITY.md`). Do
+        not post a working false-accept case as a public issue.
+
+        This template is for everything else: a verifier that crashes, that
+        rejects something it should accept, or whose CI run
+        (`verify.yml`) went red without a code change on your end.
+
+  - type: dropdown
+    id: which
+    attributes:
+      label: Which verifier
+      options:
+        - assert-certificate-run-vkey-binding.mjs (keying / mixup check)
+        - assert-certificate-run-vkey-binding.mjs (retention / digest check)
+        - verify-apnt-transition-settlement-projection-independently-v0.mjs
+        - verify-apnt-settlement-authorization-covenant-independently-v0.mjs
+        - Other verifier not listed in README.md's four
+    validations:
+      required: true
+
+  - type: textarea
+    id: command
+    attributes:
+      label: Exact command and input
+      description: >-
+        The literal command line, including every flag and file path, so it
+        can be reproduced verbatim. Do not paraphrase the input.
+      placeholder: |
+        $ node packages/reference-aggregator/tools/verify-apnt-...-v0.mjs \
+            --golden-vectors tools/.../typescript-golden-vectors-public-v0.json \
+            --fixture-dir tools/.../fixtures
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-vs-actual
+    attributes:
+      label: Expected result vs. actual result
+      description: Full output of both, not a summary.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: scope-check
+    attributes:
+      label: Before submitting
+      options:
+        - label: >-
+            I read the verifier's own header comment and this is not a scope
+            boundary it already discloses.
+          required: true
+        - label: >-
+            This is not a working soundness break (if it is, I used "Report a
+            vulnerability" instead of this template).
+          required: true
