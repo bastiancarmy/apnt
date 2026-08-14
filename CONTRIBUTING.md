@@ -77,6 +77,10 @@ PR after the work is done.
 this checkout is `v0.1` Foundation and none of the below is staged yet — see
 [`AGENTS.md`](./AGENTS.md), "A note on what you can check today.")*
 
+Run `npm run capabilities` first if you want the generated index of every
+command here, with what each one establishes and does not — see
+[`AGENTS.md`](./AGENTS.md), "What you can run — start with *capabilities.json*."
+
 Counts here name their subject, because three different true numbers describe
 this surface and quoting one without saying which is how they start to look
 like a contradiction:

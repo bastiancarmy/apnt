@@ -159,6 +159,57 @@ always.** Concretely, in any PR description, code comment, or doc change:
 An honest "not verified" is always a better contribution than a confident
 guess. If you couldn't run something, say so plainly.
 
+## What you can run — start with *capabilities.json*
+
+*(Proposed for the `repo-metadata` category, not yet staged in this export's
+allowlist. The guarantees below describe the generator's contract; check
+`export-manifest.json` for whether this checkout actually carries the file
+yet.)*
+
+Any agent working in this repository should read *capabilities.json*, at the
+repository root, before trying to guess what a command does. This applies
+regardless of which vendor's agent you are: the file's schema is deliberately
+plain — a `command` string, `establishes`/`doesNotEstablish` arrays,
+`requiresNetwork`/`offline` booleans, a `layer` string, a measured
+`runtimeMs` — with no vendor-specific vocabulary, so a CI job or a different
+assistant can consume it exactly as well as this one can.
+
+Two things it guarantees:
+
+- **It is generated, never hand-written.** `establishes` and
+  `doesNotEstablish` are harvested from each command's own output at
+  generation time — the JSON-emitting verifiers' own `notEstablishedHere` /
+  `nonClaims` fields, or (for the two certificate-run checks, which print no
+  JSON) that script's own header comment, extracted fresh every time. A
+  hand-maintained list of "what each command establishes" drifts the moment a
+  verifier changes; this file cannot, because nobody types it.
+- **`doesNotEstablish` must be reported, not dropped.** If you relay a
+  command's result to the person you're working for, its
+  `doesNotEstablish` entries travel with it. Reporting only what a check
+  established is exactly the honesty-bar violation "The honesty bar a PR must
+  meet" above exists to prevent — dropping the limit is not a shortcut, it is
+  the specific mistake this file is designed to make impossible to miss.
+
+`npm run capabilities` prints it human-readably; for clean JSON, run
+*capabilities.mjs* with `--json` directly (the `npm run` wrapper prints its
+own banner to stdout first). Cross-reference each entry's `layer` against
+this checkout's own `export-manifest.json` (`layer` field) to know whether
+that command's files are actually staged here — *capabilities.mjs* does this
+automatically and marks unstaged entries `[NOT STAGED IN THIS CHECKOUT]`
+rather than omitting them, on the view that an agent who knows a capability
+exists but isn't staged here can tell the person they're helping something
+useful ("that check exists, but this is a Foundation-only checkout — here's
+what layer to fetch"), where an agent who never saw the entry can only fail
+opaquely.
+
+The `verify-apnt` skill at `.claude/skills/verify-apnt/SKILL.md` (`v0.2`
+Verification and later — see "A note on what you can check today" above) is
+a convenience wrapper over this same surface for one agent vendor's skill
+mechanism — it points at *capabilities.json* and at the verifiers directly.
+The dependency runs only one way: *capabilities.json* and the `npm run`
+scripts are the complete, usable interface on their own, and stay that way
+whether or not that skill directory exists in your checkout.
+
 ## How to verify things yourself
 
 *(`v0.2` Verification and later — see "A note on what you can check today"

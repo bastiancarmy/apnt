@@ -23,6 +23,23 @@ checks need nothing but `node` and files already in this tree.
 
 Run every command from the repository root unless stated otherwise.
 
+**Before anything below: *capabilities.json*, at the repository root, is the
+canonical index this skill is a convenience wrapper over** (proposed for the
+`repo-metadata` category; check `export-manifest.json` for whether this
+checkout carries it yet). It is generated (never hand-written) by actually
+running every command in this tree and harvesting each one's own
+`establishes` / `doesNotEstablish` from its own output, so it cannot drift
+the way a hand-maintained doc can. `npm run capabilities` prints it
+human-readably; *capabilities.mjs* with `--json` prints the raw file for a
+script. This skill exists because `.claude/` is one vendor's convenience
+mechanism for surfacing that same information as a guided walkthrough — the
+dependency runs one way: *capabilities.json* and the plain `npm run`
+commands are a complete interface with or without this skill, but this skill
+is not useful without them. **Whatever you learn from running a command in
+this skill, report its `doesNotEstablish` alongside its result** — see
+`AGENTS.md`, "What you can run — start with *capabilities.json*", for why
+that is not optional.
+
 ---
 
 ## 1. Verifying a Groth16 proof artifact's binding
@@ -217,11 +234,42 @@ Fulcrum instances indexing the same chain.
 
 To check a specific output rather than the whole transaction, use
 `blockchain.transaction.get` as above and inspect `result.vout[n]` for
-`value` and `scriptPubKey.hex`, or use `blockchain.scripthash.listunspent`
+`value` and `scriptPubKey.hex` — **but read the warning below first if the
+output carries a CashToken.** Or use `blockchain.scripthash.listunspent`
 against the scripthash of a locking bytecode you're checking, computed as
 `sha256(lockingBytecode)` reversed (see
 [`packages/chain-io/src/index.ts`](../../../packages/chain-io/src/index.ts)'s `electrumScripthashForLockingBytecodeV0` for
 the exact derivation — read for reference, don't import).
+
+
+### A trap that fails silently: verbose output strips the CashToken prefix
+
+`blockchain.transaction.get(txid, true)` does **not** give you the full
+serialized output script for a token-bearing output. It reports
+`scriptPubKey.hex` as the locking bytecode *without* the token prefix, and
+carries the token data separately in a `token_data` field.
+
+Measured on this project's own verifier-token genesis,
+`67349b46125a4e76e37542f404f83820d229b09608d6211f3bf8145db18a806c` vout 0:
+verbose reports a **35-byte** `scriptPubKey.hex` while the whole raw
+transaction is 129 bytes.
+
+**Why this matters more than a normal parsing quirk:** it does not error, it
+does not warn, and it does not truncate visibly. You get a well-formed,
+plausible answer that is simply not the output script. A length assertion
+against it will *pass* while checking a fiction, and a script comparison will
+silently disagree with what the chain actually contains.
+
+**So: for any token-bearing output, verify against the raw transaction.**
+Request `blockchain.transaction.get(txid, false)`, parse the wire format
+yourself, and take the output script from there. Reconstructing it from
+`scriptPubKey.hex` plus `token_data` is possible but you must do the
+reconstruction deliberately and prove it round-trips; the default reading is
+wrong.
+
+This applies to APNT's verifier-stage outputs, which carry the pinned verifier
+token category by design.
+
 
 ### What this establishes, and what it does not
 

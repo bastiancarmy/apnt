@@ -9,6 +9,76 @@ Everything here is MIT-licensed. See `LICENSE`.
 
 ---
 
+## Quickstart — clone, install, get a verified result
+
+*(`v0.2` Verification and later. If this checkout's `package.json` has no
+`verify` script, it is `v0.1` Foundation — skip ahead to "How this repository
+is released" below; there is nothing to install or run yet, by design.)*
+
+Copy-paste, in order, from a clone of this repository. Every command below was
+actually run to produce the output shown, on Node v20.19.4.
+
+**Prerequisite:** Node.js ≥ 20.6.0. The four `verify:*` commands need nothing
+else. `build`/`typecheck`/`test` additionally need `pnpm` (this repo's one
+workspace member, [`packages/chain-io/`](./packages/chain-io), is a pnpm workspace) — if you don't
+have it, `corepack enable` (bundled with Node ≥ 16.9) fetches the pinned
+version (`packageManager` in `package.json`) automatically the first time it's
+invoked.
+
+```sh
+npm install
+```
+```text
+added 46 packages, and audited 47 packages in 4s
+```
+(`npm audit` may report a handful of moderate/high advisories in transitive
+`vitest`/`esbuild` dev-server dependencies — these affect `vitest`'s own local
+dev server, not anything this repository runs; safe to ignore for the purpose
+of this checkout.)
+
+Now get a verified result — no build step, no network, done in well under a
+second:
+
+```sh
+npm run verify
+```
+```text
+independent verification of the landed SAC + aggregate branch
+  constant prefix      110 bytes (design.md's 109 is wrong by one)
+  redeem script         4058 bytes, 64 input / 32 output slots
+  L_verdict            aa20ec180a864325f5a9db82344476675131b3bc873cb38f222e4a5fb69ebbdc2d2d87
+  aggregate branch     74 bytes (witness-index variant)
+  ...
+checks: 67, all passed
+INDEPENDENTLY VERIFIED
+```
+(Measured wall-clock for all four checks together: ~450ms. Full output is much
+longer — each of the four checks prints its own report; see "Verify it
+yourself" below for what each one establishes and does not.)
+
+Then see what else this repository can do, and what each command establishes
+and does not — generated, not hand-written; see "Discover what you can check"
+below:
+
+```sh
+npm run capabilities
+```
+
+And, if you want the compile/typecheck/test leg too (needs `pnpm`, see
+Prerequisite above):
+
+```sh
+npm run build      # ~1s  -- tsc compiles packages/chain-io
+npm run typecheck  # ~1.5s -- chain-io + packages/protocol-runtime/src
+npm run test       # ~1.5s -- vitest, 4 test files / 17 tests, packages/chain-io
+```
+
+That's the whole loop: install, verify, done. Everything after this section is
+detail — what each layer of this repository is, what each check establishes
+and does not, and what does and does not build.
+
+---
+
 ## How this repository is released — a foundation, then named layers
 
 This repository is not published as one drop of everything at once. It is
@@ -81,7 +151,7 @@ Four limits apply to everything below.
 
 The **Layer** column names the earliest release each path belongs to — see
 "How this repository is released" above. Cumulative, so a `v0.2` checkout also
-has every `v0.1` row; a `v0.1`-only checkout has only the first four rows and
+has every `v0.1` row; a `v0.1`-only checkout has only the first five rows and
 that is complete at its own layer, not a partial copy of a bigger table.
 
 | Path | What it is | Layer |
@@ -90,6 +160,7 @@ that is complete at its own layer, not a partial copy of a bigger table.
 | [`packages/protocol-runtime/src/`](./packages/protocol-runtime/src) | Protocol objects, byte codecs, commitment hashing, note trees, transition statements, seal and projection types. | `v0.1` |
 | [`packages/protocol-runtime/src/cashassembly/`](./packages/protocol-runtime/src/cashassembly) | CashAssembly covenant sources — the on-chain locking bytecode, as written. | `v0.1` |
 | [`packages/chain-io/`](./packages/chain-io) | The Fulcrum/Electrum client used to read chain state. Complete, node-builtins only. | `v0.1` |
+| *capabilities.json* / *capabilities.mjs* (proposed; not yet in this export's allowlist — see "Discover what you can check" below) | The generated, machine-readable index of every runnable command (`npm run capabilities`). Ships at `v0.1` so even a Foundation-only checkout can see `build`/`typecheck`/`test`; its `v0.2`-layer entries (the `verify:*` commands) are present but marked not-staged-here until the checkout reaches `v0.2`. | `v0.1` |
 | `tools/*-sp1/trusted/` | Frozen verifier descriptors: the trust anchors that pin what a proof is allowed to be. | `v0.2` |
 | `tools/*-sp1/fixtures/` | Canonical Groth16 proof artifacts and certificate runs, with their READMEs. | `v0.2` |
 | `tools/apnt-import-created-note-sp1/scripts/quotient-residue-regeneration/` | The CashVM Groth16 verification lane, and the independent checker below. | `v0.2` |
@@ -114,6 +185,42 @@ to ship (`scripts/public-export/standalone-verify.mjs`'s
 `runStandaloneVerifiers`), and the same four are what the release's build
 gate runs a second time, for real, through `npm run verify` in a fully
 installed copy of this tree, before promotion.
+
+### Discover what you can check — *capabilities.json*
+
+*(Proposed for the `repo-metadata` category, not yet staged in this export's
+allowlist — see this section's own note below. The commands, and their real
+output, are all real; only the two files that carry this index,
+*capabilities.json* and *capabilities.mjs*, are pending promotion.)*
+
+Before running anything, you can ask this repository what it can prove:
+
+```sh
+npm run capabilities
+```
+
+This prints every command in this tree — `build`, `typecheck`, `test`, the
+four `verify:*` checks, and the aggregate `verify` — with what each one
+**establishes** and what it explicitly **does not**, plus whether it needs
+network/install (`offline`/`requiresNetwork`) and which release layer stages
+the files it needs. `npm run capabilities -- --json` prints npm's own banner
+first; for clean JSON in a script or an agent, call *capabilities.mjs* with
+`--json` directly.
+
+The file is **generated, never hand-written**: `establishes` and
+`doesNotEstablish` are harvested from each command's own output at generation
+time (the JSON-emitting verifiers' own `notEstablishedHere`/`nonClaims`
+fields; the two certificate-run checks' own header comment) — never restated
+from memory, so it cannot silently drift out of sync with the checks it
+describes the way a hand-maintained doc would. See *capabilities.json*'s own
+`description` and `howToUse` fields for the full contract; the generator that
+produces it is private-repo-side tooling and is not itself shipped here —
+*capabilities.json*, its output, is (once promoted).
+
+**Report both halves.** If you relay a result from this file — to a user, in
+a PR, anywhere — `establishes` and `doesNotEstablish` travel together.
+Reporting only `establishes` overstates what the command showed; that is
+exactly the honesty-bar violation `AGENTS.md` warns about.
 
 ```sh
 npm run verify:certificate-run-keying
