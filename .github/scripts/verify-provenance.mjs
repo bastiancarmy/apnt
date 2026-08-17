@@ -122,7 +122,38 @@ const EXCLUDED_DIRS = new Set([".git"]);
 //     labeled as ignored rather than as tampering, and does not fail the run
 //     by itself — so a real extra-file or content-mismatch finding is no
 //     longer buried under thousands of lines that mean nothing locally.
-const GENERATED_DIR_NAMES = new Set(["node_modules"]);
+// The same argument applies to build output, and for a sharper reason than
+// convenience: following THIS REPOSITORY'S OWN documented quickstart is what
+// creates it. README tells a visitor to run `npm install` and `npm run build`;
+// doing exactly that leaves `package-lock.json` and a `dist/` under each built
+// package. Before this list covered them, a reader who then ran this script —
+// the very script the repository offers as its proof of integrity — was told
+// the tree had been tampered with. A tampering alarm that fires because the
+// user followed the instructions teaches them to ignore the alarm, which costs
+// more than the check was ever worth.
+//
+// Nothing here is published under any of these names, so tolerating them
+// cannot mask a real finding. Verified against the manifest rather than
+// assumed: zero published files sit under a `dist`, `target`, `.astro`,
+// `build`, or `out` path segment, and none is named `package-lock.json` or
+// ends in `.tsbuildinfo`. The one lockfile that IS published, `pnpm-lock.yaml`,
+// is accounted for explicitly in check 3 and is deliberately NOT in this list —
+// it is real provenance and must keep failing loudly if it changes.
+//
+// These names duplicate .gitignore, and the duplication is deliberate: this
+// script must stay self-contained and readable start to finish (see the header)
+// rather than parsing another file's format to learn what it means. If
+// .gitignore gains a generated path, add it here too.
+const GENERATED_DIR_NAMES = new Set(["node_modules", "dist", "target", ".astro"]);
+
+// File-level equivalents of GENERATED_DIR_NAMES: artifacts a normal local
+// build drops as loose files rather than inside a directory. Same contextual
+// treatment, same reasoning.
+const isGeneratedFileName = (relPath) => {
+  const base = relPath.split("/").pop();
+  return base === "package-lock.json" || base.endsWith(".tsbuildinfo");
+};
+
 const isCiRun = () => process.env.CI === "true" || process.env.CI === "1";
 
 function sha256Hex(bytes) {
@@ -322,12 +353,31 @@ function main() {
     fail([{ code: "walk-failed", detail: `could not walk ${REPO_ROOT}: ${error.message}` }]);
     return;
   }
+  const ciRun = isCiRun();
+  const ignoredGeneratedFiles = [];
   for (const relPath of onDisk.files) {
     const posixPath = relPath.split(/[\\/]/).join("/");
     if (accountedFor.has(posixPath)) continue;
     const region = authoredRegions.find((r) => authoredRegionMatches(posixPath, r));
     if (region) {
       region.matched += 1;
+      continue;
+    }
+    // Loose build artifacts: fatal in CI, where a checkout that was never
+    // built has no business containing them; merely reported by hand, where
+    // the repository's own quickstart is what produced them. Same contextual
+    // split as GENERATED_DIR_NAMES, for the same reason.
+    if (isGeneratedFileName(posixPath)) {
+      if (ciRun) {
+        problems.push({
+          code: "generated-file-present",
+          path: posixPath,
+          detail:
+            "a build artifact this CI workflow deliberately never creates (see verify-provenance.mjs header, \"isGeneratedFileName\") — its presence in a CI checkout means something upstream changed",
+        });
+      } else {
+        ignoredGeneratedFiles.push(posixPath);
+      }
       continue;
     }
     problems.push({
@@ -343,7 +393,6 @@ function main() {
   // per file inside it. Outside CI it is reported but does not fail the run
   // by itself, so it cannot bury a real finding.
   const ignoredGeneratedDirs = [];
-  const ciRun = isCiRun();
   for (const gd of onDisk.generatedDirs) {
     if (ciRun) {
       problems.push({
@@ -355,11 +404,17 @@ function main() {
       ignoredGeneratedDirs.push(gd);
     }
   }
-  if (ignoredGeneratedDirs.length > 0) {
-    const total = ignoredGeneratedDirs.reduce((sum, gd) => sum + gd.fileCount, 0);
+  if (ignoredGeneratedDirs.length > 0 || ignoredGeneratedFiles.length > 0) {
+    const parts = [
+      ...ignoredGeneratedDirs.map((gd) => `${gd.path}/ (${gd.fileCount})`),
+      ...ignoredGeneratedFiles,
+    ];
+    const total =
+      ignoredGeneratedDirs.reduce((sum, gd) => sum + gd.fileCount, 0) + ignoredGeneratedFiles.length;
     console.log(
-      `provenance: ignoring ${total} file(s) under ${ignoredGeneratedDirs.map((gd) => `${gd.path}/ (${gd.fileCount})`).join(", ")} ` +
-        `— produced by "pnpm install", expected in a local checkout, not treated as tampering here. ` +
+      `provenance: ignoring ${total} generated file(s) — ${parts.join(", ")} ` +
+        `— produced by installing dependencies or running this repository's own documented build, ` +
+        `expected in a local checkout, not treated as tampering here. ` +
         `Set CI=true to check for these as provenance failures instead, which is what this workflow does in GitHub Actions.`,
     );
   }

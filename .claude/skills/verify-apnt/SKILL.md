@@ -496,7 +496,21 @@ verifying key via a Rust `include_bytes!` of a sibling binary,
 crate under [`tools/apnt-sp1-notecommitment-verifier/trusted/`](../../../tools/apnt-sp1-notecommitment-verifier/trusted). **That binary
 file is not part of this export**
 — only the sibling [`tools/apnt-sp1-notecommitment-verifier/trusted/apnt-note-commitment-preimage-v0.json`](../../../tools/apnt-sp1-notecommitment-verifier/trusted/apnt-note-commitment-preimage-v0.json) descriptor is
-staged. As allowlisted today, `cargo build` for this crate will fail at that
-`include_bytes!` before it reaches any dependency-resolution problem. This is
-flagged rather than worked around; the fix is adding the missing binary file
-to the export allowlist, which is outside this skill's scope to change.
+staged. As allowlisted today, `cargo build` for this crate never even reaches
+that `include_bytes!`: `tools/apnt-sp1-notecommitment-verifier/Cargo.toml` is
+a workspace whose `members` list includes `fixture-generator`, which is
+proving-orchestration tooling withheld from every layer for the same reason
+as every other fixture generator in this export — so Cargo fails at
+workspace-manifest resolution, before compiling anything:
+
+```
+error: failed to load manifest for workspace member `.../fixture-generator`
+Caused by:
+  failed to read `.../fixture-generator/Cargo.toml`
+Caused by:
+  No such file or directory (os error 2)
+```
+
+Reproduced directly against this checkout. This is flagged rather than worked
+around; the fix is adding the missing crate (or trimming it from `members`)
+in the export, which is outside this skill's scope to change.

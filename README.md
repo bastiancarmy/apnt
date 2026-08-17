@@ -31,10 +31,14 @@ npm install
 ```text
 added 46 packages, and audited 47 packages in 4s
 ```
-(`npm audit` may report a handful of moderate/high advisories in transitive
-`vitest`/`esbuild` dev-server dependencies — these affect `vitest`'s own local
-dev server, not anything this repository runs; safe to ignore for the purpose
-of this checkout.)
+(`npm audit` reports `5 vulnerabilities (3 moderate, 1 high, 1 critical)` —
+all in the transitive `esbuild`/`vite`/`vitest` dev-server chain, including a
+critical advisory about vitest's own UI server reading and executing
+arbitrary files when that server is running. None of it is reachable from
+anything this repository runs; `npm run verify` needs no install at all, and
+`vitest` never starts a dev or UI server here. Safe to ignore for the purpose
+of this checkout — but "critical" is what the tool actually prints, so that's
+what this says.)
 
 Now get a verified result — no build step, no network, done in well under a
 second:

@@ -1,14 +1,5 @@
 {
-  "authoredRegions": [
-    {
-      "prefix": ".github/workflows/site.yml",
-      "reason": "The single workflow that builds and deploys the site, authored alongside it in the public repository rather than exported from here. Declared separately because it cannot be expressed by the site/ directory prefix."
-    },
-    {
-      "prefix": "site/",
-      "reason": "Astro site and its authoring material, written directly in the public apnt repository and NOT produced by this export. It lives there rather than here for a security reason: its build-time transclusion component reads real repo files, so being inside the public tree makes it structurally incapable of citing unpublished source. Provenance-accounted and reported on success; NOT allowlist-gated, because nothing under it is exported."
-    }
-  ],
+  "authoredRegions": [],
   "categories": [
     {
       "layer": "v0.1",
@@ -46,15 +37,15 @@
       "rationale": "The verification surface: the canonical Groth16 proof artifacts, the quotient/residue certificate runs, the frozen trusted verifier descriptors, the Rust note-commitment verifier crate, and THREE independent Node checkers — one grading certificate-run keying, one re-deriving statementCommitment32 and settlementProjection32 from published statement bytes, one re-deriving the settlement-authorization covenant's bytes and L_verdict. All three run on a bare Node with no install, no network and no build, and the export executes all four configured argument sets inside a filesystem-sandboxed copy of the staged tree before this tree may ship. Their two data inputs are derived, not copied: typescript-golden-vectors-public-v0.json is emitted by derive-public-golden-vectors-v0.mjs, which strips the private witness and refuses to write unless six redaction proofs pass; apnt-settlement-authorization-covenant-bytecode-v0.json is emitted by the landed covenant builders and carries only on-chain script bytes. The verify-apnt skill ships here rather than under repo-metadata: it walks a contributor through checking a proof artifact, a settlement, a note commitment and a trust anchor, so it belongs with the artifacts it teaches a reader to check, not with repo identity that ships before any of them exist."
     }
   ],
-  "determinismDigest": "cb39bd1f573effb3c5ae1f2fd4e8ce4363a98ad7b9cb289393f058af625a2777",
+  "determinismDigest": "23316a236980b3a513762f78391eac9bfcf1b139d30c9852561b94674bd2f186",
   "fileCount": 181,
   "files": [
     {
       "category": "verifier-surface",
       "expandedFromGlob": null,
       "publicPath": ".claude/skills/verify-apnt/SKILL.md",
-      "sha256": "01756540cebdff085e6f3a9fa2cd8889c43d7b361c309d397d7afe3b0de62ee1",
-      "sizeBytes": 27245,
+      "sha256": "0c740a319864cc26430a37d1d7bcbe614771a718795ccb4c6021f223f898a2de",
+      "sizeBytes": 27790,
       "sourcePath": "scripts/public-export/public-tree/.claude/skills/verify-apnt/SKILL.md"
     },
     {
@@ -109,8 +100,8 @@
       "category": "repo-metadata",
       "expandedFromGlob": null,
       "publicPath": ".github/scripts/verify-provenance.mjs",
-      "sha256": "7cdf9b47d5cc931ed352aed4dd0b3eb11a8af9e262bb389a7a88ee26101c7c00",
-      "sizeBytes": 18920,
+      "sha256": "bb00e99dc2d384ffea13d9fc8a02e78ca28a94337fb75ffd39ee4dcda3ec375c",
+      "sizeBytes": 21814,
       "sourcePath": "scripts/public-export/public-tree/.github/scripts/verify-provenance.mjs"
     },
     {
@@ -181,8 +172,8 @@
       "category": "repo-metadata",
       "expandedFromGlob": null,
       "publicPath": "README.md",
-      "sha256": "1988d02096b0e71414249e90310e00ca2617e2bcae754dee0b2c627a4f720450",
-      "sizeBytes": 19544,
+      "sha256": "cf3702aea927b63617a464e6af8027712cb63ecd216685542e8b23a28d47f449",
+      "sizeBytes": 19841,
       "sourcePath": "scripts/public-export/public-tree/README.md"
     },
     {
@@ -309,8 +300,8 @@
       "category": "repo-metadata",
       "expandedFromGlob": null,
       "publicPath": "package.json",
-      "sha256": "0bb2002c8c9d8b22af53e1657d8ee8853db76ef90103317529bde97f1b9e1515",
-      "sizeBytes": 9497,
+      "sha256": "34385e1a548b95c296c2b3abeedff3886c95c403a2bf30ae0d6506353dccc0e6",
+      "sizeBytes": 9970,
       "sourcePath": "scripts/public-export/public-tree/package.json"
     },
     {
@@ -1536,7 +1527,7 @@
             "--fetch-retry-maxtimeout=5000",
             "--store-dir=<isolated-tmp>/pnpm-store"
           ],
-          "durationMs": 1993,
+          "durationMs": 1959,
           "exitCode": 0,
           "name": "install-generate-lockfile",
           "ok": true,
@@ -1553,7 +1544,7 @@
             "--fetch-retry-maxtimeout=5000",
             "--store-dir=<isolated-tmp>/pnpm-store"
           ],
-          "durationMs": 282,
+          "durationMs": 352,
           "exitCode": 0,
           "name": "install-frozen-lockfile",
           "ok": true,
@@ -1566,7 +1557,7 @@
             "-r",
             "build"
           ],
-          "durationMs": 788,
+          "durationMs": 891,
           "exitCode": 0,
           "name": "build",
           "ok": true,
@@ -1579,7 +1570,7 @@
             "-r",
             "typecheck"
           ],
-          "durationMs": 556,
+          "durationMs": 636,
           "exitCode": 0,
           "name": "typecheck",
           "ok": true,
@@ -1593,7 +1584,7 @@
             "-p",
             "packages/protocol-runtime/tsconfig.json"
           ],
-          "durationMs": 609,
+          "durationMs": 682,
           "exitCode": 0,
           "name": "typecheck-protocol-runtime-standalone",
           "ok": true,
@@ -1608,7 +1599,7 @@
             "--",
             "--passWithNoTests"
           ],
-          "durationMs": 1294,
+          "durationMs": 1597,
           "exitCode": 0,
           "name": "test",
           "ok": true,
@@ -1622,7 +1613,7 @@
             "run",
             "verify"
           ],
-          "durationMs": 615,
+          "durationMs": 644,
           "exitCode": 0,
           "name": "verify",
           "ok": true,
@@ -2373,10 +2364,10 @@
   "source": {
     "allowlist": {
       "path": "scripts/public-export/allowlist.json",
-      "sha256": "cf734aa2e7ccb0efd0f413898ebbd083a55fa1f139bd95c47066249090e13dda"
+      "sha256": "c2c74ef73094bb106be3a97c291607d1b650eb081f84dd45bb7d145ddc5426ae"
     },
     "branch": "main",
-    "commit": "76d26f1cd5f97b09ff638089b129bfb447db4342",
+    "commit": "8048f35145599c958370b3098af2d3d4dbbd5868",
     "repository": "bch-cloak (private)",
     "workingTreeDirty": false
   },
