@@ -26,17 +26,41 @@
 //      clean while silently missing lockfile coverage would defeat the whole
 //      point of shipping one. This script checks it explicitly rather than
 //      assuming files[] alone is the complete provenance surface.
-//   4. Every file physically present in the tree is accounted for by (2) or
-//      (3), or is export-manifest.json itself. A file present on disk but
-//      absent from the manifest is exactly as much a provenance failure as a
-//      mismatched hash — it means something was added to the published tree
-//      that the manifest never claimed to publish.
+//   4. Every file physically present is accounted for by (2), (3), by a
+//      DECLARED AUTHORED REGION (manifest.authoredRegions — see below), or is
+//      export-manifest.json itself. A file present on disk but absent from
+//      all of those is exactly as much a provenance failure as a mismatched
+//      hash — it means something was added to the published tree that the
+//      manifest never claimed to publish.
+//
+// Declared authored regions: some published paths are authored directly in
+// THIS public repository (e.g. site/, built from the repo's own published
+// files at build time, plus the one .github/workflows/*.yml that builds it)
+// rather than exported from the private one, so they have no source-tree
+// bytes to hash against here. `manifest.authoredRegions` names each such
+// path — a directory prefix (ends in "/") or an exact file (no trailing
+// slash) — and a written reason. A file matching a declared entry is never
+// flagged as an "extra" — but this is a NEW trust
+// boundary in a document whose whole job is "nothing is unaccounted for", so
+// it is never silent: every declared region is printed on every passing run,
+// by name, with the count of files it actually matched (see the success log
+// below). A reader who cannot tell an authored region from a tampered one
+// loses the property this script exists to give them, so "declared and
+// visible" is not optional polish here — it is the whole difference between
+// a legitimate carve-out and a hole. A region matching zero files is fine
+// (the site can change shape, or be absent entirely); a file OUTSIDE every
+// declared region and not in files[] is still a hard extra-file failure,
+// exactly as before.
 //
 // What this does NOT prove: that the export POLICY was correct — that a file
-// which should have been withheld was in fact withheld. That is an editorial
-// decision made once, by a human, at export time; this script only proves the
-// bytes have not moved since. See RELEASE.md for that distinction stated
-// plainly, and do not read a clean run of this script as "audited".
+// which should have been withheld was in fact withheld, or that the bytes
+// inside a declared authored region are themselves trustworthy (this script
+// does not and cannot hash them against a private source — there isn't one).
+// That is an editorial decision made once, by a human — at export time for
+// exported files, and at commit-review time in this public repo for authored
+// ones; this script only proves the exported bytes have not moved since. See
+// RELEASE.md for that distinction stated plainly, and do not read a clean run
+// of this script as "audited".
 
 import { createHash } from "node:crypto";
 import { readFileSync, readdirSync } from "node:fs";
@@ -47,12 +71,59 @@ const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const MANIFEST_PATH = join(REPO_ROOT, "export-manifest.json");
 
 // Directories that are never part of the published tree's own provenance
-// claim: .git is checkout metadata, not a published file; node_modules only
-// exists after `pnpm install`, which this workflow deliberately never runs
-// (see workflow header) so a stray node_modules here would itself be a sign
-// something upstream changed, not something this script should silently
-// step over. Kept as an explicit, reviewable list rather than a broad glob.
+// claim: .git is checkout metadata, not a published file. Kept as an
+// explicit, reviewable list rather than a broad glob.
+//
+// Deliberately checked ONLY at the tree root (see walkFiles below): a plain
+// checkout has exactly one .git, at the top, and nowhere else. A .git
+// appearing anywhere ELSE in the tree (a submodule, a stray nested repo) is
+// not the same well-understood case and should be judged as an extra file
+// like anything else, not silently swallowed by a name match — broadening
+// this to every depth would quietly forgive exactly the kind of anomaly this
+// script exists to catch.
 const EXCLUDED_DIRS = new Set([".git"]);
+
+// Directories that are never part of the published tree's own provenance
+// claim EITHER, but for the opposite reason from EXCLUDED_DIRS: node_modules
+// legitimately exists after `pnpm install` (see RELEASE.md, "Rebuild it"),
+// and a real pnpm workspace can grow one under EVERY package, not just the
+// root — unlike .git this is not a root-only case, so it is matched at any
+// depth (see walkFiles).
+//
+// The two contexts this script runs in disagree about what a node_modules
+// here MEANS:
+//   - In the CI workflow (provenance.yml), which deliberately never runs
+//     `pnpm install`, a node_modules is itself a signal that something
+//     upstream changed — see the workflow's own header comment. It must stay
+//     fatal there, exactly as any other extra file would be.
+//   - Run by hand, after a normal `pnpm install` for local development, the
+//     SAME directory is expected and constitutes the overwhelming majority
+//     of a real run's findings (measured: 1017 of 1018 extra-file problems
+//     in one full local install here were under node_modules alone) —
+//     enough noise that a genuine finding sitting next to it is invisible.
+//     The tool's whole purpose is that anyone, including the maintainer, can
+//     run it and see what's wrong; a report a human cannot read fails that
+//     purpose just as surely as a false pass would.
+//
+// The fix is NOT to add node_modules to EXCLUDED_DIRS — that would silently
+// delete the CI signal every time, which is the one context where it matters
+// most. Instead this script always finds and COUNTS these directories
+// (without individually enumerating every file inside one — that is what
+// produces the noise), and treats the finding differently by context:
+//   - `CI=true` in the environment (GitHub Actions sets this on every run,
+//     unprompted, for every job — see
+//     https://docs.github.com/actions/learn-github-actions/variables) still
+//     turns each into a single fatal `generated-directory-present` problem,
+//     one line naming the directory and how many files it contains. Still
+//     fatal, still exits non-zero, still names the exact path — the CI
+//     signal is unchanged, only compressed from one line per file to one
+//     line per directory.
+//   - Otherwise (a human running it by hand) it is reported once, clearly
+//     labeled as ignored rather than as tampering, and does not fail the run
+//     by itself — so a real extra-file or content-mismatch finding is no
+//     longer buried under thousands of lines that mean nothing locally.
+const GENERATED_DIR_NAMES = new Set(["node_modules"]);
+const isCiRun = () => process.env.CI === "true" || process.env.CI === "1";
 
 function sha256Hex(bytes) {
   return createHash("sha256").update(bytes).digest("hex");
@@ -75,14 +146,34 @@ function canonicalJson(value) {
   return JSON.stringify(walk(value), null, 2);
 }
 
+/** Count files under absDir, recursively, without recording their individual paths. */
+function countFilesUnder(absDir) {
+  let count = 0;
+  for (const entry of readdirSync(absDir, { withFileTypes: true })) {
+    if (entry.isDirectory()) count += countFilesUnder(join(absDir, entry.name));
+    else if (entry.isFile()) count += 1;
+  }
+  return count;
+}
+
+/**
+ * Walk the tree, returning the sorted list of ordinary files plus a separate
+ * list of GENERATED_DIR_NAMES matches (each counted, not individually
+ * enumerated -- see the constant's own comment for why).
+ */
 function walkFiles(root) {
   const out = [];
+  const generatedDirs = [];
   const visit = (absDir, relDir) => {
     for (const entry of readdirSync(absDir, { withFileTypes: true })) {
       if (entry.isDirectory() && EXCLUDED_DIRS.has(entry.name) && relDir === "") continue;
       const relPath = relDir === "" ? entry.name : `${relDir}/${entry.name}`;
       const absPath = join(absDir, entry.name);
       if (entry.isDirectory()) {
+        if (GENERATED_DIR_NAMES.has(entry.name)) {
+          generatedDirs.push({ path: relPath, fileCount: countFilesUnder(absPath) });
+          continue; // do not descend -- avoid enumerating potentially thousands of files
+        }
         visit(absPath, relPath);
       } else if (entry.isFile()) {
         out.push(relPath);
@@ -90,7 +181,7 @@ function walkFiles(root) {
     }
   };
   visit(root, "");
-  return out.sort();
+  return { files: out.sort(), generatedDirs: generatedDirs.sort((a, b) => (a.path < b.path ? -1 : 1)) };
 }
 
 function fail(problems) {
@@ -204,6 +295,25 @@ function main() {
     }
   }
 
+  // --- Declared authored regions (see header comment). ---------------------
+  // Validated the same way any other manifest-declared exemption is: a
+  // malformed entry is a fatal problem, not something silently skipped, so a
+  // corrupted manifest can never widen this carve-out by accident.
+  const rawAuthoredRegions = Array.isArray(manifest.authoredRegions) ? manifest.authoredRegions : [];
+  const authoredRegions = [];
+  for (const region of rawAuthoredRegions) {
+    if (!region || typeof region.prefix !== "string" || region.prefix.length === 0 || typeof region.reason !== "string" || region.reason.length === 0) {
+      problems.push({
+        code: "manifest-malformed-authored-region",
+        detail: `an authoredRegions entry is malformed (needs a non-empty "prefix" — a directory ending in "/" or an exact file path — and a non-empty "reason"): ${JSON.stringify(region)}`,
+      });
+      continue;
+    }
+    authoredRegions.push({ prefix: region.prefix, reason: region.reason, matched: 0 });
+  }
+  const authoredRegionMatches = (posixPath, region) =>
+    region.prefix.endsWith("/") ? posixPath.startsWith(region.prefix) : posixPath === region.prefix;
+
   // --- 4. Every file physically present is accounted for. No extras. ------
   let onDisk;
   try {
@@ -212,15 +322,46 @@ function main() {
     fail([{ code: "walk-failed", detail: `could not walk ${REPO_ROOT}: ${error.message}` }]);
     return;
   }
-  for (const relPath of onDisk) {
+  for (const relPath of onDisk.files) {
     const posixPath = relPath.split(/[\\/]/).join("/");
-    if (!accountedFor.has(posixPath)) {
-      problems.push({
-        code: "extra-file",
-        path: posixPath,
-        detail: "present in the checkout but not named anywhere in export-manifest.json (not in files[], not the generated lockfile, not the manifest itself)",
-      });
+    if (accountedFor.has(posixPath)) continue;
+    const region = authoredRegions.find((r) => authoredRegionMatches(posixPath, r));
+    if (region) {
+      region.matched += 1;
+      continue;
     }
+    problems.push({
+      code: "extra-file",
+      path: posixPath,
+      detail: "present in the checkout but not named anywhere in export-manifest.json (not in files[], not the generated lockfile, not the manifest itself, not a declared authored region)",
+    });
+  }
+
+  // --- Generated directories (node_modules): see GENERATED_DIR_NAMES. ------
+  // In CI (CI=true) each is a fatal problem, same severity as any other
+  // extra file, just reported as one line per directory instead of one line
+  // per file inside it. Outside CI it is reported but does not fail the run
+  // by itself, so it cannot bury a real finding.
+  const ignoredGeneratedDirs = [];
+  const ciRun = isCiRun();
+  for (const gd of onDisk.generatedDirs) {
+    if (ciRun) {
+      problems.push({
+        code: "generated-directory-present",
+        path: gd.path,
+        detail: `${gd.fileCount} file(s) under a directory this CI workflow deliberately never creates (see verify-provenance.mjs header, "GENERATED_DIR_NAMES") — its presence in a CI checkout means something upstream changed`,
+      });
+    } else {
+      ignoredGeneratedDirs.push(gd);
+    }
+  }
+  if (ignoredGeneratedDirs.length > 0) {
+    const total = ignoredGeneratedDirs.reduce((sum, gd) => sum + gd.fileCount, 0);
+    console.log(
+      `provenance: ignoring ${total} file(s) under ${ignoredGeneratedDirs.map((gd) => `${gd.path}/ (${gd.fileCount})`).join(", ")} ` +
+        `— produced by "pnpm install", expected in a local checkout, not treated as tampering here. ` +
+        `Set CI=true to check for these as provenance failures instead, which is what this workflow does in GitHub Actions.`,
+    );
   }
 
   if (problems.length > 0) {
@@ -228,7 +369,10 @@ function main() {
     return;
   }
 
-  console.log(`provenance: OK — ${files.length} manifest file(s)${generatedLockfile ? " + generated lockfile" : ""} verified, determinismDigest matches, no extra files.`);
+  console.log(`provenance: OK — ${files.length} manifest file(s)${generatedLockfile ? " + generated lockfile" : ""} verified, determinismDigest matches, no unaccounted extra files.`);
+  for (const region of authoredRegions) {
+    console.log(`provenance: ${region.matched} file(s) in declared authored region ${region.prefix} — ${region.reason}`);
+  }
   console.log(`provenance: source commit ${manifest.source?.commit ?? "(unknown)"}`);
 }
 

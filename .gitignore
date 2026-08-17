@@ -12,8 +12,3 @@ target/
 *.tsbuildinfo
 
 .DS_Store
-
-# site build artefacts
-site/node_modules/
-site/dist/
-site/.astro/
